@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
-import { IdeaProvider } from './context/IdeaContext'
-import AppRoutes from './routes/AppRoutes'
+import { AuthProvider } from '../Context/AuthContext'
+import { IdeaProvider } from '../Context/IdeaContext'
+import AppRoutes from '../Routes/AppRoutes'
 
 function App() {
   return (

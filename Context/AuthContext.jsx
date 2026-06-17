@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { authService } from '../services/authService'
+import { authService } from '../Services/authService'
 
-const AuthContext = createContext(null)
+const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
-  const [user, setUser]       = useState(null)
+  const [user, setUser]       = useState()
   const [loading, setLoading] = useState(true)
 
   // Rehydrate from localStorage on mount

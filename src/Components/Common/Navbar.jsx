@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { Navbar as BSNavbar, Nav, Container, Button, Dropdown } from 'react-bootstrap'
-import { useAuth } from '../../context/AuthContext'
+import { useAuth } from '../../../Context/AuthContext'
 
 export default function Navbar() {
   const { user, logout } = useAuth()

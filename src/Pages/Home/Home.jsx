@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Row, Col, Button } from 'react-bootstrap'
-import { useAuth } from '../../context/AuthContext'
-import { ideaService } from '../../services/ideaService'
-import IdeaCard from '../../components/cards/IdeaCard'
+import { useAuth } from '../../../Context/AuthContext'
+import { ideaService } from '../../../Services/ideaService'
+import IdeaCard from '../../Components/cards/IdeaCard'
 
 const CATEGORIES = ['Tech', 'Health', 'Education', 'Finance', 'Environment', 'Social']
 
@@ -12,9 +12,9 @@ export default function Home() {
   const [featured, setFeatured] = useState([])
 
   useEffect(() => {
-    ideaService.getIdeas({ limit: 6, status: 'approved' })
-      .then(d => setFeatured(d.ideas || []))
-      .catch(() => {})
+    // ideaService.getIdeas({ limit: 6, status: 'approved' })
+    //   .then(d => setFeatured(d.ideas || []))
+    //   .catch(() => {})
   }, [])
 
   return (

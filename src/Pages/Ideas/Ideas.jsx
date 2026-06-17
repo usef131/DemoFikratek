@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap'
-import { useIdeas } from '../../context/IdeaContext'
-import IdeaCard from '../../components/cards/IdeaCard'
+import { useIdeas } from '../../../Context/IdeaContext'
+import IdeaCard from '../../Components/cards/IdeaCard'
 
 const CATEGORIES = ['All', 'Tech', 'Health', 'Education', 'Finance', 'Environment', 'Social']
 

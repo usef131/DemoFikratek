@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Container, Row, Col, Form, Button, Alert, Spinner } from 'react-bootstrap'
-import { ideaService } from '../../services/ideaService'
-import { useIdeas } from '../../context/IdeaContext'
+import { ideaService } from '../../../Services/ideaService'
+import { useIdeas } from '../../../Context/IdeaContext'
 
 const CATEGORIES = ['Tech', 'Health', 'Education', 'Finance', 'Environment', 'Social', 'Other']
 

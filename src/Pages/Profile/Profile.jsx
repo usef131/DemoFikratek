@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Container, Row, Col, Form, Button, Alert, Spinner, Tab, Tabs } from 'react-bootstrap'
-import { useAuth } from '../../context/AuthContext'
-import { authService } from '../../services/authService'
-import { ideaService } from '../../services/ideaService'
-import IdeaCard from '../../components/cards/IdeaCard'
+import { useAuth } from '../../../Context/AuthContext'
+import { authService } from '../../../Services/authService'
+import { ideaService } from '../../../Services/ideaService'
+import IdeaCard from '../../Components/cards/IdeaCard'
 
 export default function Profile() {
   const { user, updateUser } = useAuth()

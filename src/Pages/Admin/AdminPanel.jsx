@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Container, Row, Col, Table, Button, Badge, Spinner, Alert, Form } from 'react-bootstrap'
-import { ideaService } from '../../services/ideaService'
+import { ideaService } from '../../../Services/ideaService'
 
 export default function AdminPanel() {
   const [ideas,   setIdeas]   = useState([])

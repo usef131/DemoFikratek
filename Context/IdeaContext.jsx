@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useCallback } from 'react'
-import { ideaService } from '../services/ideaService'
+import { ideaService } from '../Services/ideaService'
 
 const IdeaContext = createContext(null)
 

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Container, Row, Col, Form, Button, Alert, Spinner } from 'react-bootstrap'
-import { useAuth } from '../../context/AuthContext'
+import { useAuth } from '../../../Context/AuthContext'
 
 export default function Register() {
   const { register } = useAuth()

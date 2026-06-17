@@ -1,17 +1,17 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../Context/AuthContext'
 
-import MainLayout from '../components/layout/MainLayout'
+import MainLayout from '../src/Components/Layout/MainLayout'
 
-import Home        from '../pages/Home/Home'
-import Ideas       from '../pages/Ideas/Ideas'
-import IdeaDetails from '../pages/IdeaDetails/IdeaDetails'
-import CreateIdea  from '../pages/CreateIdea/CreateIdea'
-import Profile     from '../pages/Profile/Profile'
-import Login       from '../pages/Auth/Login'
-import Register    from '../pages/Auth/Register'
-import AdminPanel  from '../pages/Admin/AdminPanel'
-import NotFound    from '../pages/NotFound'
+import Home        from '../src/Pages/Home/Home'
+import Ideas       from '../src/Pages/Ideas/Ideas'
+import IdeaDetails from '../src/Pages/IdeaDetails/IdeaDetails'
+import CreateIdea  from '../src/Pages/CreateIdea/CreateIdea'
+import Profile     from '../src/Pages/Profile/Profile'
+import Login       from '../src/Pages/Auth/Login'
+import Register    from '../src/Pages/Auth/Register'
+import AdminPanel  from '../src/Pages/Admin/AdminPanel'
+import NotFound    from '../src/Pages/NotFound'
 
 function PrivateRoute({ children, roles }) {
   const { user, loading } = useAuth()

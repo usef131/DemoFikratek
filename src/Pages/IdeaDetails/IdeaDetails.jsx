@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { Container, Row, Col, Button, Alert, Spinner, Badge } from 'react-bootstrap'
-import { ideaService } from '../../services/ideaService'
-import { useAuth } from '../../context/AuthContext'
+import { ideaService } from '../../../Services/ideaService'
+import { useAuth } from '../../../Context/AuthContext'
 
 export default function IdeaDetails() {
   const { id } = useParams()
