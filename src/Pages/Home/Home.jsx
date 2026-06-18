@@ -1,302 +1,351 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Container, Row, Col, Button } from 'react-bootstrap'
-import { useAuth } from '../../../Context/AuthContext'
-import { ideaService } from '../../../Services/ideaService'
-import IdeaCard from '../../Components/cards/IdeaCard'
 
-const CATEGORIES = ['Tech', 'Health', 'Education', 'Finance', 'Environment', 'Social']
+const FEATURES = [
+  {
+    icon: 'bi-rocket-takeoff',
+    title: 'Project Marketplace',
+    desc: 'Discover and invest in innovative startups. Browse structured project cards with funding goals, team info, and progress tracking.',
+  },
+  {
+    icon: 'bi-people',
+    title: 'Collaboration Board',
+    desc: 'Find co-founders, developers, designers, and marketers. Join teams building the next big thing.',
+  },
+  {
+    icon: 'bi-award',
+    title: 'Expert Mentorship',
+    desc: 'Book sessions with experienced entrepreneurs. Get guidance on fundraising, product, growth, and more.',
+  },
+  {
+    icon: 'bi-currency-dollar',
+    title: 'Investor Matching',
+    desc: 'Smart recommendations connect investors with startups matching their interests and investment thesis.',
+  },
+  {
+    icon: 'bi-graph-up-arrow',
+    title: 'Progress Tracking',
+    desc: 'Track funding milestones, team updates, and growth metrics. Stay informed on every project\'s journey.',
+  },
+  {
+    icon: 'bi-lightbulb',
+    title: 'Idea Validation',
+    desc: 'Share concepts, get feedback, and validate market fit before building. Community-driven innovation.',
+  },
+]
+
+const ROLES = [
+  { icon: 'bi-lightbulb-fill', title: 'Innovator', sub: 'Share your groundbreaking ideas' },
+  { icon: 'bi-code-slash',     title: 'Developer', sub: 'Build and bring ideas to life' },
+  { icon: 'bi-graph-up',       title: 'Investor',  sub: 'Fund promising opportunities' },
+]
+
+const CHECKLIST = [
+  'Browse 500+ startups seeking funding',
+  'Connect with verified investors',
+  'Book mentorship sessions in minutes',
+  'Track project milestones and growth',
+  'Find co-founders and team members',
+  'Access startup resources and tools',
+]
+
+const FOOTER_LINKS = {
+  Product: ['Features', 'How it works', 'Pricing'],
+  Company: ['About', 'Blog', 'Careers'],
+  Legal:   ['Privacy', 'Terms', 'Contact'],
+}
 
 export default function Home() {
-  const { user } = useAuth()
-  const [featured, setFeatured] = useState([])
-
-  useEffect(() => {
-    // ideaService.getIdeas({ limit: 6, status: 'approved' })
-    //   .then(d => setFeatured(d.ideas || []))
-    //   .catch(() => {})
-  }, [])
-
   return (
-    <>
-      {/* ── Hero ── */}
-      <section
-        style={{
-          background: 'linear-gradient(135deg, var(--fk-primary) 0%, #2a3a8c 100%)',
+    <div style={{ fontFamily: "'Inter', 'Segoe UI', sans-serif" }}>
+
+      {/* ── HERO ── */}
+      <section style={{
+        background: 'linear-gradient(180deg, #0f1117 70%, #1a1f2e 100%)',
+        minHeight: '92vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+        padding: '4rem 1.5rem 5rem',
+      }}>
+        {/* Pill badge */}
+        <div style={{
+          border: '1px solid rgba(255,255,255,0.18)',
+          borderRadius: 999,
+          padding: '6px 18px',
+          color: 'rgba(255,255,255,0.6)',
+          fontSize: '0.82rem',
+          marginBottom: '2rem',
+          letterSpacing: '0.3px',
+        }}>
+          Where Ideas Meet Action
+        </div>
+
+        <h1 style={{
           color: '#fff',
-          padding: '6rem 0 5rem',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Decorative circle */}
+          fontSize: 'clamp(2.5rem, 7vw, 4.2rem)',
+          fontWeight: 800,
+          lineHeight: 1.1,
+          letterSpacing: '-1.5px',
+          maxWidth: 820,
+          marginBottom: '1.5rem',
+        }}>
+          Welcome to Fikretak
+        </h1>
+
+        <p style={{
+          color: 'rgba(255,255,255,0.55)',
+          fontSize: 'clamp(1rem, 2.5vw, 1.2rem)',
+          maxWidth: 560,
+          lineHeight: 1.7,
+          marginBottom: '2.5rem',
+        }}>
+          Connect innovators with developers, investors, and experts. Turn
+          your ideas into real projects with role-based collaboration.
+        </p>
+
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <Link to="/login" style={{
+            background: '#1a3a6b',
+            color: '#fff',
+            textDecoration: 'none',
+            padding: '14px 32px',
+            borderRadius: 999,
+            fontWeight: 700,
+            fontSize: '1rem',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+          }}>
+            Start Your Journey <span>→</span>
+          </Link>
+          <a href="#about" style={{
+            background: 'rgba(255,255,255,0.08)',
+            color: '#fff',
+            textDecoration: 'none',
+            padding: '14px 32px',
+            borderRadius: 999,
+            fontWeight: 600,
+            fontSize: '1rem',
+            border: '1px solid rgba(255,255,255,0.12)',
+          }}>
+            Learn More
+          </a>
+        </div>
+
+        {/* Stats */}
         <div style={{
-          position: 'absolute', right: '-80px', top: '-80px',
-          width: 400, height: 400,
-          borderRadius: '50%',
-          background: 'rgba(255,255,255,0.05)',
-          pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', right: '10%', bottom: '-120px',
-          width: 280, height: 280,
-          borderRadius: '50%',
-          background: 'rgba(236,171,17,0.15)',
-          pointerEvents: 'none',
-        }} />
-
-        <Container style={{ position: 'relative', zIndex: 1 }}>
-          <Row className="align-items-center g-5">
-            <Col lg={6}>
-              <div
-                className="fk-badge fk-badge-accent mb-4"
-                style={{ fontSize: '0.8rem' }}
-              >
-                <i className="bi bi-stars" /> Youth &amp; Investors Platform
+          display: 'flex',
+          gap: 'clamp(2rem, 6vw, 5rem)',
+          marginTop: '5rem',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}>
+          {[
+            { val: '10k+', label: 'Active Users' },
+            { val: '5k+',  label: 'Projects' },
+            { val: '500+', label: 'Investors' },
+          ].map(s => (
+            <div key={s.label} style={{ textAlign: 'center' }}>
+              <div style={{ color: '#3b7dd8', fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 800, letterSpacing: '-1px' }}>
+                {s.val}
               </div>
-              <h1
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(2rem, 5vw, 3.2rem)',
-                  fontWeight: 800,
-                  lineHeight: 1.2,
-                  color: '#fff',
-                  marginBottom: '1.5rem',
-                }}
-              >
-                Your Idea Deserves{' '}
-                <span style={{ color: 'var(--fk-accent)' }}>the Right Investor</span>
-              </h1>
-              <p style={{ fontSize: '1.1rem', opacity: 0.85, maxWidth: 480, lineHeight: 1.7 }}>
-                Fikretak connects ambitious young entrepreneurs with investors who are ready to
-                fund the next generation of impactful startups.
-              </p>
-              <div className="d-flex flex-wrap gap-3 mt-4">
-                {!user ? (
-                  <>
-                    <Button
-                      as={Link} to="/register"
-                      size="lg"
-                      style={{
-                        background: 'var(--fk-accent)',
-                        border: 'none',
-                        borderRadius: 'var(--radius-pill)',
-                        fontWeight: 700,
-                        fontFamily: 'var(--font-display)',
-                        padding: '0.75rem 2rem',
-                      }}
-                    >
-                      Share Your Idea
-                    </Button>
-                    <Button
-                      as={Link} to="/ideas"
-                      size="lg"
-                      variant="outline-light"
-                      style={{ borderRadius: 'var(--radius-pill)', padding: '0.75rem 2rem' }}
-                    >
-                      Browse Ideas
-                    </Button>
-                  </>
-                ) : (
-                  <Button
-                    as={Link} to={user.role === 'entrepreneur' ? '/create-idea' : '/ideas'}
-                    size="lg"
-                    style={{
-                      background: 'var(--fk-accent)',
-                      border: 'none',
-                      borderRadius: 'var(--radius-pill)',
-                      fontWeight: 700,
-                    }}
-                  >
-                    {user.role === 'entrepreneur' ? 'Submit a New Idea' : 'Discover Ideas'}
-                  </Button>
-                )}
+              <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.875rem', marginTop: 4 }}>
+                {s.label}
               </div>
-            </Col>
-
-            <Col lg={6}>
-              <div className="d-flex flex-wrap gap-3 justify-content-center">
-                {[
-                  { icon: 'bi-lightbulb-fill', label: 'Ideas Submitted', value: '120+', color: 'var(--fk-accent)' },
-                  { icon: 'bi-people-fill',    label: 'Active Investors', value: '45+',  color: '#fff' },
-                  { icon: 'bi-graph-up-arrow', label: 'Funded Projects', value: '18',    color: 'var(--fk-accent)' },
-                  { icon: 'bi-globe',          label: 'Categories',      value: '6',     color: '#fff' },
-                ].map(stat => (
-                  <div
-                    key={stat.label}
-                    style={{
-                      background: 'rgba(255,255,255,0.1)',
-                      backdropFilter: 'blur(8px)',
-                      border: '1px solid rgba(255,255,255,0.15)',
-                      borderRadius: 'var(--radius-md)',
-                      padding: '1.5rem',
-                      minWidth: 160,
-                      textAlign: 'center',
-                    }}
-                  >
-                    <i className={`bi ${stat.icon}`} style={{ fontSize: '1.8rem', color: stat.color }} />
-                    <div style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', fontFamily: 'var(--font-display)', lineHeight: 1.2, marginTop: '0.5rem' }}>
-                      {stat.value}
-                    </div>
-                    <div style={{ fontSize: '0.8rem', opacity: 0.7, marginTop: '0.25rem' }}>
-                      {stat.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-
-      {/* ── Categories ── */}
-      <section className="section-sm" style={{ background: 'var(--fk-surface)', borderBottom: '1px solid var(--fk-border)' }}>
-        <Container>
-          <div className="d-flex align-items-center justify-content-between mb-4">
-            <h5 style={{ fontFamily: 'var(--font-display)', margin: 0 }}>Browse by Category</h5>
-            <Link to="/ideas" style={{ fontSize: '0.9rem', color: 'var(--fk-primary)', textDecoration: 'none' }}>
-              View all <i className="bi bi-arrow-right" />
-            </Link>
-          </div>
-          <div className="d-flex flex-wrap gap-2">
-            {CATEGORIES.map(cat => (
-              <Link
-                key={cat}
-                to={`/ideas?category=${cat}`}
-                style={{
-                  padding: '8px 20px',
-                  borderRadius: 'var(--radius-pill)',
-                  border: '1.5px solid var(--fk-border)',
-                  background: 'var(--fk-surface)',
-                  color: 'var(--fk-text-primary)',
-                  textDecoration: 'none',
-                  fontSize: '0.875rem',
-                  fontWeight: 600,
-                  fontFamily: 'var(--font-display)',
-                  transition: 'all 0.2s',
-                }}
-                onMouseEnter={e => {
-                  e.target.style.background = 'var(--fk-primary)'
-                  e.target.style.color = '#fff'
-                  e.target.style.borderColor = 'var(--fk-primary)'
-                }}
-                onMouseLeave={e => {
-                  e.target.style.background = 'var(--fk-surface)'
-                  e.target.style.color = 'var(--fk-text-primary)'
-                  e.target.style.borderColor = 'var(--fk-border)'
-                }}
-              >
-                {cat}
-              </Link>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* ── Featured Ideas ── */}
-      <section className="section">
-        <Container>
-          <div className="d-flex align-items-center justify-content-between mb-5">
-            <div>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800 }}>Featured Ideas</h2>
-              <p style={{ color: 'var(--fk-text-secondary)', margin: 0 }}>
-                Explore the latest approved ideas from our entrepreneurs
-              </p>
             </div>
-            <Link to="/ideas">
-              <Button variant="outline-primary" style={{ borderRadius: 'var(--radius-pill)' }}>
-                See All <i className="bi bi-arrow-right ms-1" />
-              </Button>
-            </Link>
-          </div>
-
-          {featured.length > 0 ? (
-            <Row className="g-4">
-              {featured.map(idea => (
-                <Col key={idea._id} md={6} lg={4}>
-                  <IdeaCard idea={idea} />
-                </Col>
-              ))}
-            </Row>
-          ) : (
-            <div className="text-center py-5">
-              <i className="bi bi-lightbulb" style={{ fontSize: '3rem', color: 'var(--fk-border)' }} />
-              <p className="mt-3" style={{ color: 'var(--fk-text-muted)' }}>
-                No approved ideas yet. Be the first to submit one!
-              </p>
-              {user?.role === 'entrepreneur' && (
-                <Button as={Link} to="/create-idea" variant="primary" style={{ borderRadius: 'var(--radius-pill)' }}>
-                  Submit Your Idea
-                </Button>
-              )}
-            </div>
-          )}
-        </Container>
+          ))}
+        </div>
       </section>
 
-      {/* ── How It Works ── */}
-      <section className="section" style={{ background: 'var(--fk-surface)' }}>
-        <Container>
-          <div className="text-center mb-5">
-            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800 }}>How Fikretak Works</h2>
-            <p style={{ color: 'var(--fk-text-secondary)' }}>Three simple steps to connect ideas with capital</p>
+      {/* ── FEATURES GRID ── */}
+      <section id="features" style={{ background: '#f5f5f7', padding: '5rem 1.5rem' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', fontWeight: 800, letterSpacing: '-0.5px', color: '#0f1117', marginBottom: '0.75rem' }}>
+              Everything you need to succeed
+            </h2>
+            <p style={{ color: '#6b7280', fontSize: '1rem', maxWidth: 500, margin: '0 auto' }}>
+              Built for innovators, entrepreneurs, and creators who want to turn ideas into reality
+            </p>
           </div>
-          <Row className="g-4 justify-content-center">
-            {[
-              { step: '01', icon: 'bi-person-plus', title: 'Create Your Account', desc: 'Sign up as an entrepreneur or investor and build your profile.' },
-              { step: '02', icon: 'bi-file-earmark-plus', title: 'Submit or Discover', desc: 'Entrepreneurs post ideas. Investors browse and filter by interest.' },
-              { step: '03', icon: 'bi-handshake', title: 'Connect & Grow', desc: 'Investors express interest and the collaboration begins.' },
-            ].map(item => (
-              <Col key={item.step} md={4}>
-                <div className="text-center p-4">
-                  <div
-                    style={{
-                      width: 72, height: 72,
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, var(--fk-primary), var(--fk-primary-light))',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      margin: '0 auto 1.25rem',
-                    }}
-                  >
-                    <i className={`bi ${item.icon}`} style={{ fontSize: '1.8rem', color: '#fff' }} />
-                  </div>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--fk-accent)', letterSpacing: '2px', marginBottom: '0.5rem' }}>
-                    STEP {item.step}
-                  </div>
-                  <h5 style={{ fontFamily: 'var(--font-display)', fontWeight: 700 }}>{item.title}</h5>
-                  <p style={{ color: 'var(--fk-text-secondary)', fontSize: '0.9rem' }}>{item.desc}</p>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '1.25rem',
+          }}>
+            {FEATURES.map(f => (
+              <div key={f.title} style={{
+                background: '#fff',
+                borderRadius: 16,
+                padding: '2rem',
+                border: '1px solid rgba(0,0,0,0.06)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+              }}>
+                <div style={{
+                  width: 48, height: 48,
+                  background: '#1a3a6b',
+                  borderRadius: 12,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginBottom: '1.25rem',
+                }}>
+                  <i className={`bi ${f.icon}`} style={{ color: '#fff', fontSize: '1.3rem' }} />
                 </div>
-              </Col>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f1117', marginBottom: '0.5rem' }}>
+                  {f.title}
+                </h3>
+                <p style={{ color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.65, margin: 0 }}>
+                  {f.desc}
+                </p>
+              </div>
             ))}
-          </Row>
-        </Container>
+          </div>
+        </div>
       </section>
 
-      {/* ── CTA Banner ── */}
-      <section style={{ background: 'var(--fk-accent-soft)', padding: '4rem 0' }}>
-        <Container className="text-center">
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--fk-text-primary)' }}>
-            Ready to bring your idea to life?
-          </h2>
-          <p style={{ color: 'var(--fk-text-secondary)', marginBottom: '2rem' }}>
-            Join hundreds of entrepreneurs and investors already on Fikretak.
-          </p>
-          <Button
-            as={Link} to="/register"
-            size="lg"
-            style={{
-              background: 'var(--fk-primary)',
-              border: 'none',
-              borderRadius: 'var(--radius-pill)',
-              fontWeight: 700,
-              fontFamily: 'var(--font-display)',
-              padding: '0.75rem 2.5rem',
-            }}
-          >
-            Join Fikretak Today
-          </Button>
-        </Container>
+      {/* ── FROM IDEA TO FUNDED STARTUP ── */}
+      <section id="about" style={{ background: '#fff', padding: '5rem 1.5rem' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', alignItems: 'center' }}>
+
+          {/* Left copy */}
+          <div>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 800, letterSpacing: '-0.5px', color: '#0f1117', lineHeight: 1.2, marginBottom: '1.25rem' }}>
+              From Idea to Funded Startup
+            </h2>
+            <p style={{ color: '#6b7280', lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.95rem' }}>
+              Join 10,000+ entrepreneurs, 486 active investors, and hundreds of expert mentors
+              building the future together. Your complete startup journey starts here.
+            </p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {CHECKLIST.map(item => (
+                <li key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', color: '#374151' }}>
+                  <span style={{
+                    width: 22, height: 22, borderRadius: '50%',
+                    background: '#1a3a6b',
+                    color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: '0.75rem', flexShrink: 0,
+                  }}>
+                    <i className="bi bi-check-lg" />
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Right role cards */}
+          <div style={{
+            background: '#f5f5f7',
+            borderRadius: 20,
+            padding: '1.75rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+          }}>
+            {ROLES.map(r => (
+              <div key={r.title} style={{
+                background: '#fff',
+                borderRadius: 14,
+                padding: '1.2rem 1.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1rem',
+                border: '1px solid rgba(0,0,0,0.06)',
+              }}>
+                <div style={{
+                  width: 46, height: 46, borderRadius: '50%',
+                  background: '#1a3a6b',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0,
+                }}>
+                  <i className={`bi ${r.icon}`} style={{ color: '#fff', fontSize: '1.2rem' }} />
+                </div>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: '1rem', color: '#0f1117' }}>{r.title}</div>
+                  <div style={{ fontSize: '0.82rem', color: '#9ca3af', marginTop: 2 }}>{r.sub}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
-    </>
+
+      {/* ── CTA BANNER ── */}
+      <section style={{
+        background: '#0f1117',
+        padding: '5rem 1.5rem',
+        textAlign: 'center',
+      }}>
+        <h2 style={{ color: '#fff', fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 800, letterSpacing: '-0.5px', marginBottom: '1rem' }}>
+          Join the Startup Revolution
+        </h2>
+        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.95rem', marginBottom: '2.5rem' }}>
+          2,500+ ideas validated • $45M+ in funding raised • 1,000+ teams formed
+        </p>
+        <Link to="/register" style={{
+          background: '#1a3a6b',
+          color: '#fff',
+          textDecoration: 'none',
+          padding: '14px 32px',
+          borderRadius: 999,
+          fontWeight: 700,
+          fontSize: '1rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
+        }}>
+          Get Started for Free <span>→</span>
+        </Link>
+      </section>
+
+      {/* ── FOOTER ── */}
+      <footer style={{
+        background: '#0f1117',
+        borderTop: '1px solid rgba(255,255,255,0.07)',
+        padding: '3rem 1.5rem 2rem',
+      }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '2rem', marginBottom: '2.5rem' }}>
+            {/* Brand */}
+            <div>
+              <div style={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.75rem' }}>
+                Fikretak
+              </div>
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.82rem', lineHeight: 1.7, margin: 0 }}>
+                Where ideas meet action. Building the future of collaboration.
+              </p>
+            </div>
+
+            {/* Link columns */}
+            {Object.entries(FOOTER_LINKS).map(([col, links]) => (
+              <div key={col}>
+                <div style={{ color: '#fff', fontWeight: 600, fontSize: '0.875rem', marginBottom: '1rem' }}>
+                  {col}
+                </div>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                  {links.map(l => (
+                    <li key={l}>
+                      <a href="#" style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.82rem', textDecoration: 'none' }}>
+                        {l}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.5rem', textAlign: 'center' }}>
+            <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.8rem', margin: 0 }}>
+              © 2026 Fikretak. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+
+    </div>
   )
 }

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Container, Row, Col, Button, Alert, Spinner, Badge } from 'react-bootstrap'
+import { Container, Row, Col, Button, Alert, Spinner } from 'react-bootstrap'
 import { ideaService } from '../../../Services/ideaService'
 import { useAuth } from '../../../Context/AuthContext'
 
 export default function IdeaDetails() {
-  const { id } = useParams()
-  const { user } = useAuth()
-  const navigate = useNavigate()
+  const { id }     = useParams()
+  const { user }   = useAuth()
+  const navigate   = useNavigate()
 
   const [idea, setIdea]           = useState(null)
   const [loading, setLoading]     = useState(true)
@@ -20,9 +20,7 @@ export default function IdeaDetails() {
     ideaService.getIdeaById(id)
       .then(data => {
         setIdea(data.idea)
-        if (user) {
-          setInterested(data.idea.interestedInvestors?.includes(user._id))
-        }
+        if (user) setInterested(data.idea.interestedInvestors?.includes(user._id))
       })
       .catch(() => setError('Idea not found or unavailable.'))
       .finally(() => setLoading(false))
@@ -50,136 +48,161 @@ export default function IdeaDetails() {
   }
 
   if (loading) return (
-    <div className="text-center py-5">
-      <Spinner animation="border" style={{ color: 'var(--fk-primary)' }} />
+    <div className="d-flex align-items-center justify-content-center" style={{ minHeight: '60vh' }}>
+      <Spinner animation="border" style={{ color: 'var(--fk-primary-btn)', width: 40, height: 40 }} />
     </div>
   )
 
   if (error || !idea) return (
     <Container className="py-5">
-      <Alert variant="danger">{error || 'Something went wrong.'}</Alert>
+      <Alert variant="danger" style={{ borderRadius: 'var(--radius-sm)' }}>{error || 'Something went wrong.'}</Alert>
     </Container>
   )
 
+  const fundingPct = idea.fundingGoal && idea.fundingRaised
+    ? Math.min(100, Math.round((idea.fundingRaised / idea.fundingGoal) * 100))
+    : idea.fundingProgress || 0
+
   return (
-    <section className="section">
-      <Container>
-        <Row className="g-5">
-          {/* Main Content */}
+    <div style={{ background: 'var(--fk-bg)', minHeight: '100vh' }}>
+      <Container style={{ paddingTop: '2rem', paddingBottom: '3rem' }}>
+        {/* Back */}
+        <button
+          onClick={() => navigate(-1)}
+          style={{
+            background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+            color: 'var(--fk-text-secondary)', fontSize: '0.875rem',
+            display: 'flex', alignItems: 'center', gap: 6, marginBottom: '1.5rem',
+          }}
+        >
+          <i className="bi bi-arrow-left" /> Back to Marketplace
+        </button>
+
+        <Row className="g-4">
+          {/* ── Main ── */}
           <Col lg={8}>
-            <Button
-              variant="link"
-              className="p-0 mb-4"
-              onClick={() => navigate(-1)}
-              style={{ color: 'var(--fk-text-secondary)', textDecoration: 'none', fontSize: '0.9rem' }}
-            >
-              <i className="bi bi-arrow-left me-1" /> Back to Ideas
-            </Button>
-
-            <div className="fk-badge fk-badge-primary mb-3">{idea.category}</div>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, lineHeight: 1.3 }}>
-              {idea.title}
-            </h1>
-
-            <div className="d-flex align-items-center gap-3 my-4" style={{ color: 'var(--fk-text-secondary)', fontSize: '0.875rem' }}>
-              <span><i className="bi bi-eye me-1" />{idea.views || 0} views</span>
-              <span><i className="bi bi-heart me-1" />{idea.interestCount || 0} interested</span>
-              <span><i className="bi bi-calendar me-1" />
-                {new Date(idea.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-              </span>
-            </div>
-
-            <div
-              className="p-4 rounded-fk mb-4"
-              style={{ background: 'var(--fk-surface)', border: '1px solid var(--fk-border)' }}
-            >
-              <h5 style={{ fontFamily: 'var(--font-display)', marginBottom: '0.75rem' }}>
-                <i className="bi bi-file-text me-2" style={{ color: 'var(--fk-primary)' }} />
-                Summary
-              </h5>
-              <p style={{ color: 'var(--fk-text-secondary)', lineHeight: 1.8, margin: 0 }}>{idea.summary}</p>
-            </div>
-
-            {idea.description && (
-              <div
-                className="p-4 rounded-fk mb-4"
-                style={{ background: 'var(--fk-surface)', border: '1px solid var(--fk-border)' }}
-              >
-                <h5 style={{ fontFamily: 'var(--font-display)', marginBottom: '0.75rem' }}>
-                  <i className="bi bi-journal-text me-2" style={{ color: 'var(--fk-primary)' }} />
-                  Full Description
-                </h5>
-                <div style={{ color: 'var(--fk-text-secondary)', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>
-                  {idea.description}
-                </div>
+            <div className="fk-card p-4">
+              {/* Status + Category */}
+              <div className="d-flex align-items-center gap-2 mb-3">
+                <span style={{
+                  padding: '3px 10px', borderRadius: 'var(--radius-pill)',
+                  background: '#eef0ff', color: 'var(--fk-primary-btn)',
+                  fontSize: '0.72rem', fontWeight: 600,
+                }}>
+                  {idea.category}
+                </span>
+                {idea.status && (
+                  <span style={{
+                    padding: '3px 10px', borderRadius: 'var(--radius-pill)',
+                    background: '#d1fae5', color: '#065f46',
+                    fontSize: '0.72rem', fontWeight: 600, textTransform: 'capitalize',
+                  }}>
+                    {idea.status}
+                  </span>
+                )}
               </div>
-            )}
 
-            {idea.targetMarket && (
-              <div className="p-4 rounded-fk mb-4" style={{ background: 'var(--fk-surface)', border: '1px solid var(--fk-border)' }}>
-                <h5 style={{ fontFamily: 'var(--font-display)', marginBottom: '0.75rem' }}>
-                  <i className="bi bi-bullseye me-2" style={{ color: 'var(--fk-primary)' }} />
-                  Target Market
-                </h5>
-                <p style={{ color: 'var(--fk-text-secondary)', lineHeight: 1.8, margin: 0 }}>{idea.targetMarket}</p>
+              <h1 style={{ fontWeight: 800, fontSize: 'clamp(1.3rem, 3vw, 1.8rem)', lineHeight: 1.3, marginBottom: '1rem' }}>
+                {idea.title}
+              </h1>
+
+              {/* Meta row */}
+              <div className="d-flex flex-wrap gap-4 mb-4" style={{ fontSize: '0.82rem', color: 'var(--fk-text-secondary)' }}>
+                <span><i className="bi bi-eye me-1" />{idea.views || 0} views</span>
+                <span><i className="bi bi-heart me-1" />{idea.interestCount || 0} interested</span>
+                <span><i className="bi bi-calendar3 me-1" />
+                  {new Date(idea.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                </span>
               </div>
-            )}
+
+              {/* Summary */}
+              <section style={{ background: 'var(--fk-bg)', borderRadius: 'var(--radius-sm)', padding: '1.25rem', marginBottom: '1rem' }}>
+                <h5 style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <i className="bi bi-file-text" style={{ color: 'var(--fk-primary-btn)' }} />Summary
+                </h5>
+                <p style={{ color: 'var(--fk-text-secondary)', lineHeight: 1.75, margin: 0, fontSize: '0.9rem' }}>
+                  {idea.summary}
+                </p>
+              </section>
+
+              {idea.description && (
+                <section style={{ background: 'var(--fk-bg)', borderRadius: 'var(--radius-sm)', padding: '1.25rem', marginBottom: '1rem' }}>
+                  <h5 style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <i className="bi bi-journal-text" style={{ color: 'var(--fk-primary-btn)' }} />Full Description
+                  </h5>
+                  <div style={{ color: 'var(--fk-text-secondary)', lineHeight: 1.75, fontSize: '0.9rem', whiteSpace: 'pre-wrap' }}>
+                    {idea.description}
+                  </div>
+                </section>
+              )}
+
+              {idea.targetMarket && (
+                <section style={{ background: 'var(--fk-bg)', borderRadius: 'var(--radius-sm)', padding: '1.25rem' }}>
+                  <h5 style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <i className="bi bi-bullseye" style={{ color: 'var(--fk-primary-btn)' }} />Target Market
+                  </h5>
+                  <p style={{ color: 'var(--fk-text-secondary)', lineHeight: 1.75, margin: 0, fontSize: '0.9rem' }}>
+                    {idea.targetMarket}
+                  </p>
+                </section>
+              )}
+            </div>
           </Col>
 
-          {/* Sidebar */}
+          {/* ── Sidebar ── */}
           <Col lg={4}>
-            {/* Entrepreneur Card */}
-            <div
-              className="p-4 rounded-fk mb-4"
-              style={{ background: 'var(--fk-surface)', border: '1px solid var(--fk-border)' }}
-            >
-              <h6 style={{ fontFamily: 'var(--font-display)', marginBottom: '1rem' }}>Idea Creator</h6>
+            {/* Founder Card */}
+            <div className="fk-card p-4 mb-3">
+              <h6 style={{ fontWeight: 700, fontSize: '0.82rem', color: 'var(--fk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1rem' }}>
+                Idea Creator
+              </h6>
               <div className="d-flex align-items-center gap-3">
-                <div style={{
-                  width: 52, height: 52,
-                  borderRadius: '50%',
-                  background: 'var(--fk-primary)',
-                  color: '#fff',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '1.3rem',
-                  fontWeight: 700,
-                  fontFamily: 'var(--font-display)',
-                }}>
+                <div className="fk-avatar" style={{ width: 48, height: 48, fontSize: '1rem' }}>
                   {idea.entrepreneur?.name?.[0] || '?'}
                 </div>
                 <div>
-                  <div style={{ fontWeight: 700, fontFamily: 'var(--font-display)' }}>
+                  <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>
                     {idea.entrepreneur?.name || 'Anonymous'}
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--fk-text-muted)' }}>Entrepreneur</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--fk-text-muted)' }}>Entrepreneur</div>
                 </div>
               </div>
             </div>
 
             {/* Funding Goal */}
             {idea.fundingGoal && (
-              <div
-                className="p-4 rounded-fk mb-4"
-                style={{ background: 'var(--fk-accent-soft)', border: '1px solid #F0E0A0' }}
-              >
-                <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#B77A00', marginBottom: '0.5rem' }}>
-                  FUNDING GOAL
+              <div className="fk-card p-4 mb-3">
+                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--fk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
+                  Funding Goal
                 </div>
-                <div style={{ fontSize: '1.8rem', fontWeight: 800, fontFamily: 'var(--font-display)', color: 'var(--fk-text-primary)' }}>
+                <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--fk-text-primary)', lineHeight: 1, marginBottom: '1rem' }}>
                   ${Number(idea.fundingGoal).toLocaleString()}
+                </div>
+                <div className="d-flex justify-content-between align-items-center mb-1">
+                  <span style={{ fontSize: '0.78rem', color: 'var(--fk-text-muted)' }}>Funding Progress</span>
+                  <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--fk-primary-btn)' }}>{fundingPct}%</span>
+                </div>
+                <div className="fk-progress">
+                  <div className="fk-progress-fill" style={{ width: `${fundingPct}%` }} />
                 </div>
               </div>
             )}
 
-            {/* Interest Button (Investor only) */}
+            {/* Invest / Interest Button */}
             {user?.role === 'investor' && (
               <Button
                 onClick={handleInterest}
                 disabled={actionLoading}
-                variant={interested ? 'outline-danger' : 'primary'}
-                className="w-100 mb-3"
+                className={interested ? '' : 'btn-primary'}
+                variant={interested ? 'outline-danger' : undefined}
                 size="lg"
-                style={{ borderRadius: 'var(--radius-pill)', fontWeight: 700, fontFamily: 'var(--font-display)' }}
+                style={{
+                  width: '100%',
+                  borderRadius: 'var(--radius-pill)',
+                  fontWeight: 700,
+                  marginBottom: '0.75rem',
+                  fontSize: '0.95rem',
+                }}
               >
                 {actionLoading ? <Spinner size="sm" /> : (
                   interested
@@ -192,27 +215,35 @@ export default function IdeaDetails() {
             {!user && (
               <Button
                 href="/login"
-                className="w-100 mb-3"
                 size="lg"
-                style={{ borderRadius: 'var(--radius-pill)', fontWeight: 700, background: 'var(--fk-primary)', border: 'none' }}
+                className="btn-primary w-100"
+                style={{ borderRadius: 'var(--radius-pill)', fontWeight: 700, marginBottom: '0.75rem' }}
               >
-                Sign in to show interest
+                Sign in to invest
               </Button>
             )}
 
-            {/* Status */}
-            <div
-              className="p-3 rounded-fk text-center"
-              style={{ background: 'var(--fk-bg)', border: '1px solid var(--fk-border)', fontSize: '0.85rem', color: 'var(--fk-text-secondary)' }}
-            >
+            {/* Status chip */}
+            <div style={{
+              padding: '0.75rem 1rem',
+              borderRadius: 'var(--radius-sm)',
+              background: 'var(--fk-bg)',
+              border: '1px solid var(--fk-border)',
+              textAlign: 'center',
+              fontSize: '0.82rem',
+              color: 'var(--fk-text-secondary)',
+            }}>
               Status:{' '}
-              <strong style={{ color: idea.status === 'approved' ? 'var(--fk-success)' : 'var(--fk-text-muted)', textTransform: 'capitalize' }}>
+              <strong style={{
+                color: idea.status === 'approved' ? 'var(--fk-success)' : 'var(--fk-text-muted)',
+                textTransform: 'capitalize',
+              }}>
                 {idea.status}
               </strong>
             </div>
           </Col>
         </Row>
       </Container>
-    </section>
+    </div>
   )
 }

@@ -1,134 +1,328 @@
 /* =============================
    Fikretak – Global Styles
+   Redesigned to match Fikretak UI (dark navy / white theme)
    ============================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
   /* Brand Colors */
-  --fk-primary: #3E54AC;       /* deep indigo – trust, ambition */
-  --fk-primary-light: #655DBB; /* softer indigo for hover states */
-  --fk-accent: #ECAB11;        /* golden yellow – energy, opportunity */
-  --fk-accent-soft: #FFF3C4;   /* light accent background */
-  --fk-success: #28A745;
-  --fk-danger: #DC3545;
+  --fk-primary: #0f2557;
+  --fk-primary-mid: #1a3a6b;
+  --fk-primary-light: #1e4080;
+  --fk-primary-btn: #1a3a8f;
 
-  /* Neutral Palette */
-  --fk-bg: #F8F9FD;
-  --fk-surface: #FFFFFF;
-  --fk-border: #E4E7F0;
-  --fk-text-primary: #1A1D2E;
-  --fk-text-secondary: #6B7280;
-  --fk-text-muted: #9CA3AF;
+  /* Dark surface (hero / footer / CTA) */
+  --fk-dark-bg: #111827;
+  --fk-dark-surface: #1c2535;
+  --fk-dark-border: rgba(255,255,255,0.08);
+
+  /* Light surface (main app) */
+  --fk-bg: #f4f5f7;
+  --fk-surface: #ffffff;
+  --fk-border: #e5e7eb;
+
+  /* Text */
+  --fk-text-primary: #0d1117;
+  --fk-text-secondary: #6b7280;
+  --fk-text-muted: #9ca3af;
+  --fk-text-white: #ffffff;
+
+  /* Status */
+  --fk-success: #10b981;
+  --fk-danger: #ef4444;
+  --fk-warning: #f59e0b;
+
+  /* Tag badge colors (status pills) */
+  --fk-tag-prototype-bg: #fef3c7;
+  --fk-tag-prototype-color: #92400e;
+  --fk-tag-idea-bg: #e0f2fe;
+  --fk-tag-idea-color: #0369a1;
+  --fk-tag-launched-bg: #d1fae5;
+  --fk-tag-launched-color: #065f46;
 
   /* Typography */
-  --font-display: 'Plus Jakarta Sans', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(62,84,172,0.06), 0 1px 2px rgba(62,84,172,0.04);
-  --shadow-md: 0 4px 16px rgba(62,84,172,0.10);
-  --shadow-lg: 0 8px 32px rgba(62,84,172,0.14);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --shadow-card: 0 1px 4px rgba(0,0,0,0.06);
 
   /* Radius */
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 20px;
+  --radius-lg: 16px;
   --radius-pill: 999px;
 }
 
 /* ── Base ── */
-*, *::before, *::after { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: var(--font-body);
+  font-family: var(--font-main);
   background-color: var(--fk-bg);
   color: var(--fk-text-primary);
-  margin: 0;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
+  font-family: var(--font-main);
   font-weight: 700;
   color: var(--fk-text-primary);
+  line-height: 1.3;
 }
 
-/* ── Override Bootstrap ── */
-.btn-primary {
-  background-color: var(--fk-primary) !important;
-  border-color: var(--fk-primary) !important;
+/* ── Navbar overrides ── */
+.fk-navbar {
+  background: var(--fk-dark-bg) !important;
+  border-bottom: 1px solid var(--fk-dark-border);
+  padding: 0.75rem 0;
 }
-.btn-primary:hover, .btn-primary:focus {
+
+.fk-navbar .nav-link {
+  color: rgba(255,255,255,0.75) !important;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.4rem 0.75rem !important;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s, background 0.15s;
+}
+
+.fk-navbar .nav-link:hover,
+.fk-navbar .nav-link.active {
+  color: #fff !important;
+  background: rgba(255,255,255,0.07);
+}
+
+.fk-navbar .navbar-brand {
+  color: #fff !important;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* ── Bootstrap Button Overrides ── */
+.btn {
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-pill);
+  transition: all 0.2s;
+}
+
+.btn-primary,
+.btn-primary:focus {
+  background-color: var(--fk-primary-btn) !important;
+  border-color: var(--fk-primary-btn) !important;
+  color: #fff !important;
+}
+.btn-primary:hover {
   background-color: var(--fk-primary-light) !important;
   border-color: var(--fk-primary-light) !important;
 }
-.btn-warning {
-  background-color: var(--fk-accent) !important;
-  border-color: var(--fk-accent) !important;
-  color: #fff !important;
-}
+
 .btn-outline-primary {
-  color: var(--fk-primary) !important;
-  border-color: var(--fk-primary) !important;
+  color: var(--fk-primary-btn) !important;
+  border-color: var(--fk-primary-btn) !important;
+  background: transparent !important;
 }
 .btn-outline-primary:hover {
-  background-color: var(--fk-primary) !important;
+  background: var(--fk-primary-btn) !important;
   color: #fff !important;
 }
 
-/* ── Utility ── */
-.text-primary-fk  { color: var(--fk-primary) !important; }
-.text-accent      { color: var(--fk-accent) !important; }
-.bg-primary-fk    { background-color: var(--fk-primary) !important; }
-.bg-accent        { background-color: var(--fk-accent) !important; }
-.bg-accent-soft   { background-color: var(--fk-accent-soft) !important; }
-.rounded-fk       { border-radius: var(--radius-md) !important; }
+.btn-outline-light {
+  color: rgba(255,255,255,0.85) !important;
+  border-color: rgba(255,255,255,0.35) !important;
+  background: transparent !important;
+}
+.btn-outline-light:hover {
+  background: rgba(255,255,255,0.1) !important;
+  color: #fff !important;
+}
 
-.shadow-fk-sm { box-shadow: var(--shadow-sm); }
-.shadow-fk-md { box-shadow: var(--shadow-md); }
-.shadow-fk-lg { box-shadow: var(--shadow-lg); }
-
-/* ── Card ── */
+/* ── Cards ── */
 .fk-card {
   background: var(--fk-surface);
   border: 1px solid var(--fk-border);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.2s, transform 0.2s;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.2s, transform 0.18s;
 }
 .fk-card:hover {
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
 
-/* ── Badge ── */
-.fk-badge {
+/* ── Stat Cards ── */
+.fk-stat-card {
+  background: var(--fk-surface);
+  border: 1px solid var(--fk-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Progress Bar ── */
+.fk-progress {
+  height: 5px;
+  background: var(--fk-border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+.fk-progress-fill {
+  height: 100%;
+  background: var(--fk-primary-btn);
+  border-radius: var(--radius-pill);
+  transition: width 0.4s ease;
+}
+
+/* ── Status Badges ── */
+.fk-status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 12px;
+  padding: 3px 10px;
   border-radius: var(--radius-pill);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  font-family: var(--font-display);
+  letter-spacing: 0.01em;
 }
-.fk-badge-primary { background: #EEF0FF; color: var(--fk-primary); }
-.fk-badge-accent  { background: var(--fk-accent-soft); color: #B77A00; }
-.fk-badge-success { background: #D1FAE5; color: #065F46; }
+.fk-status-prototype { background: var(--fk-tag-prototype-bg); color: var(--fk-tag-prototype-color); }
+.fk-status-idea      { background: var(--fk-tag-idea-bg);      color: var(--fk-tag-idea-color); }
+.fk-status-launched  { background: var(--fk-tag-launched-bg);  color: var(--fk-tag-launched-color); }
 
-/* ── Section spacing ── */
+/* ── Icon Container ── */
+.fk-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--fk-primary-btn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* ── Avatar ── */
+.fk-avatar {
+  border-radius: 50%;
+  background: var(--fk-primary-btn);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── Search ── */
+.fk-search {
+  background: var(--fk-surface);
+  border: 1px solid var(--fk-border);
+  border-radius: var(--radius-pill);
+  padding: 0.65rem 1.25rem;
+  font-size: 0.875rem;
+  width: 100%;
+  max-width: 500px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.fk-search:focus {
+  border-color: var(--fk-primary-btn);
+  box-shadow: 0 0 0 3px rgba(26,58,143,0.1);
+}
+
+/* ── Section ── */
 .section { padding: 5rem 0; }
 .section-sm { padding: 3rem 0; }
 
+/* ── Dark Section ── */
+.fk-dark-section {
+  background: var(--fk-dark-bg);
+  color: var(--fk-text-white);
+}
+.fk-dark-section h1,
+.fk-dark-section h2,
+.fk-dark-section h3,
+.fk-dark-section h4,
+.fk-dark-section h5,
+.fk-dark-section h6 {
+  color: var(--fk-text-white);
+}
+
+/* ── Footer ── */
+.fk-footer {
+  background: var(--fk-dark-bg);
+  color: rgba(255,255,255,0.6);
+  padding: 3.5rem 0 2rem;
+}
+.fk-footer h6 { color: rgba(255,255,255,0.85); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
+.fk-footer a  { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.875rem; transition: color 0.15s; }
+.fk-footer a:hover { color: #fff; }
+.fk-footer-divider { border-color: rgba(255,255,255,0.08); margin: 2rem 0 1rem; }
+
+/* ── Category Pills ── */
+.fk-cat-pill {
+  padding: 6px 18px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--fk-border);
+  background: var(--fk-surface);
+  color: var(--fk-text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  display: inline-block;
+}
+.fk-cat-pill:hover,
+.fk-cat-pill.active {
+  background: var(--fk-primary-btn);
+  border-color: var(--fk-primary-btn);
+  color: #fff;
+}
+
+/* ── Mentor Card ── */
+.fk-mentor-card {
+  background: var(--fk-surface);
+  border: 1px solid var(--fk-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s;
+}
+.fk-mentor-card:hover { box-shadow: var(--shadow-md); }
+
+/* ── Opportunity Card ── */
+.fk-opp-card {
+  background: var(--fk-surface);
+  border: 1px solid var(--fk-border);
+  border-left: 4px solid var(--fk-primary-btn);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s;
+}
+.fk-opp-card:hover { box-shadow: var(--shadow-md); }
+
 /* ── Animations ── */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.animate-fade-up { animation: fadeInUp 0.5s ease forwards; }
+.animate-fade-up { animation: fadeInUp 0.45s ease forwards; }
 
 /* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--fk-bg); }
 ::-webkit-scrollbar-thumb { background: var(--fk-border); border-radius: 3px; }
+
+/* ── Utility ── */
+.text-muted-fk { color: var(--fk-text-secondary) !important; }
+.fw-800 { font-weight: 800 !important; }
+.gap-fk-2 { gap: 0.5rem; }

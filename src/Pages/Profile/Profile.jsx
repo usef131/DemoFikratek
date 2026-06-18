@@ -7,11 +7,11 @@ import IdeaCard from '../../Components/cards/IdeaCard'
 
 export default function Profile() {
   const { user, updateUser } = useAuth()
-  const [form, setForm]         = useState({ name: user?.name || '', bio: user?.bio || '' })
-  const [saving, setSaving]     = useState(false)
-  const [saved, setSaved]       = useState(false)
+  const [form, setForm]     = useState({ name: user?.name || '', bio: user?.bio || '' })
+  const [saving, setSaving] = useState(false)
+  const [saved, setSaved]   = useState(false)
   const [saveError, setSaveError] = useState('')
-  const [myIdeas, setMyIdeas]   = useState([])
+  const [myIdeas, setMyIdeas]     = useState([])
   const [ideasLoading, setIdeasLoading] = useState(false)
 
   useEffect(() => {
@@ -39,93 +39,148 @@ export default function Profile() {
     }
   }
 
+  const initials = user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'U'
+
   return (
-    <section className="section">
-      <Container>
-        {/* Header */}
-        <div className="d-flex align-items-center gap-4 mb-5">
+    <div style={{ background: 'var(--fk-bg)', minHeight: '100vh' }}>
+      <Container style={{ paddingTop: '2rem', paddingBottom: '3rem' }}>
+        {/* ── Profile Card ── */}
+        <div className="fk-card p-4 mb-4" style={{ position: 'relative' }}>
+          {/* Cover strip */}
           <div style={{
-            width: 80, height: 80,
-            borderRadius: '50%',
-            background: 'var(--fk-primary)',
-            color: '#fff',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '2rem',
-            fontWeight: 800,
-            fontFamily: 'var(--font-display)',
-          }}>
-            {user?.name?.[0]}
+            height: 80,
+            background: 'linear-gradient(135deg, var(--fk-primary) 0%, var(--fk-primary-light) 100%)',
+            borderRadius: 'var(--radius-md) var(--radius-md) 0 0',
+            margin: '-1rem -1rem 0',
+          }} />
+
+          <div style={{ marginTop: '-40px', paddingTop: 0, display: 'flex', alignItems: 'flex-end', gap: 16 }}>
+            <div className="fk-avatar" style={{
+              width: 80, height: 80, fontSize: '1.5rem',
+              border: '4px solid var(--fk-surface)',
+            }}>
+              {initials}
+            </div>
+            <div style={{ paddingBottom: 4 }}>
+              <h1 style={{ fontWeight: 800, fontSize: '1.25rem', marginBottom: '0.15rem', color: 'var(--fk-text-primary)' }}>
+                {user?.name}
+              </h1>
+              <span style={{
+                display: 'inline-block',
+                padding: '2px 10px',
+                borderRadius: 'var(--radius-pill)',
+                fontSize: '0.72rem',
+                fontWeight: 600,
+                background: user?.role === 'investor' ? '#fef3c7' : '#eef0ff',
+                color: user?.role === 'investor' ? '#92400e' : 'var(--fk-primary-btn)',
+                textTransform: 'capitalize',
+              }}>
+                {user?.role}
+              </span>
+            </div>
+
+            <button
+              style={{
+                marginLeft: 'auto',
+                padding: '6px 16px',
+                borderRadius: 'var(--radius-pill)',
+                border: '1.5px solid var(--fk-border)',
+                background: 'var(--fk-surface)',
+                fontWeight: 600,
+                fontSize: '0.82rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
+            >
+              <i className="bi bi-gear" />Edit Profile
+            </button>
           </div>
-          <div>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, margin: 0 }}>{user?.name}</h1>
-            <span className={`fk-badge ${user?.role === 'investor' ? 'fk-badge-accent' : 'fk-badge-primary'} mt-1`}
-              style={{ textTransform: 'capitalize' }}>
-              {user?.role}
-            </span>
+
+          {/* Stats row */}
+          <div className="d-flex gap-4 mt-4" style={{ fontSize: '0.875rem' }}>
+            <div className="text-center">
+              <div style={{ fontWeight: 800, fontSize: '1.5rem', color: 'var(--fk-text-primary)' }}>
+                {myIdeas.length || 0}
+              </div>
+              <div style={{ color: 'var(--fk-text-muted)', fontSize: '0.78rem' }}>Posts</div>
+            </div>
+            <div className="text-center">
+              <div style={{ fontWeight: 800, fontSize: '1.5rem', color: 'var(--fk-text-primary)' }}>0</div>
+              <div style={{ color: 'var(--fk-text-muted)', fontSize: '0.78rem' }}>Followers</div>
+            </div>
+            <div className="text-center">
+              <div style={{ fontWeight: 800, fontSize: '1.5rem', color: 'var(--fk-text-primary)' }}>0</div>
+              <div style={{ color: 'var(--fk-text-muted)', fontSize: '0.78rem' }}>Likes</div>
+            </div>
           </div>
         </div>
 
-        <Tabs defaultActiveKey="profile" className="mb-4">
-          {/* Profile Settings */}
-          <Tab eventKey="profile" title="Profile Settings">
-            <Row className="justify-content-start mt-4">
+        <Tabs defaultActiveKey="settings" className="mb-4" style={{ fontSize: '0.875rem', fontWeight: 600 }}>
+          {/* ── Settings Tab ── */}
+          <Tab eventKey="settings" title="Profile Settings">
+            <Row className="mt-3">
               <Col md={6}>
-                {saved    && <Alert variant="success">Profile updated successfully!</Alert>}
-                {saveError && <Alert variant="danger">{saveError}</Alert>}
+                {saved     && <Alert variant="success" style={{ fontSize: '0.875rem', borderRadius: 'var(--radius-sm)' }}>Profile updated!</Alert>}
+                {saveError && <Alert variant="danger"  style={{ fontSize: '0.875rem', borderRadius: 'var(--radius-sm)' }}>{saveError}</Alert>}
 
-                <Form onSubmit={handleSave}>
-                  <Form.Group className="mb-3">
-                    <Form.Label style={{ fontWeight: 600 }}>Full Name</Form.Label>
-                    <Form.Control
-                      value={form.name}
-                      onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-                      style={{ borderRadius: 'var(--radius-sm)' }}
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3">
-                    <Form.Label style={{ fontWeight: 600 }}>Email</Form.Label>
-                    <Form.Control value={user?.email} disabled style={{ borderRadius: 'var(--radius-sm)' }} />
-                    <Form.Text>Email cannot be changed</Form.Text>
-                  </Form.Group>
-
-                  <Form.Group className="mb-4">
-                    <Form.Label style={{ fontWeight: 600 }}>Bio</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      value={form.bio}
-                      onChange={e => setForm(p => ({ ...p, bio: e.target.value }))}
-                      placeholder="Tell investors a little about yourself…"
-                      style={{ borderRadius: 'var(--radius-sm)', resize: 'vertical' }}
-                    />
-                  </Form.Group>
-
-                  <Button
-                    type="submit"
-                    disabled={saving}
-                    style={{
-                      background: 'var(--fk-primary)',
-                      border: 'none',
-                      borderRadius: 'var(--radius-pill)',
-                      fontWeight: 700,
-                    }}
-                  >
-                    {saving ? <Spinner size="sm" /> : 'Save Changes'}
-                  </Button>
-                </Form>
+                <div className="fk-card p-4">
+                  <Form onSubmit={handleSave}>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Full Name</Form.Label>
+                      <Form.Control
+                        value={form.name}
+                        onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
+                        style={{ borderRadius: 'var(--radius-sm)', fontSize: '0.9rem' }}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Email</Form.Label>
+                      <Form.Control
+                        value={user?.email}
+                        disabled
+                        style={{ borderRadius: 'var(--radius-sm)', fontSize: '0.9rem', background: 'var(--fk-bg)' }}
+                      />
+                      <Form.Text style={{ fontSize: '0.78rem', color: 'var(--fk-text-muted)' }}>
+                        Email cannot be changed
+                      </Form.Text>
+                    </Form.Group>
+                    <Form.Group className="mb-4">
+                      <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Bio</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        value={form.bio}
+                        onChange={e => setForm(p => ({ ...p, bio: e.target.value }))}
+                        placeholder="Tell investors a little about yourself…"
+                        style={{ borderRadius: 'var(--radius-sm)', fontSize: '0.9rem', resize: 'vertical' }}
+                      />
+                    </Form.Group>
+                    <Button
+                      type="submit"
+                      disabled={saving}
+                      className="btn-primary"
+                      style={{ borderRadius: 'var(--radius-pill)', fontWeight: 700, padding: '8px 24px' }}
+                    >
+                      {saving ? <Spinner size="sm" /> : 'Save Changes'}
+                    </Button>
+                  </Form>
+                </div>
               </Col>
             </Row>
           </Tab>
 
-          {/* My Ideas (Entrepreneur) */}
+          {/* ── My Ideas (Entrepreneur) ── */}
           {user?.role === 'entrepreneur' && (
             <Tab eventKey="ideas" title={`My Ideas (${myIdeas.length})`}>
-              <div className="mt-4">
+              <div className="mt-3">
                 {ideasLoading ? (
-                  <Spinner animation="border" style={{ color: 'var(--fk-primary)' }} />
+                  <div className="text-center py-5">
+                    <Spinner animation="border" style={{ color: 'var(--fk-primary-btn)' }} />
+                  </div>
                 ) : myIdeas.length > 0 ? (
-                  <Row className="g-4">
+                  <Row className="g-3">
                     {myIdeas.map(idea => (
                       <Col key={idea._id} md={6} lg={4}>
                         <IdeaCard idea={idea} />
@@ -134,8 +189,8 @@ export default function Profile() {
                   </Row>
                 ) : (
                   <div className="text-center py-5">
-                    <i className="bi bi-lightbulb" style={{ fontSize: '3rem', color: 'var(--fk-border)' }} />
-                    <p className="mt-3" style={{ color: 'var(--fk-text-muted)' }}>
+                    <i className="bi bi-lightbulb" style={{ fontSize: '2.5rem', color: 'var(--fk-border)' }} />
+                    <p className="mt-3" style={{ color: 'var(--fk-text-muted)', fontSize: '0.875rem' }}>
                       You haven't submitted any ideas yet.
                     </p>
                   </div>
@@ -145,6 +200,6 @@ export default function Profile() {
           )}
         </Tabs>
       </Container>
-    </section>
+    </div>
   )
 }

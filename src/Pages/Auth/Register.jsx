@@ -1,173 +1,299 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Container, Row, Col, Form, Button, Alert, Spinner } from 'react-bootstrap'
+import { Container, Form, Button, Alert, Spinner } from 'react-bootstrap'
 import { useAuth } from '../../../Context/AuthContext'
+
+const ROLES = [
+  { value: 'innovator', icon: 'bi-lightbulb-fill', label: 'Innovator', sub: 'Share ideas and build concepts', color: '#f59e0b', bg: '#fef3c7' },
+  { value: 'entrepreneur', icon: 'bi-graph-up-arrow', label: 'Entrepreneur', sub: 'Launch and grow businesses', color: '#a855f7', bg: '#f3e8ff' },
+  { value: 'developer', icon: 'bi-code-slash', label: 'Developer', sub: 'Build and code projects', color: '#10b981', bg: '#d1fae5' },
+  { value: 'investor', icon: 'bi-graph-up-arrow', label: 'Investor', sub: 'Fund promising ideas', color: '#10b981', bg: '#d1fae5' },
+  { value: 'expert', icon: 'bi-mortarboard-fill', label: 'Expert', sub: 'Share knowledge and advice', color: '#ef4444', bg: '#fee2e2' },
+  { value: 'other', icon: 'bi-plus', label: 'Other', sub: 'Describe your role', color: '#6b7280', bg: '#f3f4f6' },
+]
 
 export default function Register() {
   const { register } = useAuth()
   const navigate = useNavigate()
 
-  const [form, setForm] = useState({
-    name: '', email: '', password: '', confirmPassword: '',
-    role: '', // 'entrepreneur' | 'investor'
-  })
-  const [errors,   setErrors]   = useState({})
+  const [step, setStep] = useState(1)  // 1=account details, 2=role select
+  const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '', role: '' })
+  const [errors, setErrors] = useState({})
   const [apiError, setApiError] = useState('')
-  const [loading,  setLoading]  = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const validate = () => {
+  const validateStep1 = () => {
     const e = {}
-    if (!form.name.trim())    e.name    = 'Full name is required'
-    if (!form.email)          e.email   = 'Email is required'
-    if (!form.password)       e.password = 'Password is required'
-    if (form.password.length < 6) e.password = 'Password must be at least 6 characters'
+    if (!form.name.trim()) e.name = 'Full name is required'
+    if (!form.email) e.email = 'Email is required'
+    if (!form.password) e.password = 'Password is required'
+    if (form.password.length < 6) e.password = 'At least 6 characters'
     if (form.password !== form.confirmPassword) e.confirmPassword = 'Passwords do not match'
-    if (!form.role)           e.role    = 'Please select your role'
     return e
   }
 
-  const handleSubmit = async (ev) => {
+  const handleNext = (ev) => {
     ev.preventDefault()
-    const errs = validate()
+    const errs = validateStep1()
     if (Object.keys(errs).length) { setErrors(errs); return }
+    setStep(2)
+  }
+
+  const handleSubmit = async () => {
+    if (!form.role) { setErrors({ role: 'Please select your role' }); return }
     setLoading(true); setApiError('')
     try {
       const user = await register({ name: form.name, email: form.email, password: form.password, role: form.role })
-      navigate(user.role === 'entrepreneur' ? '/create-idea' : '/ideas')
+      navigate(user.role === 'entrepreneur' ? '/create-idea' : '/')
     } catch (e) {
       setApiError(e.message)
+      setStep(1)
     } finally {
       setLoading(false)
     }
   }
 
-  const f = (field) => ({
-    value: form[field],
-    onChange: e => {
-      setForm(p => ({ ...p, [field]: e.target.value }))
-      if (errors[field]) setErrors(p => ({ ...p, [field]: '' }))
-    },
-    isInvalid: !!errors[field],
-  })
-
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--fk-bg)', display: 'flex', alignItems: 'center', padding: '3rem 0' }}>
-      <Container>
-        <Row className="justify-content-center">
-          <Col sm={10} md={8} lg={6}>
-            <div className="text-center mb-4">
-              <Link to="/" style={{ textDecoration: 'none' }}>
-                <span style={{
-                  background: 'var(--fk-primary)',
-                  color: '#fff',
-                  borderRadius: '10px',
-                  padding: '6px 16px',
-                  fontWeight: 800,
-                  fontSize: '1.3rem',
-                  fontFamily: 'var(--font-display)',
-                }}>
-                  فكرتك · Fikretak
-                </span>
-              </Link>
-            </div>
+    <div style={{
+      minHeight: '100vh',
+      background: 'var(--fk-bg)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '2rem 1rem',
+    }}>
+      <div style={{ width: '100%', maxWidth: step === 2 ? 620 : 420 }}>
+        {/* Brand */}
+        <div className="text-center mb-5">
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <span style={{ fontWeight: 800, fontSize: '1.5rem', color: 'var(--fk-text-primary)', letterSpacing: '-0.5px' }}>
+              Fikretak
+            </span>
+          </Link>
+        </div>
 
-            <div className="fk-card p-4 p-md-5">
-              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, marginBottom: '0.25rem' }}>
-                Create your account
-              </h2>
-              <p style={{ color: 'var(--fk-text-secondary)', marginBottom: '2rem', fontSize: '0.9rem' }}>
-                Join Fikretak and start your journey
-              </p>
+        {/* ── STEP 1: Account Details ── */}
+        {step === 1 && (
+          <>
+            <h2 style={{ fontWeight: 700, fontSize: '1.25rem', textAlign: 'center', marginBottom: '0.25rem' }}>
+              Create your account
+            </h2>
+            <p style={{ color: 'var(--fk-text-secondary)', fontSize: '0.875rem', textAlign: 'center', marginBottom: '1.75rem' }}>
+              Join Fikretak and start your journey
+            </p>
 
-              {apiError && <Alert variant="danger" dismissible onClose={() => setApiError('')}>{apiError}</Alert>}
+            <div className="fk-card p-4">
+              {apiError && (
+                <Alert variant="danger" dismissible onClose={() => setApiError('')} style={{ fontSize: '0.875rem', borderRadius: 'var(--radius-sm)' }}>
+                  {apiError}
+                </Alert>
+              )}
 
-              <Form onSubmit={handleSubmit} noValidate>
-                {/* Role Selection */}
-                <div className="mb-4">
-                  <Form.Label style={{ fontWeight: 600, fontSize: '0.9rem', display: 'block', marginBottom: '0.75rem' }}>
-                    I am a… <span className="text-danger">*</span>
-                  </Form.Label>
-                  <div className="d-flex gap-3">
-                    {[
-                      { value: 'entrepreneur', icon: 'bi-lightbulb', label: 'Entrepreneur', sub: 'I have an idea' },
-                      { value: 'investor',     icon: 'bi-cash-coin', label: 'Investor',     sub: 'I want to fund ideas' },
-                    ].map(opt => (
-                      <button
-                        type="button"
-                        key={opt.value}
-                        onClick={() => { setForm(p => ({ ...p, role: opt.value })); if (errors.role) setErrors(p => ({ ...p, role: '' })) }}
-                        style={{
-                          flex: 1,
-                          padding: '1rem',
-                          borderRadius: 'var(--radius-md)',
-                          border: '2px solid',
-                          borderColor: form.role === opt.value ? 'var(--fk-primary)' : 'var(--fk-border)',
-                          background: form.role === opt.value ? '#EEF0FF' : 'var(--fk-surface)',
-                          cursor: 'pointer',
-                          transition: 'all 0.15s',
-                          textAlign: 'center',
-                        }}
-                      >
-                        <i className={`bi ${opt.icon}`} style={{ fontSize: '1.5rem', color: form.role === opt.value ? 'var(--fk-primary)' : 'var(--fk-text-muted)', display: 'block', marginBottom: '0.5rem' }} />
-                        <div style={{ fontWeight: 700, fontFamily: 'var(--font-display)', fontSize: '0.9rem', color: form.role === opt.value ? 'var(--fk-primary)' : 'var(--fk-text-primary)' }}>
-                          {opt.label}
-                        </div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--fk-text-muted)' }}>{opt.sub}</div>
-                      </button>
-                    ))}
-                  </div>
-                  {errors.role && <div style={{ color: 'var(--fk-danger)', fontSize: '0.875em', marginTop: '0.25rem' }}>{errors.role}</div>}
-                </div>
-
+              <Form onSubmit={handleNext} noValidate>
                 <Form.Group className="mb-3">
-                  <Form.Label style={{ fontWeight: 600, fontSize: '0.9rem' }}>Full Name</Form.Label>
-                  <Form.Control {...f('name')} placeholder="Your full name" style={{ borderRadius: 'var(--radius-sm)', padding: '0.65rem 1rem' }} />
+                  <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Full Name</Form.Label>
+                  <Form.Control
+                    value={form.name}
+                    onChange={e => { setForm(p => ({ ...p, name: e.target.value })); setErrors(p => ({ ...p, name: '' })) }}
+                    placeholder="Your full name"
+                    isInvalid={!!errors.name}
+                    style={{ borderRadius: 'var(--radius-sm)', padding: '0.65rem 1rem', fontSize: '0.9rem' }}
+                  />
                   <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label style={{ fontWeight: 600, fontSize: '0.9rem' }}>Email</Form.Label>
-                  <Form.Control {...f('email')} type="email" placeholder="you@example.com" style={{ borderRadius: 'var(--radius-sm)', padding: '0.65rem 1rem' }} />
+                  <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    value={form.email}
+                    onChange={e => { setForm(p => ({ ...p, email: e.target.value })); setErrors(p => ({ ...p, email: '' })) }}
+                    placeholder="you@example.com"
+                    isInvalid={!!errors.email}
+                    style={{ borderRadius: 'var(--radius-sm)', padding: '0.65rem 1rem', fontSize: '0.9rem' }}
+                  />
                   <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label style={{ fontWeight: 600, fontSize: '0.9rem' }}>Password</Form.Label>
-                  <Form.Control {...f('password')} type="password" placeholder="Min. 6 characters" style={{ borderRadius: 'var(--radius-sm)', padding: '0.65rem 1rem' }} />
+                  <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    value={form.password}
+                    onChange={e => { setForm(p => ({ ...p, password: e.target.value })); setErrors(p => ({ ...p, password: '' })) }}
+                    placeholder="Min. 6 characters"
+                    isInvalid={!!errors.password}
+                    style={{ borderRadius: 'var(--radius-sm)', padding: '0.65rem 1rem', fontSize: '0.9rem' }}
+                  />
                   <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Form.Group className="mb-4">
-                  <Form.Label style={{ fontWeight: 600, fontSize: '0.9rem' }}>Confirm Password</Form.Label>
-                  <Form.Control {...f('confirmPassword')} type="password" placeholder="Repeat your password" style={{ borderRadius: 'var(--radius-sm)', padding: '0.65rem 1rem' }} />
+                  <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Confirm Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    value={form.confirmPassword}
+                    onChange={e => { setForm(p => ({ ...p, confirmPassword: e.target.value })); setErrors(p => ({ ...p, confirmPassword: '' })) }}
+                    placeholder="Repeat your password"
+                    isInvalid={!!errors.confirmPassword}
+                    style={{ borderRadius: 'var(--radius-sm)', padding: '0.65rem 1rem', fontSize: '0.9rem' }}
+                  />
                   <Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>
                 </Form.Group>
 
                 <Button
                   type="submit"
-                  className="w-100"
+                  className="w-100 btn-primary"
                   size="lg"
-                  disabled={loading}
-                  style={{
-                    background: 'var(--fk-primary)',
-                    border: 'none',
-                    borderRadius: 'var(--radius-pill)',
-                    fontWeight: 700,
-                    fontFamily: 'var(--font-display)',
-                  }}
+                  style={{ borderRadius: 'var(--radius-pill)', fontWeight: 700 }}
                 >
-                  {loading ? <Spinner size="sm" /> : 'Create Account'}
+                  Continue <i className="bi bi-arrow-right ms-1" />
                 </Button>
               </Form>
 
-              <p className="text-center mt-4 mb-0" style={{ fontSize: '0.9rem', color: 'var(--fk-text-secondary)' }}>
-                Already have an account?{' '}
-                <Link to="/login" style={{ color: 'var(--fk-primary)', fontWeight: 600 }}>Sign in</Link>
+              {/* Divider */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '1.25rem 0' }}>
+                <hr style={{ flex: 1, margin: 0, borderColor: 'var(--fk-border)' }} />
+                <span style={{ fontSize: '0.78rem', color: 'var(--fk-text-muted)', whiteSpace: 'nowrap' }}>Or continue with</span>
+                <hr style={{ flex: 1, margin: 0, borderColor: 'var(--fk-border)' }} />
+              </div>
+
+              {/* Social buttons */}
+              {[
+                { icon: 'bi-google', label: 'Continue with Google', color: '#4285F4' },
+                { icon: 'bi-linkedin', label: 'Continue with LinkedIn', color: '#0a66c2' },
+                { icon: 'bi-facebook', label: 'Continue with Facebook', color: '#1877f2' },
+              ].map(s => (
+                <button
+                  key={s.label}
+                  type="button"
+                  style={{
+                    width: '100%',
+                    padding: '0.6rem 1rem',
+                    border: '1.5px solid var(--fk-border)',
+                    borderRadius: 'var(--radius-pill)',
+                    background: '#fff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 8,
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    marginBottom: '0.6rem',
+                    color: 'var(--fk-text-primary)',
+                    transition: 'border-color 0.15s, box-shadow 0.15s',
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = s.color}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--fk-border)'}
+                >
+                  <i className={`bi ${s.icon}`} style={{ color: s.color, fontSize: '1rem' }} />
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
+        <p className="text-center mt-4" style={{ fontSize: '0.875rem', color: 'var(--fk-text-secondary)' }}>
+          Already have an account?{' '}
+          <Link to="/login" style={{ color: 'var(--fk-primary-btn)', fontWeight: 600, textDecoration: 'none' }}>
+            Sign in
+          </Link>
+        </p>
+
+        {/* ── STEP 2: Role Selection (matches screenshot 6) ── */}
+        {step === 2 && (
+          <div>
+            {/* Step indicator */}
+            <div className="text-center mb-2">
+              <span style={{
+                display: 'inline-block',
+                padding: '4px 14px',
+                borderRadius: 'var(--radius-pill)',
+                border: '1.5px solid var(--fk-border)',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                color: 'var(--fk-text-secondary)',
+                marginBottom: '1rem',
+              }}>
+                Step 2 of 3
+              </span>
+            </div>
+
+            <h2 style={{ fontWeight: 800, fontSize: '1.5rem', textAlign: 'center', marginBottom: '0.35rem' }}>
+              Tell us about yourself
+            </h2>
+            <p style={{ color: 'var(--fk-text-secondary)', fontSize: '0.875rem', textAlign: 'center', marginBottom: '2rem' }}>
+              Select one or more roles that best describe you
+            </p>
+
+            {apiError && (
+              <Alert variant="danger" style={{ fontSize: '0.875rem', borderRadius: 'var(--radius-sm)', marginBottom: '1rem' }}>
+                {apiError}
+              </Alert>
+            )}
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: '1.5rem' }}>
+              {ROLES.map(opt => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => { setForm(p => ({ ...p, role: opt.value })); setErrors(p => ({ ...p, role: '' })) }}
+                  style={{
+                    padding: '1rem 1.25rem',
+                    borderRadius: 'var(--radius-md)',
+                    border: '2px solid',
+                    borderColor: form.role === opt.value ? opt.color : 'var(--fk-border)',
+                    background: form.role === opt.value ? opt.bg : 'var(--fk-surface)',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  <div style={{
+                    width: 40, height: 40,
+                    borderRadius: 10,
+                    background: form.role === opt.value ? opt.color : '#e5e7eb',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: form.role === opt.value ? '#fff' : '#9ca3af',
+                    fontSize: '1.1rem',
+                    flexShrink: 0,
+                  }}>
+                    <i className={`bi ${opt.icon}`} />
+                  </div>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--fk-text-primary)' }}>{opt.label}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--fk-text-muted)', lineHeight: 1.4 }}>{opt.sub}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {errors.role && (
+              <p style={{ color: 'var(--fk-danger)', fontSize: '0.875rem', textAlign: 'center', marginBottom: '1rem' }}>{errors.role}</p>
+            )}
+
+            <div className="text-center">
+              <Button
+                onClick={handleSubmit}
+                disabled={loading || !form.role}
+                size="lg"
+                className="btn-primary"
+                style={{ borderRadius: 'var(--radius-pill)', fontWeight: 700, padding: '0.7rem 2.5rem', opacity: form.role ? 1 : 0.6 }}
+              >
+                {loading ? <Spinner size="sm" /> : <><i className="bi bi-arrow-right me-1" />Continue</>}
+              </Button>
+              <p style={{ marginTop: '0.75rem', fontSize: '0.78rem', color: 'var(--fk-text-muted)' }}>
+                You can update your roles anytime in settings
               </p>
             </div>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+          </div>
+        )}
+      </div>
+    </div >
   )
 }

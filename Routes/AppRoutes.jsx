@@ -3,15 +3,16 @@ import { useAuth } from '../Context/AuthContext'
 
 import MainLayout from '../src/Components/Layout/MainLayout'
 
-import Home        from '../src/Pages/Home/Home'
-import Ideas       from '../src/Pages/Ideas/Ideas'
+import Home from '../src/Pages/Home/Home'
+import Ideas from '../src/Pages/Ideas/Ideas'
 import IdeaDetails from '../src/Pages/IdeaDetails/IdeaDetails'
-import CreateIdea  from '../src/Pages/CreateIdea/CreateIdea'
-import Profile     from '../src/Pages/Profile/Profile'
-import Login       from '../src/Pages/Auth/Login'
-import Register    from '../src/Pages/Auth/Register'
-import AdminPanel  from '../src/Pages/Admin/AdminPanel'
-import NotFound    from '../src/Pages/NotFound'
+import CreateIdea from '../src/Pages/CreateIdea/CreateIdea'
+import Profile from '../src/Pages/Profile/Profile'
+import Login from '../src/Pages/Auth/Login'
+import Register from '../src/Pages/Auth/Register'
+import AdminPanel from '../src/Pages/Admin/AdminPanel'
+import NotFound from '../src/Pages/NotFound'
+import HomePageTwo from '../src/Pages/HomePageTwo/HomePageTwo'
 
 function PrivateRoute({ children, roles }) {
   const { user, loading } = useAuth()
@@ -24,30 +25,38 @@ function PrivateRoute({ children, roles }) {
 export default function AppRoutes() {
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+
+      <Route path="/home-two" element={<HomePageTwo />} />
+
+      <Route path="/ideas" element={<Ideas />} />
+      <Route path="/ideas/:id" element={<IdeaDetails />} />
+
+
       <Route element={<MainLayout />}>
         {/* Public */}
-        <Route path="/"         element={<Home />} />
-        <Route path="/ideas"    element={<Ideas />} />
-        <Route path="/ideas/:id" element={<IdeaDetails />} />
-        <Route path="/login"    element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Home />} />
+
+
 
         {/* Entrepreneur only */}
         <Route path="/create-idea" element={
-          <PrivateRoute roles={['entrepreneur']}>
-            <CreateIdea />
-          </PrivateRoute>
+
+          <CreateIdea />
+
         } />
 
         {/* Any authenticated user */}
-        <Route path="/profile"  element={
+        <Route path="/profile" element={
           <PrivateRoute>
             <Profile />
           </PrivateRoute>
         } />
 
         {/* Admin only */}
-        <Route path="/admin"    element={
+        <Route path="/admin" element={
           <PrivateRoute roles={['admin']}>
             <AdminPanel />
           </PrivateRoute>

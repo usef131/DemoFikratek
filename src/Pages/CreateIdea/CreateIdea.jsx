@@ -7,28 +7,24 @@ import { useIdeas } from '../../../Context/IdeaContext'
 const CATEGORIES = ['Tech', 'Health', 'Education', 'Finance', 'Environment', 'Social', 'Other']
 
 export default function CreateIdea() {
-  const navigate = useNavigate()
+  const navigate    = useNavigate()
   const { addIdea } = useIdeas()
 
   const [form, setForm] = useState({
-    title: '',
-    summary: '',
-    description: '',
-    category: '',
-    targetMarket: '',
-    fundingGoal: '',
+    title: '', summary: '', description: '',
+    category: '', targetMarket: '', fundingGoal: '',
   })
-  const [errors,  setErrors]  = useState({})
-  const [loading, setLoading] = useState(false)
+  const [errors,   setErrors]   = useState({})
+  const [loading,  setLoading]  = useState(false)
   const [apiError, setApiError] = useState('')
 
   const validate = () => {
     const e = {}
-    if (!form.title.trim())    e.title    = 'Title is required'
-    if (form.title.length > 100) e.title  = 'Title must be under 100 characters'
-    if (!form.summary.trim())  e.summary  = 'Summary is required'
-    if (form.summary.length > 300) e.summary = 'Summary must be under 300 characters'
-    if (!form.category)        e.category = 'Please select a category'
+    if (!form.title.trim())  e.title    = 'Title is required'
+    if (form.title.length > 100) e.title = 'Title must be under 100 characters'
+    if (!form.summary.trim()) e.summary = 'Summary is required'
+    if (form.summary.length > 300) e.summary = 'Max 300 characters'
+    if (!form.category)       e.category = 'Please select a category'
     if (form.fundingGoal && isNaN(Number(form.fundingGoal))) e.fundingGoal = 'Enter a valid number'
     return e
   }
@@ -40,11 +36,9 @@ export default function CreateIdea() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const validationErrors = validate()
-    if (Object.keys(validationErrors).length) { setErrors(validationErrors); return }
-
-    setLoading(true)
-    setApiError('')
+    const errs = validate()
+    if (Object.keys(errs).length) { setErrors(errs); return }
+    setLoading(true); setApiError('')
     try {
       const data = await ideaService.createIdea({
         ...form,
@@ -60,31 +54,41 @@ export default function CreateIdea() {
   }
 
   const charCount = (field, max) => (
-    <small className={form[field].length > max ? 'text-danger' : 'text-muted'}>
+    <small style={{ color: form[field].length > max ? 'var(--fk-danger)' : 'var(--fk-text-muted)', fontSize: '0.78rem' }}>
       {form[field].length}/{max}
     </small>
   )
 
   return (
-    <section className="section">
-      <Container>
+    <div style={{ background: 'var(--fk-bg)', minHeight: '100vh' }}>
+      {/* Page header */}
+      <div style={{ background: 'var(--fk-surface)', borderBottom: '1px solid var(--fk-border)', padding: '1.75rem 0 1rem' }}>
+        <Container>
+          <h1 style={{ fontWeight: 800, fontSize: '1.5rem', marginBottom: '0.2rem' }}>Submit Your Idea</h1>
+          <p style={{ color: 'var(--fk-text-secondary)', fontSize: '0.875rem', margin: 0 }}>
+            Fill in the details below. Our team will review and approve it before it goes public.
+          </p>
+        </Container>
+      </div>
+
+      <Container style={{ paddingTop: '2rem', paddingBottom: '3rem' }}>
         <Row className="justify-content-center">
           <Col lg={8}>
-            <div className="mb-5">
-              <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 800 }}>Submit Your Idea</h1>
-              <p style={{ color: 'var(--fk-text-secondary)' }}>
-                Fill in the details below. Our team will review and approve it before it goes public.
-              </p>
-            </div>
+            {apiError && (
+              <Alert variant="danger" dismissible onClose={() => setApiError('')}
+                style={{ borderRadius: 'var(--radius-sm)', fontSize: '0.875rem', marginBottom: '1.25rem' }}>
+                {apiError}
+              </Alert>
+            )}
 
-            {apiError && <Alert variant="danger" onClose={() => setApiError('')} dismissible>{apiError}</Alert>}
-
-            <div className="fk-card p-4 p-md-5">
+            <div className="fk-card p-4">
               <Form onSubmit={handleSubmit} noValidate>
                 {/* Title */}
                 <Form.Group className="mb-4">
-                  <div className="d-flex justify-content-between">
-                    <Form.Label style={{ fontWeight: 600 }}>Idea Title <span className="text-danger">*</span></Form.Label>
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem', margin: 0 }}>
+                      Idea Title <span className="text-danger">*</span>
+                    </Form.Label>
                     {charCount('title', 100)}
                   </div>
                   <Form.Control
@@ -92,19 +96,21 @@ export default function CreateIdea() {
                     onChange={handleChange('title')}
                     placeholder="e.g. AI-Powered Agricultural Water Management"
                     isInvalid={!!errors.title}
-                    style={{ borderRadius: 'var(--radius-sm)' }}
+                    style={{ borderRadius: 'var(--radius-sm)', fontSize: '0.9rem' }}
                   />
                   <Form.Control.Feedback type="invalid">{errors.title}</Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Category */}
                 <Form.Group className="mb-4">
-                  <Form.Label style={{ fontWeight: 600 }}>Category <span className="text-danger">*</span></Form.Label>
+                  <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>
+                    Category <span className="text-danger">*</span>
+                  </Form.Label>
                   <Form.Select
                     value={form.category}
                     onChange={handleChange('category')}
                     isInvalid={!!errors.category}
-                    style={{ borderRadius: 'var(--radius-sm)' }}
+                    style={{ borderRadius: 'var(--radius-sm)', fontSize: '0.9rem' }}
                   >
                     <option value="">Select a category</option>
                     {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -114,8 +120,10 @@ export default function CreateIdea() {
 
                 {/* Summary */}
                 <Form.Group className="mb-4">
-                  <div className="d-flex justify-content-between">
-                    <Form.Label style={{ fontWeight: 600 }}>Short Summary <span className="text-danger">*</span></Form.Label>
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem', margin: 0 }}>
+                      Short Summary <span className="text-danger">*</span>
+                    </Form.Label>
                     {charCount('summary', 300)}
                   </div>
                   <Form.Control
@@ -125,38 +133,38 @@ export default function CreateIdea() {
                     onChange={handleChange('summary')}
                     placeholder="A brief overview of your idea and the problem it solves"
                     isInvalid={!!errors.summary}
-                    style={{ borderRadius: 'var(--radius-sm)', resize: 'vertical' }}
+                    style={{ borderRadius: 'var(--radius-sm)', fontSize: '0.9rem', resize: 'vertical' }}
                   />
                   <Form.Control.Feedback type="invalid">{errors.summary}</Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Description */}
                 <Form.Group className="mb-4">
-                  <Form.Label style={{ fontWeight: 600 }}>Full Description</Form.Label>
+                  <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Full Description</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={6}
                     value={form.description}
                     onChange={handleChange('description')}
                     placeholder="Describe your idea in detail: the problem, your solution, how it works, business model…"
-                    style={{ borderRadius: 'var(--radius-sm)', resize: 'vertical' }}
+                    style={{ borderRadius: 'var(--radius-sm)', fontSize: '0.9rem', resize: 'vertical' }}
                   />
                 </Form.Group>
 
                 {/* Target Market */}
                 <Form.Group className="mb-4">
-                  <Form.Label style={{ fontWeight: 600 }}>Target Market</Form.Label>
+                  <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Target Market</Form.Label>
                   <Form.Control
                     value={form.targetMarket}
                     onChange={handleChange('targetMarket')}
                     placeholder="Who are your potential customers or users?"
-                    style={{ borderRadius: 'var(--radius-sm)' }}
+                    style={{ borderRadius: 'var(--radius-sm)', fontSize: '0.9rem' }}
                   />
                 </Form.Group>
 
                 {/* Funding Goal */}
                 <Form.Group className="mb-5">
-                  <Form.Label style={{ fontWeight: 600 }}>Funding Goal (USD)</Form.Label>
+                  <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Funding Goal (USD)</Form.Label>
                   <Form.Control
                     type="number"
                     value={form.fundingGoal}
@@ -164,9 +172,11 @@ export default function CreateIdea() {
                     placeholder="e.g. 50000"
                     isInvalid={!!errors.fundingGoal}
                     min={0}
-                    style={{ borderRadius: 'var(--radius-sm)' }}
+                    style={{ borderRadius: 'var(--radius-sm)', fontSize: '0.9rem' }}
                   />
-                  <Form.Text className="text-muted">Leave blank if not yet determined</Form.Text>
+                  <Form.Text style={{ fontSize: '0.78rem', color: 'var(--fk-text-muted)' }}>
+                    Leave blank if not yet determined
+                  </Form.Text>
                   <Form.Control.Feedback type="invalid">{errors.fundingGoal}</Form.Control.Feedback>
                 </Form.Group>
 
@@ -175,14 +185,8 @@ export default function CreateIdea() {
                     type="submit"
                     size="lg"
                     disabled={loading}
-                    style={{
-                      background: 'var(--fk-primary)',
-                      border: 'none',
-                      borderRadius: 'var(--radius-pill)',
-                      fontWeight: 700,
-                      fontFamily: 'var(--font-display)',
-                      padding: '0.75rem 2rem',
-                    }}
+                    className="btn-primary"
+                    style={{ borderRadius: 'var(--radius-pill)', fontWeight: 700, padding: '0.7rem 2rem' }}
                   >
                     {loading ? <><Spinner size="sm" className="me-2" />Submitting…</> : 'Submit Idea'}
                   </Button>
@@ -190,8 +194,8 @@ export default function CreateIdea() {
                     variant="outline-secondary"
                     size="lg"
                     onClick={() => navigate(-1)}
-                    style={{ borderRadius: 'var(--radius-pill)' }}
                     disabled={loading}
+                    style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600 }}
                   >
                     Cancel
                   </Button>
@@ -201,6 +205,6 @@ export default function CreateIdea() {
           </Col>
         </Row>
       </Container>
-    </section>
+    </div>
   )
 }

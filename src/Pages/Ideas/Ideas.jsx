@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap'
+import { useSearchParams, Link } from 'react-router-dom'
+import { Container, Row, Col, Form, Button, Spinner, Dropdown } from 'react-bootstrap'
 import { useIdeas } from '../../../Context/IdeaContext'
 import IdeaCard from '../../Components/cards/IdeaCard'
 
@@ -25,7 +25,6 @@ export default function Ideas() {
       status: 'approved',
       ...overrides,
     }
-    // Sync URL
     const sp = new URLSearchParams()
     if (params.search)   sp.set('search', params.search)
     if (params.category) sp.set('category', params.category)
@@ -42,110 +41,111 @@ export default function Ideas() {
   }
 
   return (
-    <section className="section">
-      <Container>
-        {/* Page Header */}
-        <div className="mb-5">
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 800 }}>Browse Ideas</h1>
-          <p style={{ color: 'var(--fk-text-secondary)' }}>
-            Discover innovative projects from young entrepreneurs across Egypt
-          </p>
+    <div style={{ minHeight: '100vh', background: 'var(--fk-bg)' }}>
+      {/* Page Header */}
+      <div style={{ background: 'var(--fk-surface)', borderBottom: '1px solid var(--fk-border)', padding: '1.75rem 0 1rem' }}>
+        <Container>
+          <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+              <h1 style={{ fontWeight: 800, fontSize: '1.5rem', marginBottom: '0.2rem' }}>Project Marketplace</h1>
+              <p style={{ color: 'var(--fk-text-secondary)', fontSize: '0.875rem', margin: 0 }}>
+                Discover innovative startups seeking funding and collaboration
+              </p>
+            </div>
+            <Link to="/create-idea" className="btn btn-primary"
+              style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600, padding: '8px 20px' }}>
+              <i className="bi bi-plus me-1" />Add Project
+            </Link>
+          </div>
+        </Container>
+      </div>
+
+      <Container style={{ paddingTop: '1.75rem', paddingBottom: '3rem' }}>
+        {/* Search + Filter bar */}
+        <div className="d-flex align-items-center gap-3 flex-wrap mb-4">
+          {/* Search */}
+          <form onSubmit={handleSearch} style={{ flex: '1 1 300px', position: 'relative', maxWidth: 520 }}>
+            <i className="bi bi-search" style={{
+              position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)',
+              color: 'var(--fk-text-muted)', fontSize: '0.9rem',
+            }} />
+            <Form.Control
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search projects, categories..."
+              style={{
+                borderRadius: 'var(--radius-pill)',
+                paddingLeft: 38,
+                paddingRight: 12,
+                fontSize: '0.875rem',
+                border: '1.5px solid var(--fk-border)',
+              }}
+            />
+          </form>
+
+          {/* Stage dropdown */}
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="outline-secondary"
+              size="sm"
+              style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600, fontSize: '0.85rem' }}
+            >
+              All Stages
+            </Dropdown.Toggle>
+            <Dropdown.Menu style={{ borderRadius: 'var(--radius-md)', fontSize: '0.875rem' }}>
+              <Dropdown.Item>All Stages</Dropdown.Item>
+              <Dropdown.Item>Idea</Dropdown.Item>
+              <Dropdown.Item>Prototype</Dropdown.Item>
+              <Dropdown.Item>Launched</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+
+          {/* Sort / Filters */}
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="outline-secondary"
+              size="sm"
+              style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600, fontSize: '0.85rem' }}
+            >
+              <i className="bi bi-funnel me-1" />Filters
+            </Dropdown.Toggle>
+            <Dropdown.Menu style={{ borderRadius: 'var(--radius-md)', fontSize: '0.875rem' }}>
+              <Dropdown.Item onClick={() => setSort('newest')}>Newest First</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSort('most_interest')}>Most Interest</Dropdown.Item>
+              <Dropdown.Item onClick={() => setSort('most_viewed')}>Most Viewed</Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={() => { setSearch(''); setCategory('All'); setSort('newest'); setPage(1); fetchIdeas({ status: 'approved', page: 1, limit: 9 }); setSearchParams({}) }}>
+                <i className="bi bi-x-circle me-1 text-danger" />Clear Filters
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
 
-        {/* Filters Row */}
-        <div
-          className="p-4 mb-5 rounded-fk shadow-fk-sm"
-          style={{ background: 'var(--fk-surface)', border: '1px solid var(--fk-border)' }}
-        >
-          <Row className="g-3 align-items-end">
-            {/* Search */}
-            <Col md={5}>
-              <Form onSubmit={handleSearch}>
-                <Form.Label style={{ fontSize: '0.8rem', fontWeight: 600 }}>Search</Form.Label>
-                <div className="input-group">
-                  <Form.Control
-                    placeholder="Search by title or keyword…"
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    style={{ borderRadius: 'var(--radius-sm) 0 0 var(--radius-sm)' }}
-                  />
-                  <Button type="submit" variant="primary">
-                    <i className="bi bi-search" />
-                  </Button>
-                </div>
-              </Form>
-            </Col>
-
-            {/* Sort */}
-            <Col md={3}>
-              <Form.Label style={{ fontSize: '0.8rem', fontWeight: 600 }}>Sort By</Form.Label>
-              <Form.Select
-                value={sort}
-                onChange={e => { setSort(e.target.value); setPage(1) }}
-                style={{ borderRadius: 'var(--radius-sm)' }}
-              >
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="most_interest">Most Interest</option>
-                <option value="most_viewed">Most Viewed</option>
-              </Form.Select>
-            </Col>
-
-            {/* Reset */}
-            <Col md={2}>
-              <Button
-                variant="outline-secondary"
-                className="w-100"
-                style={{ borderRadius: 'var(--radius-sm)' }}
-                onClick={() => {
-                  setSearch(''); setCategory('All'); setSort('newest'); setPage(1)
-                  fetchIdeas({ status: 'approved', page: 1, limit: 9 })
-                  setSearchParams({})
-                }}
-              >
-                <i className="bi bi-x-circle me-1" /> Clear
-              </Button>
-            </Col>
-          </Row>
-
-          {/* Category Pills */}
-          <div className="d-flex flex-wrap gap-2 mt-3">
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat}
-                onClick={() => { setCategory(cat); setPage(1) }}
-                style={{
-                  padding: '5px 16px',
-                  borderRadius: 'var(--radius-pill)',
-                  border: '1.5px solid',
-                  borderColor: category === cat ? 'var(--fk-primary)' : 'var(--fk-border)',
-                  background: category === cat ? 'var(--fk-primary)' : 'transparent',
-                  color: category === cat ? '#fff' : 'var(--fk-text-secondary)',
-                  fontSize: '0.82rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s',
-                  fontFamily: 'var(--font-display)',
-                }}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+        {/* Category Tabs (pill row) — optional, hidden on mobile can be scrollable */}
+        <div className="d-flex flex-wrap gap-2 mb-4">
+          {CATEGORIES.map(cat => (
+            <button
+              key={cat}
+              onClick={() => { setCategory(cat); setPage(1) }}
+              className={`fk-cat-pill ${category === cat ? 'active' : ''}`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
 
         {/* Results */}
         {loading ? (
           <div className="text-center py-5">
-            <Spinner animation="border" style={{ color: 'var(--fk-primary)' }} />
-            <p className="mt-3" style={{ color: 'var(--fk-text-muted)' }}>Loading ideas…</p>
+            <Spinner animation="border" style={{ color: 'var(--fk-primary-btn)', width: 36, height: 36 }} />
+            <p className="mt-3" style={{ color: 'var(--fk-text-muted)', fontSize: '0.875rem' }}>Loading projects…</p>
           </div>
         ) : ideas.length > 0 ? (
           <>
-            <p style={{ fontSize: '0.875rem', color: 'var(--fk-text-muted)', marginBottom: '1.5rem' }}>
-              Showing {ideas.length} of {pagination.total} ideas
+            <p style={{ fontSize: '0.8rem', color: 'var(--fk-text-muted)', marginBottom: '1rem' }}>
+              Showing {ideas.length} of {pagination.total} projects
             </p>
-            <Row className="g-4">
+            <Row className="g-3">
               {ideas.map(idea => (
                 <Col key={idea._id} md={6} lg={4}>
                   <IdeaCard idea={idea} />
@@ -153,32 +153,34 @@ export default function Ideas() {
               ))}
             </Row>
 
-            {/* Pagination */}
             {pagination.pages > 1 && (
               <div className="d-flex justify-content-center gap-2 mt-5">
                 <Button
-                  variant="outline-primary"
+                  variant="outline-secondary"
+                  size="sm"
                   disabled={page <= 1}
                   onClick={() => setPage(p => p - 1)}
-                  style={{ borderRadius: 'var(--radius-pill)' }}
+                  style={{ borderRadius: 'var(--radius-pill)', width: 36, height: 36, padding: 0 }}
                 >
                   <i className="bi bi-chevron-left" />
                 </Button>
                 {Array.from({ length: pagination.pages }, (_, i) => i + 1).map(p => (
                   <Button
                     key={p}
+                    size="sm"
                     variant={p === page ? 'primary' : 'outline-secondary'}
                     onClick={() => setPage(p)}
-                    style={{ borderRadius: 'var(--radius-pill)', minWidth: 40 }}
+                    style={{ borderRadius: 'var(--radius-pill)', minWidth: 36, height: 36, padding: 0, fontWeight: 600 }}
                   >
                     {p}
                   </Button>
                 ))}
                 <Button
-                  variant="outline-primary"
+                  variant="outline-secondary"
+                  size="sm"
                   disabled={page >= pagination.pages}
                   onClick={() => setPage(p => p + 1)}
-                  style={{ borderRadius: 'var(--radius-pill)' }}
+                  style={{ borderRadius: 'var(--radius-pill)', width: 36, height: 36, padding: 0 }}
                 >
                   <i className="bi bi-chevron-right" />
                 </Button>
@@ -187,13 +189,13 @@ export default function Ideas() {
           </>
         ) : (
           <div className="text-center py-5">
-            <i className="bi bi-search" style={{ fontSize: '3rem', color: 'var(--fk-border)' }} />
-            <p className="mt-3 mb-0" style={{ color: 'var(--fk-text-muted)' }}>
-              No ideas found for your current filters.
+            <i className="bi bi-search" style={{ fontSize: '2.5rem', color: 'var(--fk-border)' }} />
+            <p className="mt-3 mb-0" style={{ color: 'var(--fk-text-muted)', fontSize: '0.875rem' }}>
+              No projects found. Try adjusting your filters.
             </p>
           </div>
         )}
       </Container>
-    </section>
+    </div>
   )
 }
