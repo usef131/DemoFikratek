@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Container, Row, Col, Form, Button, Alert, Spinner, Tab, Tabs } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button, Alert, Spinner, Tab, Tabs , Navbar , Nav} from 'react-bootstrap'
 import { useAuth } from '../../../Context/AuthContext'
 import { authService } from '../../../Services/authService'
 import { ideaService } from '../../../Services/ideaService'
 import IdeaCard from '../../Components/cards/IdeaCard'
+import { FiHome, FiCompass, FiGift, FiAward, FiUser, FiLogOut } from 'react-icons/fi'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Profile() {
   const { user, updateUser } = useAuth()
@@ -13,6 +15,7 @@ export default function Profile() {
   const [saveError, setSaveError] = useState('')
   const [myIdeas, setMyIdeas]     = useState([])
   const [ideasLoading, setIdeasLoading] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (user?.role === 'entrepreneur') {
@@ -42,14 +45,88 @@ export default function Profile() {
   const initials = user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'U'
 
   return (
+    <>
+     {/* ── Navbar ── */}
+
+      <Navbar bg="white" className="shadow-sm py-1 border-bottom">
+        <Container fluid className="px-5">
+          {/* Logo */}
+          <Navbar.Brand
+            href="#"
+            className="fw-bold fs-1 text-dark me-5"
+          >
+            Fikretak
+          </Navbar.Brand>
+
+          {/* Center Navigation */}
+          <Nav className="mx-auto gap-4 align-items-center">
+            <Nav.Link
+              href="/Home-two"
+              className="d-flex align-items-center gap-2 px-4 py-2 text-secondary rounded-pill"
+            >
+              <FiHome size={20} />
+              Home
+            </Nav.Link>
+
+            <Nav.Link className="d-flex align-items-center gap-2 text-secondary " style={{ cursor: "pointer" }} onClick={() => navigate("/marketplace")}>
+              <FiCompass size={20} />
+              Marketplace
+            </Nav.Link>
+
+            <Nav.Link className="d-flex align-items-center gap-2 text-secondary" style={{ cursor: "pointer" }} onClick={() => navigate("/collaborate")}>
+              <FiGift size={20} />
+              Collaborate
+            </Nav.Link>
+
+            <Nav.Link className="d-flex align-items-center gap-2 text-secondary" style={{ cursor: "pointer" }} onClick={() => navigate("/mentors")}>
+              <FiAward size={20} />
+              Mentors
+            </Nav.Link>
+
+            <Nav.Link className="d-flex align-items-center gap-2  px-4 py-2 rounded-pill bg-light text-primary fw-medium" style={{ cursor: "pointer" }} onClick={() => navigate("/Profile")}>
+              <FiUser size={20} />
+              Profile
+            </Nav.Link>
+          </Nav>
+
+          {/* Right Side */}
+          <div className="d-flex align-items-center gap-4">
+
+
+            <Link to="/Profile" style={{
+              width: 36,
+              height: 36,
+              borderRadius: '50%',   // <-- makes it a circle
+              background: 'var(--fk-primary-btn)',
+              color: '#fff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: 700,
+              fontSize: '0.875rem',
+              textDecoration: 'none',
+            }}>
+              {user?.name?.slice(0, 2).toUpperCase() || 'U'}
+            </Link>
+
+            <FiLogOut
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("/login")}
+            />
+          </div>
+
+        </Container>
+      </Navbar>
+
+
     <div style={{ background: 'var(--fk-bg)', minHeight: '100vh' }}>
-      <Container style={{ paddingTop: '2rem', paddingBottom: '3rem' }}>
+      <Container style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
         {/* ── Profile Card ── */}
         <div className="fk-card p-4 mb-4" style={{ position: 'relative' }}>
           {/* Cover strip */}
           <div style={{
             height: 80,
-            background: 'linear-gradient(135deg, var(--fk-primary) 0%, var(--fk-primary-light) 100%)',
+            
             borderRadius: 'var(--radius-md) var(--radius-md) 0 0',
             margin: '-1rem -1rem 0',
           }} />
@@ -201,5 +278,6 @@ export default function Profile() {
         </Tabs>
       </Container>
     </div>
+  </>
   )
 }

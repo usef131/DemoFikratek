@@ -44,7 +44,7 @@ export default function Register() {
     setLoading(true); setApiError('')
     try {
       const user = await register({ name: form.name, email: form.email, password: form.password, role: form.role })
-      navigate(user.role === 'entrepreneur' ? '/create-idea' : '/')
+      navigate(user.role === 'entrepreneur' ? '/create-idea' : '/Home-two')
     } catch (e) {
       setApiError(e.message)
       setStep(1)

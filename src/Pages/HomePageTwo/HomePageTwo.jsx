@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
 import {
   Container, Row, Col, Card, Button, Badge,
@@ -9,6 +8,7 @@ import { FiHome, FiCompass, FiGift, FiAward, FiUser, FiLogOut } from "react-icon
 import { BsMoon } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // ── palette ──────────────────────────────────────────────────────────────────
 const NAVY = "#0f2744";

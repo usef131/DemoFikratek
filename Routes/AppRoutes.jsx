@@ -34,26 +34,27 @@ export default function AppRoutes() {
       <Route path="/ideas" element={<Ideas />} />
       <Route path="/ideas/:id" element={<IdeaDetails />} />
 
+      {/* Any authenticated user */}
+      <Route path="/profile" element={
+        <PrivateRoute>
+          <Profile />
+        </PrivateRoute>
+      } />
 
+      {/* Entrepreneur only */}
+      <Route path="/create-idea" element={
+
+        <CreateIdea />
+
+      } />
       <Route element={<MainLayout />}>
         {/* Public */}
         <Route path="/" element={<Home />} />
 
 
 
-        {/* Entrepreneur only */}
-        <Route path="/create-idea" element={
 
-          <CreateIdea />
 
-        } />
-
-        {/* Any authenticated user */}
-        <Route path="/profile" element={
-          <PrivateRoute>
-            <Profile />
-          </PrivateRoute>
-        } />
 
         {/* Admin only */}
         <Route path="/admin" element={

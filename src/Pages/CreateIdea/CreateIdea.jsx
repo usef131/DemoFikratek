@@ -64,8 +64,8 @@ export default function CreateIdea() {
       {/* Page header */}
       <div style={{ background: 'var(--fk-surface)', borderBottom: '1px solid var(--fk-border)', padding: '1.75rem 0 1rem' }}>
         <Container>
-          <h1 style={{ fontWeight: 800, fontSize: '1.5rem', marginBottom: '0.2rem' }}>Submit Your Idea</h1>
-          <p style={{ color: 'var(--fk-text-secondary)', fontSize: '0.875rem', margin: 0 }}>
+          <h1 style={{ fontWeight: 800, fontSize: '1.5rem', marginBottom: '0.2rem' }} className='text-center'>Submit Your Idea</h1>
+          <p style={{ color: 'var(--fk-text-secondary)', fontSize: '0.875rem', margin: 0 }} className='text-center'>
             Fill in the details below. Our team will review and approve it before it goes public.
           </p>
         </Container>
