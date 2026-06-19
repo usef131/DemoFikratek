@@ -64,12 +64,6 @@ async function seed() {
       status: 'pending',
     },
   ])
-
-  console.log('✅ Seed complete!')
-  console.log('Admin:        admin@fikretak.com / admin123')
-  console.log('Entrepreneur: youssef@example.com / password123')
-  console.log('Investor:     sara@example.com / password123')
-  process.exit(0)
 }
 
 seed().catch(err => { console.error(err); process.exit(1) })
