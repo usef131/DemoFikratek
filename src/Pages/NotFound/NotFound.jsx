@@ -13,7 +13,7 @@ export default function NotFound() {
           The page you're looking for doesn't exist.
         </p>
         <Link
-          to="/"
+          to="/Home-Two"
           className="btn btn-primary"
           style={{ borderRadius: 'var(--radius-pill)', padding: '0.65rem 2rem', fontWeight: 700 }}
         >

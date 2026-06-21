@@ -12,7 +12,7 @@ export default function Register() {
   const { register } = useAuth()
   const navigate = useNavigate()
 
-  const [step, setStep] = useState(1)  // 1=account details, 2=role select
+  const [step, setStep] = useState(1)  
   const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '', role: '' })
   const [errors, setErrors] = useState({})
   const [apiError, setApiError] = useState('')
@@ -40,7 +40,7 @@ export default function Register() {
     setLoading(true); setApiError('')
     try {
       const user = await register({ name: form.name, email: form.email, password: form.password, role: form.role })
-      navigate(user.role === 'entrepreneur' ? '/create-idea' : '/Home-two')
+      navigate('/Home-two')
     } catch (e) {
       setApiError(e.message)
       setStep(1)
