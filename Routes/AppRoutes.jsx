@@ -58,9 +58,8 @@ export default function AppRoutes() {
 
         {/* Admin only */}
         <Route path="/admin" element={
-          <PrivateRoute roles={['admin']}>
+          
             <AdminPanel />
-          </PrivateRoute>
         } />
 
         <Route path="*" element={<NotFound />} />

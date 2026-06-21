@@ -112,46 +112,9 @@ export default function Login() {
             </Button>
           </Form>
 
-          {/* Divider */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '1.25rem 0' }}>
-            <hr style={{ flex: 1, margin: 0, borderColor: 'var(--fk-border)' }} />
-            <span style={{ fontSize: '0.78rem', color: 'var(--fk-text-muted)', whiteSpace: 'nowrap' }}>Or continue with</span>
-            <hr style={{ flex: 1, margin: 0, borderColor: 'var(--fk-border)' }} />
-          </div>
+       
 
-          {/* Social buttons */}
-          {[
-            { icon: 'bi-google', label: 'Continue with Google',  color: '#4285F4'},
-            { icon: 'bi-linkedin', label: 'Continue with LinkedIn', color: '#0a66c2' },
-            { icon: 'bi-facebook', label: 'Continue with Facebook', color: '#1877f2' },
-          ].map(s => (
-            <button
-              key={s.label}
-              type="button"
-              style={{
-                width: '100%',
-                padding: '0.6rem 1rem',
-                border: '1.5px solid var(--fk-border)',
-                borderRadius: 'var(--radius-pill)',
-                background: '#fff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 8,
-                fontSize: '0.875rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                marginBottom: '0.6rem',
-                color: 'var(--fk-text-primary)',
-                transition: 'border-color 0.15s, box-shadow 0.15s',
-              }}
-              onMouseEnter={e => e.currentTarget.style.borderColor = s.color}
-              onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--fk-border)'}
-            >
-              <i className={`bi ${s.icon}`} style={{ color: s.color, fontSize: '1rem' }} />
-              {s.label}
-            </button>
-          ))}
+          
         </div>
 
         <p className="text-center mt-4" style={{ fontSize: '0.875rem', color: 'var(--fk-text-secondary)' }}>
