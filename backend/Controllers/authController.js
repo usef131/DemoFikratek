@@ -14,12 +14,8 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: "Email already registered" });
 
     const allowedRoles = [
-      "innovator",
       "entrepreneur",
-      "developer",
       "investor",
-      "expert",
-      "other",
     ];
 
     if (!allowedRoles.includes(role))

@@ -68,6 +68,7 @@ exports.createIdea = async (req, res) => {
     const idea = await Idea.create({
       title, summary, description, category, targetMarket, fundingGoal,
       entrepreneur: req.user._id,
+      status: 'approved', // ⬅ auto-approve on creation, no admin review needed
     })
     await idea.populate('entrepreneur', 'name')
     res.status(201).json({ idea })
@@ -86,8 +87,7 @@ exports.updateIdea = async (req, res) => {
 
     const allowed = ['title', 'summary', 'description', 'category', 'targetMarket', 'fundingGoal']
     allowed.forEach(f => { if (req.body[f] !== undefined) idea[f] = req.body[f] })
-    // Reset to pending on edit
-    idea.status = 'pending'
+    // ⬅ no longer resets to 'pending' — edits stay approved/live immediately
     await idea.save()
     res.json({ idea })
   } catch (err) {
@@ -100,7 +100,7 @@ exports.deleteIdea = async (req, res) => {
   try {
     const idea = await Idea.findById(req.params.id)
     if (!idea) return res.status(404).json({ message: 'Idea not found' })
-    if (idea.entrepreneur.toString() !== req.user._id.toString() && req.user.role !== 'admin')
+    if (idea.entrepreneur.toString() !== req.user._id.toString())
       return res.status(403).json({ message: 'Not authorized' })
     await idea.deleteOne()
     res.json({ message: 'Idea deleted' })

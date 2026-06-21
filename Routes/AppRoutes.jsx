@@ -10,7 +10,6 @@ import CreateIdea from '../src/Pages/CreateIdea/CreateIdea'
 import Profile from '../src/Pages/Profile/Profile'
 import Login from '../src/Pages/Auth/Login'
 import Register from '../src/Pages/Auth/Register'
-import AdminPanel from '../src/Pages/Admin/AdminPanel'
 import NotFound from '../src/Pages/NotFound/NotFound'
 import HomePageTwo from '../src/Pages/HomePageTwo/HomePageTwo'
 
@@ -50,17 +49,6 @@ export default function AppRoutes() {
       <Route element={<MainLayout />}>
         {/* Public */}
         <Route path="/" element={<Home />} />
-
-
-
-
-
-
-        {/* Admin only */}
-        <Route path="/admin" element={
-          
-            <AdminPanel />
-        } />
 
         <Route path="*" element={<NotFound />} />
       </Route>

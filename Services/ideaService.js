@@ -27,15 +27,5 @@ export const ideaService = {
 
   // My ideas (entrepreneur)
   getMyIdeas: () =>
-    api.get('/ideas/my'),
-
-  // Admin
-  getAllIdeas: (params) =>
-    api.get('/admin/ideas', { params }),
-
-  approveIdea: (id) =>
-    api.put(`/admin/ideas/${id}/approve`),
-
-  rejectIdea: (id, reason) =>
-    api.put(`/admin/ideas/${id}/reject`, { reason }),
+    api.get('/ideas/my')
 }

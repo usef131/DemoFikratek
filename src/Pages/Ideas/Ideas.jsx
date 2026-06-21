@@ -3,21 +3,22 @@ import { useSearchParams, Link } from 'react-router-dom'
 import { Container, Row, Col, Form, Button, Spinner, Dropdown } from 'react-bootstrap'
 import { useIdeas } from '../../../Context/IdeaContext'
 import IdeaCard from '../../Components/cards/IdeaCard'
-
+import { FaArrowLeft } from "react-icons/fa";
+import { FiHome } from 'react-icons/fi'
 const CATEGORIES = ['All', 'Tech', 'Health', 'Education', 'Finance', 'Environment', 'Social']
 
 export default function Ideas() {
   const { ideas, loading, pagination, fetchIdeas } = useIdeas()
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const [search,   setSearch]   = useState(searchParams.get('search') || '')
+  const [search, setSearch] = useState(searchParams.get('search') || '')
   const [category, setCategory] = useState(searchParams.get('category') || 'All')
-  const [sort,     setSort]     = useState('newest')
-  const [page,     setPage]     = useState(1)
+  const [sort, setSort] = useState('newest')
+  const [page, setPage] = useState(1)
 
   const load = useCallback((overrides = {}) => {
     const params = {
-      search:   search || undefined,
+      search: search || undefined,
       category: category !== 'All' ? category : undefined,
       sort,
       page,
@@ -26,7 +27,7 @@ export default function Ideas() {
       ...overrides,
     }
     const sp = new URLSearchParams()
-    if (params.search)   sp.set('search', params.search)
+    if (params.search) sp.set('search', params.search)
     if (params.category) sp.set('category', params.category)
     setSearchParams(sp, { replace: true })
     fetchIdeas(params)
@@ -41,22 +42,30 @@ export default function Ideas() {
   }
 
   return (
+
+
     <div style={{ minHeight: '100vh', background: 'var(--fk-bg)' }}>
       {/* Page Header */}
       <div style={{ background: 'var(--fk-surface)', borderBottom: '1px solid var(--fk-border)', padding: '1.75rem 0 1rem' }}>
-        <Container>
+        <Container className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+
+
           <div className="d-flex align-items-center justify-content-between flex-wrap gap-3">
+
+            <Link  to="/Home-Two" className="me-4" style={{ borderRadius: '40%', background: 'var(--fk-primary-btn)', width: 40, height:39, color: '#fff' }}>
+              <FaArrowLeft   size={20}  className="text-white mt-2 ms-2"/>
+            </Link>
             <div>
               <h1 style={{ fontWeight: 800, fontSize: '1.5rem', marginBottom: '0.2rem' }}>Project Marketplace</h1>
               <p style={{ color: 'var(--fk-text-secondary)', fontSize: '0.875rem', margin: 0 }}>
                 Discover innovative startups seeking funding and collaboration
               </p>
             </div>
-            <Link to="/create-idea" className="btn btn-primary"
+          </div>
+          <Link to="/create-idea" className="btn btn-primary"
               style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600, padding: '8px 20px' }}>
               <i className="bi bi-plus me-1" />Add Project
             </Link>
-          </div>
         </Container>
       </div>
 
