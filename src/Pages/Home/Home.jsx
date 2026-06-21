@@ -35,8 +35,7 @@ const FEATURES = [
 ]
 
 const ROLES = [
-  { icon: 'bi-lightbulb-fill', title: 'Innovator', sub: 'Share your groundbreaking ideas' },
-  { icon: 'bi-code-slash',     title: 'Developer', sub: 'Build and bring ideas to life' },
+  { icon: 'bi-lightbulb-fill', title: 'Entrepreneur', sub: 'Share your groundbreaking ideas' },
   { icon: 'bi-graph-up',       title: 'Investor',  sub: 'Fund promising opportunities' },
 ]
 

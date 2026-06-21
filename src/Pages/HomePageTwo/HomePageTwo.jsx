@@ -9,6 +9,7 @@ import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import SecondNavbar from "../../Components/Common/SecondNavbar";
+import Footer from "../../Components/Common/Footer";
 
 // ── palette ──────────────────────────────────────────────────────────────────
 const NAVY = "#0f2744";
@@ -135,7 +136,7 @@ export default function HomePageTwo() {
                   💡 Add Project
                 </Button>
                 <Button variant="outline-secondary" onClick={() => navigate("/ideas")}>Browse Projects</Button>
-                <Button variant="outline-secondary" onClick={() => navigate("/mentors")}>Find Mentors</Button>
+                <Button variant="outline-secondary" onClick={() => navigate("/mentors")}>Find Investors</Button>
                 <Button variant="outline-secondary" onClick={() => navigate("/collaborate")}>Join Teams</Button>
               </div>
             </Col>
@@ -365,6 +366,9 @@ export default function HomePageTwo() {
         .fikretak-bar .progress-bar { background-color: ${NAVY} !important; }
       `}</style>
 
+        <Footer />
+
     </div>
+
   );
 }
