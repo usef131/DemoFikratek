@@ -11,7 +11,7 @@ import Profile from '../src/Pages/Profile/Profile'
 import Login from '../src/Pages/Auth/Login'
 import Register from '../src/Pages/Auth/Register'
 import AdminPanel from '../src/Pages/Admin/AdminPanel'
-import NotFound from '../src/Pages/NotFound'
+import NotFound from '../src/Pages/NotFound/NotFound'
 import HomePageTwo from '../src/Pages/HomePageTwo/HomePageTwo'
 
 function PrivateRoute({ children, roles }) {
