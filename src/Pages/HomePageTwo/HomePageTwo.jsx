@@ -235,8 +235,6 @@ export default function HomePageTwo() {
         </Row>
       </Container>
 
-    
-
       {/* ── CTA Banner ── */}
       <div style={{ background: NAVY, padding: "56px 24px", textAlign: "center" }}>
         <h2 className="fw-bold text-white mb-2">Ready to Build the Future?</h2>
