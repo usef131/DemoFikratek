@@ -61,17 +61,12 @@ function SecondNavbar() {
 
                             <NavLink to="/marketplace" style={navStyle}>
                                 <FiCompass size={18} />
-                                Marketplace
+                                Browse Projects
                             </NavLink>
 
                             <NavLink to="/collaborate" style={navStyle}>
                                 <FiGift size={18} />
-                                Collaborate
-                            </NavLink>
-
-                            <NavLink to="/mentors" style={navStyle}>
-                                <FiAward size={18} />
-                                Mentors
+                                Investors
                             </NavLink>
                             
                             <NavLink to="/profile" style={navStyle}>
