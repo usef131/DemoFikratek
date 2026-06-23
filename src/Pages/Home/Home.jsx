@@ -302,8 +302,8 @@ export default function Home() {
 
       {/* ── FOOTER ── */}
       <footer style={{
-        background: '#0f1117',
-        borderTop: '1px solid rgba(255,255,255,0.07)',
+         background: '#0f1117',
+         borderTop: '1px solid rgba(255,255,255,0.07)',
         padding: '3rem 1.5rem 2rem',
       }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
