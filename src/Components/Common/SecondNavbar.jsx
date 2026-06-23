@@ -63,8 +63,9 @@ function SecondNavbar() {
                                 <FiCompass size={18} />
                                 Browse Projects
                             </NavLink>
+                            
 
-                            <NavLink to="/collaborate" style={navStyle}>
+                            <NavLink to="/Investor" style={navStyle}>
                                 <FiGift size={18} />
                                 Investors
                             </NavLink>
@@ -73,6 +74,7 @@ function SecondNavbar() {
                                 <FiUser size={18} />
                                 Profile
                             </NavLink>
+
                         </Nav>
 
                         {/* Right Side */}
@@ -93,7 +95,6 @@ function SecondNavbar() {
                                     fontWeight: "700",
                                     fontSize: "14px",
                                     textDecoration: "none",
-                                    boxShadow: "0 4px 12px rgba(13,110,253,0.25)",
                                     transition: "0.3s",
                                 }}
                             >
