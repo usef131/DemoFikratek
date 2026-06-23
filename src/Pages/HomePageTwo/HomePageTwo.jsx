@@ -105,44 +105,111 @@ export default function HomePageTwo() {
       <SecondNavbar />
 
       {/* ── Hero ── */}
-      <div style={{ background: "#fff", paddingTop: 56, paddingBottom: 40 }}>
-        <Container>
-          <Row className="justify-content-center text-center">
-            <Col lg={8}>
-              <h1 className="fw-bold mb-2" style={{ fontSize: "clamp(26px,4vw,40px)" }}>
-                Welcome to Fikretak
-              </h1>
-              <p className="text-muted mb-4">
-                Connect with innovators, find funding, get expert mentorship, and build your dream team
-              </p>
+      {/* ── Hero ── */}
+<div
+  style={{
+    background: "#fff",
+    paddingTop: "90px",
+    paddingBottom: "120px",
+  }}
+>
+  <Container>
+    <Row className="justify-content-center text-center">
+      <Col lg={10}>
+      
+        {/* Heading */}
+        <h1
+          style={{
+            fontSize: "clamp(56px,7vw,78px)",
+            fontWeight: 800,
+            lineHeight: "1.05",
+            letterSpacing: "-2px",
+            marginBottom: "28px",
+            color: "#111827",
+          }}
+        >
+          Welcome to{" "}
+          <span
+            style={{
+              color: "#0A3D91",
+            }}
+          >
+            Fikretak
+          </span>
+        </h1>
 
-              <InputGroup className="mb-4 mx-auto" style={{ maxWidth: 560 }}>
-                <InputGroup.Text style={{ background: "#fff", border: "1px solid #D1D5DB", borderRight: "none" }}>
-                  🔍
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder="Search projects, investors, mentors, industries..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  style={{ border: "1px solid #D1D5DB", borderLeft: "none", boxShadow: "none" }}
-                />
-              </InputGroup>
+        {/* Description */}
+        <p
+          style={{
+            maxWidth: "720px",
+            margin: "0 auto",
+            color: "#6B7280",
+            fontSize: "18px",
+            lineHeight: "1.8",
+          }}
+        >
+          The professional ecosystem where innovators find funding,
+          mentorship, and the teams they need to scale. Connect with the
+          right people to turn your vision into reality.
+        </p>
 
-              <div className="d-flex gap-2 flex-wrap justify-content-center">
-                <Button
-                  style={{ background: NAVY, border: "none" }}
-                  onClick={() => navigate("/create-idea")}
-                >
-                  💡 Add Project
-                </Button>
-                <Button variant="outline-secondary" onClick={() => navigate("/ideas")}>Browse Projects</Button>
-                <Button variant="outline-secondary" onClick={() => navigate("/mentors")}>Find Investors</Button>
-                <Button variant="outline-secondary" onClick={() => navigate("/collaborate")}>Join Teams</Button>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+        {/* Buttons */}
+        <div
+          className="d-flex justify-content-center flex-wrap"
+          style={{
+            gap: "16px",
+            marginTop: "50px",
+          }}
+        >
+          <Button
+            onClick={() => navigate("/create-idea")}
+            style={{
+              background: "#032A6E",
+              border: "none",
+              borderRadius: "14px",
+              padding: "16px 34px",
+              fontWeight: 600,
+              minWidth: "160px",
+              boxShadow: "0 10px 25px rgba(3,42,110,.18)",
+            }}
+          >
+            ⊕ Add Project
+          </Button>
+
+          <Button
+            variant="light"
+            onClick={() => navigate("/ideas")}
+            style={{
+              border: "1px solid #E5E7EB",
+              borderRadius: "14px",
+              padding: "16px 34px",
+              minWidth: "160px",
+              background: "#fff",
+              color: "#4B5563",
+            }}
+          >
+            Browse Projects
+          </Button>
+
+          <Button
+            variant="light"
+            onClick={() => navigate("/mentors")}
+            style={{
+              border: "1px solid #E5E7EB",
+              borderRadius: "14px",
+              padding: "16px 34px",
+              minWidth: "160px",
+              background: "#fff",
+              color: "#4B5563",
+            }}
+          >
+            Find Investors
+          </Button>
+        </div>
+      </Col>
+    </Row>
+  </Container>
+</div>
 
       {/* ── Stats ── */}
       <Container className="my-4">
