@@ -75,7 +75,7 @@ export default function IdeaDetails() {
             display: 'flex', alignItems: 'center', gap: 6, marginBottom: '1.5rem',
           }}
         >
-          <i className="bi bi-arrow-left" /> Back to Marketplace
+          <i className="bi bi-arrow-left" /> Back to Projects 
         </button>
 
         <Row className="g-4">
@@ -158,11 +158,11 @@ export default function IdeaDetails() {
               </h6>
               <div className="d-flex align-items-center gap-3">
                 <div className="fk-avatar" style={{ width: 48, height: 48, fontSize: '1rem' }}>
-                  {idea.entrepreneur?.name?.[0] || '?'}
+                  {user.name?.[0] || '?'}
                 </div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>
-                    {idea.entrepreneur?.name || 'Anonymous'}
+                    {user.name || 'Anonymous'}
                   </div>
                   <div style={{ fontSize: '0.78rem', color: 'var(--fk-text-muted)' }}>Entrepreneur</div>
                 </div>
@@ -207,7 +207,7 @@ export default function IdeaDetails() {
                 {actionLoading ? <Spinner size="sm" /> : (
                   interested
                     ? <><i className="bi bi-heart-fill me-2" />Remove Interest</>
-                    : <><i className="bi bi-heart me-2" />Express Interest</>
+                    : <><i className="bi bi-heart me-2" /> Interest</>
                 )}
               </Button>
             )}

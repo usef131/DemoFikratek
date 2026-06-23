@@ -59,7 +59,7 @@ function SecondNavbar() {
                                 Home
                             </NavLink>
 
-                            <NavLink to="/marketplace" style={navStyle}>
+                            <NavLink to="/browse-projects" style={navStyle}>
                                 <FiCompass size={18} />
                                 Browse Projects
                             </NavLink>
