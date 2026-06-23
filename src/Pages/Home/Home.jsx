@@ -504,51 +504,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer style={{
-        background: '#0f1117',
-        borderTop: '1px solid rgba(255,255,255,0.07)',
-        padding: '3rem 1.5rem 2rem',
-      }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '2rem', marginBottom: '2.5rem' }}>
-            {/* Brand */}
-            <div>
-              <div style={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.75rem' }}>
-                Fikretak
-              </div>
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.82rem', lineHeight: 1.7, margin: 0 }}>
-                Where ideas meet action. Building the future of collaboration.
-              </p>
-            </div>
-
-            {/* Link columns */}
-            {Object.entries(FOOTER_LINKS).map(([col, links]) => (
-              <div key={col}>
-                <div style={{ color: '#fff', fontWeight: 600, fontSize: '0.875rem', marginBottom: '1rem' }}>
-                  {col}
-                </div>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                  {links.map(l => (
-                    <li key={l}>
-                      <a href="#" style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.82rem', textDecoration: 'none' }}>
-                        {l}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.5rem', textAlign: 'center' }}>
-            <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.8rem', margin: 0 }}>
-              © 2026 Fikretak. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
-
     </div>
   )
 }
