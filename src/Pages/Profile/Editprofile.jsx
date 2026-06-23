@@ -4,6 +4,7 @@ import { useAuth } from '../../../Context/AuthContext'
 import { authService } from '../../../Services/authService'
 import { FiHome, FiCompass, FiGift, FiAward, FiUser, FiLogOut, FiArrowLeft } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
+import SecondNavbar from '../../Components/Common/SecondNavbar'
 
 export default function EditProfile() {
   const { user, updateUser } = useAuth()
@@ -34,44 +35,7 @@ export default function EditProfile() {
   return (
     <>
       {/* ── Navbar ── */}
-      <Navbar bg="white" className="shadow-sm py-1 border-bottom">
-        <Container fluid className="px-5">
-          <Navbar.Brand href="#" className="fw-bold fs-1 text-dark me-5">
-            Fikretak
-          </Navbar.Brand>
-
-          <Nav className="mx-auto gap-4 align-items-center">
-            <Nav.Link href="/Home-two" className="d-flex align-items-center gap-2 px-4 py-2 text-secondary rounded-pill">
-              <FiHome size={20} /> Home
-            </Nav.Link>
-            <Nav.Link className="d-flex align-items-center gap-2 text-secondary" style={{ cursor: 'pointer' }} onClick={() => navigate('/marketplace')}>
-              <FiCompass size={20} /> Marketplace
-            </Nav.Link>
-            <Nav.Link className="d-flex align-items-center gap-2 text-secondary" style={{ cursor: 'pointer' }} onClick={() => navigate('/collaborate')}>
-              <FiGift size={20} /> Collaborate
-            </Nav.Link>
-            <Nav.Link className="d-flex align-items-center gap-2 text-secondary" style={{ cursor: 'pointer' }} onClick={() => navigate('/mentors')}>
-              <FiAward size={20} /> Mentors
-            </Nav.Link>
-            <Nav.Link className="d-flex align-items-center gap-2 px-4 py-2 rounded-pill bg-light text-primary fw-medium" style={{ cursor: 'pointer' }} onClick={() => navigate('/Profile')}>
-              <FiUser size={20} /> Profile
-            </Nav.Link>
-          </Nav>
-
-          <div className="d-flex align-items-center gap-4">
-            <Link to="/Profile" style={{
-              width: 36, height: 36, borderRadius: '50%',
-              background: 'var(--fk-primary-btn)', color: '#fff',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 700, fontSize: '0.875rem', textDecoration: 'none',
-            }}>
-              {user?.name?.slice(0, 2).toUpperCase() || 'U'}
-            </Link>
-            <FiLogOut style={{ cursor: 'pointer' }} onClick={() => navigate('/login')} />
-          </div>
-        </Container>
-      </Navbar>
-
+      <SecondNavbar/>
       {/* ── Page Body ── */}
       <div style={{ background: 'var(--fk-bg)', minHeight: '100vh' }}>
         <Container style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
@@ -94,7 +58,7 @@ export default function EditProfile() {
           </h2>
 
           <Row>
-            <Col md={8}>
+            <Col md={10}>
               {saved     && <Alert variant="success" style={{ fontSize: '0.875rem', borderRadius: 'var(--radius-sm)' }}>Profile updated! Redirecting…</Alert>}
               {saveError && <Alert variant="danger"  style={{ fontSize: '0.875rem', borderRadius: 'var(--radius-sm)' }}>{saveError}</Alert>}
 
