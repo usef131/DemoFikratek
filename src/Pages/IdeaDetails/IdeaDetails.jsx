@@ -20,8 +20,12 @@ export default function IdeaDetails() {
     ideaService.getIdeaById(id)
       .then(data => {
         setIdea(data.idea)
-        if (user) setInterested(data.idea.interestedInvestors?.includes(user._id))
-      })
+        if (user) setInterested(
+  data.idea.interestedInvestors?.some(
+    inv => (inv._id || inv).toString() === user._id.toString()
+  )
+)
+})
       .catch(() => setError('Idea not found or unavailable.'))
       .finally(() => setLoading(false))
   }, [id, user])
@@ -211,7 +215,35 @@ export default function IdeaDetails() {
                 )}
               </Button>
             )}
-
+            <Button
+              onClick={handleInterest}
+              disabled={actionLoading}
+              size="lg"
+              style={{
+                width: '100%',
+                borderRadius: 'var(--radius-pill)',
+                fontWeight: 700,
+                marginBottom: '0.75rem',
+                fontSize: '0.95rem',
+                // styles change based on interested state
+                background: interested ? '#dc3545' : 'var(--fk-primary-btn)',
+                border: 'none',
+                color: '#fff',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={e => {
+                if (interested) e.currentTarget.style.background = '#b02a37'
+              }}
+              onMouseLeave={e => {
+                if (interested) e.currentTarget.style.background = '#dc3545'
+              }}
+            >
+              {actionLoading ? <Spinner size="sm" /> : (
+                interested
+                  ? <><i className="bi bi-heart-fill me-2" />Remove Interest</>
+                  : <><i className="bi bi-heart me-2" />Express Interest</>
+              )}
+            </Button>
             {!user && (
               <Button
                 href="/login"

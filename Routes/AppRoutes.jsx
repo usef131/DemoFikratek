@@ -13,6 +13,8 @@ import Register from '../src/Pages/Auth/Register'
 import NotFound from '../src/Pages/NotFound/NotFound'
 import HomePageTwo from '../src/Pages/HomePageTwo/HomePageTwo'
 import BrowseProjects from '../src/Pages/BrowseProjects/BrowseProjects'
+import EditProfile from '../src/Pages/Profile/Editprofile'
+
 
 function PrivateRoute({ children, roles }) {
   const { user, loading } = useAuth()
@@ -29,8 +31,8 @@ export default function AppRoutes() {
       <Route path="/register" element={<Register />} />
 
       <Route path="/browse-projects" element={<BrowseProjects />} />
-      <Route path="/browse-projects/:id" element={<IdeaDetails />} />
-
+      <Route path="/browse-projects/:id" element={<IdeaDetails />} />      
+      <Route path="/edit-profile" element={<EditProfile />} />
       
       <Route path="/home-two" element={<HomePageTwo />} />
 
