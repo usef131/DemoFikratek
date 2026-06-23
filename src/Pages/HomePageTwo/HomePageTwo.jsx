@@ -9,6 +9,7 @@ import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import SecondNavbar from "../../Components/Common/SecondNavbar";
+import Footer from "../../Components/Common/Footer";
 
 // ── palette ──────────────────────────────────────────────────────────────────
 const NAVY = "#0f2744";
@@ -135,7 +136,7 @@ export default function HomePageTwo() {
                   💡 Add Project
                 </Button>
                 <Button variant="outline-secondary" onClick={() => navigate("/ideas")}>Browse Projects</Button>
-                <Button variant="outline-secondary" onClick={() => navigate("/mentors")}>Find Mentors</Button>
+                <Button variant="outline-secondary" onClick={() => navigate("/mentors")}>Find Investors</Button>
                 <Button variant="outline-secondary" onClick={() => navigate("/collaborate")}>Join Teams</Button>
               </div>
             </Col>
@@ -173,7 +174,7 @@ export default function HomePageTwo() {
       </Container>
 
       {/* ── Featured Startups ── */}
-      <Container className="mb-5">
+      <Container className="mb-5 mt-5">
         <div className="d-flex justify-content-between align-items-start mb-3">
           <div>
             <h4 className="fw-bold mb-0">Featured Startups</h4>
@@ -234,110 +235,6 @@ export default function HomePageTwo() {
         </Row>
       </Container>
 
-      {/* ── Expert Mentors ── */}
-      <Container className="mb-5">
-        <div className="d-flex justify-content-between align-items-start mb-3">
-          <div>
-            <h4 className="fw-bold mb-0">Expert Mentors</h4>
-            <p className="text-muted mb-0" style={{ fontSize: 14 }}>Get guidance from experienced entrepreneurs</p>
-          </div>
-          <Button variant="link" style={{ color: NAVY, fontWeight: 600 }} onClick={() => navigate("/mentors")}>
-            View All →
-          </Button>
-        </div>
-
-        <Row className="g-3">
-          {MENTORS.map((m) => (
-            <Col key={m.id} md={6}>
-              <Card className="border-0 shadow-sm h-100">
-                <Card.Body>
-                  <div className="d-flex gap-3 align-items-center mb-2">
-                    <Avatar initials={m.initials} />
-                    <div>
-                      <p className="fw-bold mb-0" style={{ fontSize: 15 }}>{m.name}</p>
-                      <small className="text-muted">🎓 {m.sessions} sessions &nbsp; ★ {m.rating}</small>
-                    </div>
-                  </div>
-
-                  <p className="text-secondary mb-2" style={{ fontSize: 13 }}>{m.bio}</p>
-
-                  <div className="d-flex flex-wrap gap-2 mb-3">
-                    {m.tags.map((t) => (
-                      <Badge key={t} bg="primary" style={{ background: "#EFF6FF", color: "#1D4ED8", fontWeight: 500, fontSize: 12 }}>
-                        {t}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <div className="d-flex gap-2">
-                    <Button style={{ background: NAVY, border: "none", flex: 1 }} size="sm">
-                      📅 Book Session
-                    </Button>
-                    <Button variant="outline-secondary" size="sm">💬</Button>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </Container>
-
-      {/* ── Trending Opportunities ── */}
-      <Container className="mb-5">
-        <div className="d-flex justify-content-between align-items-start mb-3">
-          <div>
-            <h4 className="fw-bold mb-0">Trending Opportunities</h4>
-            <p className="text-muted mb-0" style={{ fontSize: 14 }}>Join innovative teams and build something amazing</p>
-          </div>
-          <Button variant="link" style={{ color: NAVY, fontWeight: 600 }} onClick={() => navigate("/collaborate")}>
-            View All →
-          </Button>
-        </div>
-
-        <Row className="g-3">
-          {/* Opportunity card */}
-          <Col md={6}>
-            <Card className="border-0 shadow-sm h-100" style={{ borderLeft: `4px solid ${NAVY}` }}>
-              <Card.Body>
-                <div className="d-flex gap-3 align-items-center mb-2">
-                  <Avatar initials="👥" bg={NAVY} />
-                  <div>
-                    <p className="fw-bold mb-0" style={{ fontSize: 15 }}>Technical Co-Founder</p>
-                    <small className="text-muted">CryptoWallet Pro</small>
-                  </div>
-                </div>
-                <p className="text-secondary mb-3" style={{ fontSize: 13 }}>
-                  Seeking a technical co-founder with blockchain expertise to build next-gen crypto wallet.
-                </p>
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <small className="text-muted">⏱ Full-time &nbsp; ↑ 25-35% equity</small>
-                  <small className="text-muted">3 days ago</small>
-                </div>
-                <Button className="w-100" style={{ background: NAVY, border: "none" }} size="sm">
-                  Apply Now
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-
-          {/* Post Your Opening */}
-          <Col md={6}>
-            <Card className="border-0 shadow-sm h-100 text-center" style={{ background: "#F3F4F6" }}>
-              <Card.Body className="d-flex flex-column justify-content-center align-items-center gap-2 py-4">
-                <span style={{ fontSize: 44 }}>🏅</span>
-                <h6 className="fw-bold mb-1">Post Your Opening</h6>
-                <p className="text-muted mb-3" style={{ fontSize: 13 }}>
-                  Looking for talented team members? Post your opportunity here.
-                </p>
-                <Button style={{ background: NAVY, border: "none" }} onClick={() => navigate("/collaborate")}>
-                  Get Started
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-
       {/* ── CTA Banner ── */}
       <div style={{ background: NAVY, padding: "56px 24px", textAlign: "center" }}>
         <h2 className="fw-bold text-white mb-2">Ready to Build the Future?</h2>
@@ -365,6 +262,9 @@ export default function HomePageTwo() {
         .fikretak-bar .progress-bar { background-color: ${NAVY} !important; }
       `}</style>
 
+        <Footer />
+
     </div>
+
   );
 }

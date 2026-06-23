@@ -190,15 +190,18 @@ export default function CreateIdea() {
                   >
                     {loading ? <><Spinner size="sm" className="me-2" />Submitting…</> : 'Submit Idea'}
                   </Button>
+                  
+                  
                   <Button
                     variant="outline-secondary"
                     size="lg"
-                    onClick={() => navigate(-1)}
+                    onClick={() => navigate('/home-two')}
                     disabled={loading}
                     style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600 }}
                   >
-                    Cancel
+                    Skip for now
                   </Button>
+
                 </div>
               </Form>
             </div>

@@ -12,7 +12,7 @@ router.get('/:id', ctrl.getIdeaById)
 // Entrepreneur only
 router.post('/',   protect, authorize('entrepreneur'), ctrl.createIdea)
 router.put('/:id', protect, authorize('entrepreneur'), ctrl.updateIdea)
-router.delete('/:id', protect, ctrl.deleteIdea) // owner or admin
+
 
 // Investor only
 router.post('/:id/interest',   protect, authorize('investor'), ctrl.expressInterest)
