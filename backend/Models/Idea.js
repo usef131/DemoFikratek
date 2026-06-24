@@ -30,6 +30,7 @@ const ideaSchema = new mongoose.Schema(
     co2Saved: { type: String, default: '1.2k t' },
     roadmap: { type: Array, default: [] },
 
+    teamMembers: { type: Number, default: 1 },
     entrepreneur: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
