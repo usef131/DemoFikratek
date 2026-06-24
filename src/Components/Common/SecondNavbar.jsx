@@ -1,129 +1,85 @@
-import { FiHome, FiCompass, FiGift, FiAward, FiUser, FiLogOut } from "react-icons/fi";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import {FiHome, FiCompass, FiGift, FiUser, FiLogOut } from "react-icons/fi";
+
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
-import Button from "react-bootstrap/Button";
+import logo from "../../../src/assets/images/logo1.png";
+import "../../../src/styles/navbar.css";
 
-
-const navStyle = ({ isActive }) => ({
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    padding: "10px 18px",
-    borderRadius: "999px",
-    color: isActive ? "#0d6efd" : "#6c757d",
-    border: isActive ? "2px solid #0d6efd" : "2px solid transparent",
-    backgroundColor: isActive
-      ? "rgba(13,110,253,0.08)"
-      : "transparent",
-    fontWeight: isActive ? "600" : "500",
-    textDecoration: "none",
-    transition: "all 0.25s ease",
-    "&:hover": {
-      backgroundColor: isActive ? "rgba(13,110,253,0.08)" : "rgba(0,0,0,0.04)",
-    },
-  });
 
 function SecondNavbar() {
-    const navigate = useNavigate();
-    const { user } = useAuth()
-    return (
-        <>
-            <Navbar
-                bg="white"
-                expand="lg"
-                className="shadow-sm border-bottom py-2 sticky-top"
-            >
-                <Container fluid="lg">
-                    {/* Logo */}
-                    <Navbar.Brand
-                        onClick={() => navigate("/")}
-                        className="fw-bold fs-2"
-                        style={{
-                            cursor: "pointer",
-                            color: "#212529",
-                            letterSpacing: "-1px",
-                        }}
-                    >
-                        Fikretak
-                    </Navbar.Brand>
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
-                    {/* Mobile Toggle */}
-                    <Navbar.Toggle aria-controls="main-navbar" />
+  return (
+    <Navbar
+      bg="white"
+      expand="lg"
+      className="shadow-sm border-bottom py-2 sticky-top"
+    >
+      <Container fluid="lg">
 
-                    <Navbar.Collapse id="main-navbar">
-                        {/* Navigation */}
-                        <Nav className="mx-auto gap-lg-2 align-items-lg-center my-3 my-lg-0">
-                            <NavLink to="/Home-Two" style={navStyle}>
-                                <FiHome size={18} />
-                                Home
-                            </NavLink>
+        {/* LOGO */}
+        <Navbar.Brand
+  onClick={() => navigate("/home-two")}
+  className="navbar-brand-custom"
+>
+  <img
+    src={logo}
+    alt="logo"
+    style={{ width: "36px", height: "36px" }}
+  />
+  Fikretak
+</Navbar.Brand>
 
-                            <NavLink to="/marketplace" style={navStyle}>
-                                <FiCompass size={18} />
-                                Browse Projects
-                            </NavLink>
+        <Navbar.Toggle />
 
-                            <NavLink to="/collaborate" style={navStyle}>
-                                <FiGift size={18} />
-                                Investors
-                            </NavLink>
-                            
-                            <NavLink to="/profile" style={navStyle}>
-                                <FiUser size={18} />
-                                Profile
-                            </NavLink>
-                        </Nav>
+        <Navbar.Collapse>
 
-                        {/* Right Side */}
-                        <div className="d-flex align-items-center gap-3 ms-lg-3">
-                            {/* Profile Avatar */}
-                            <Link
-                                to="/profile"
-                                style={{
-                                    width: "42px",
-                                    height: "42px",
-                                    borderRadius: "50%",
-                                    background:
-                                        "linear-gradient(135deg, #0d6efd, #4f8cff)",
-                                    color: "#fff",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    fontWeight: "700",
-                                    fontSize: "14px",
-                                    textDecoration: "none",
-                                    boxShadow: "0 4px 12px rgba(13,110,253,0.25)",
-                                    transition: "0.3s",
-                                }}
-                            >
-                                {user?.name?.slice(0, 2).toUpperCase() || "U"}
-                            </Link>
+          {/* NAV LINKS */}
+          <Nav className="mx-auto gap-1 align-items-center">
+          
+            <NavLink to="/Home-Two" className="nav-link-custom">
+              <FiHome size={17} />
+              Home
+            </NavLink>
+          
+            <NavLink to="/marketplace" className="nav-link-custom">
+              <FiCompass size={17} />
+              Projects
+            </NavLink>
+          
+            <NavLink to="/collaborate" className="nav-link-custom">
+              <FiGift size={17} />
+              Investors
+            </NavLink>
+          
+            <NavLink to="/profile" className="nav-link-custom">
+              <FiUser size={17} />
+              Profile
+            </NavLink>
+          
+          </Nav>
 
-                            {/* Logout Button */}
-                            <Button
-                                variant="light"
-                                onClick={() => navigate("/login")}
-                                style={{
-                                    borderRadius: "12px",
-                                    width: "42px",
-                                    height: "42px",
-                                    padding: 0,
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    border: "1px solid #dee2e6",
-                                    transition: "all 0.25s ease",
-                                }}
-                            >
-                                <FiLogOut size={18} color="#dc3545" />
-                            </Button>
-                        </div>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-        </>
-    );
+          {/* RIGHT SIDE */}
+          <div className="d-flex align-items-center gap-3 ms-lg-3">
+
+  <Link to="/profile" className="nav-avatar">
+    {user?.name?.slice(0, 2).toUpperCase() || "U"}
+  </Link>
+
+  <button
+    className="nav-logout-btn"
+    onClick={() => navigate("/login")}
+  >
+    <FiLogOut size={18} color="#dc3545" />
+  </button>
+
+</div>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }
 
 export default SecondNavbar;

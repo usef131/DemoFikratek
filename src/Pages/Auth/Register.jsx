@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Container, Form, Button, Alert, Spinner } from 'react-bootstrap'
 import { useAuth } from '../../../Context/AuthContext'
+import PageTransition from '../../Components/PageTransition'
 
 const ROLES = [
   { value: 'entrepreneur', icon: 'bi-graph-up-arrow', label: 'Entrepreneur', sub: 'Launch and grow businesses', color: '#a855f7', bg: '#f3e8ff' },
@@ -160,7 +161,11 @@ export default function Register() {
         </p>
 
         {/* ── STEP 2: Role Selection (matches screenshot 6) ── */}
+        
+       
         {step === 2 && (
+             <PageTransition> 
+
           <div>
             {/* Step indicator */}
             <div className="text-center mb-2">
@@ -176,7 +181,9 @@ export default function Register() {
               }}>
                 Step 2 of 3
               </span>
+              
             </div>
+            
 
             <h2 style={{ fontWeight: 800, fontSize: '1.5rem', textAlign: 'center', marginBottom: '0.35rem' }}>
               Tell us about yourself
@@ -249,8 +256,12 @@ export default function Register() {
               </p>
             </div>
           </div>
+      </PageTransition>
+        
         )}
       </div>
     </div >
-  )
+              
+
+    )
 }

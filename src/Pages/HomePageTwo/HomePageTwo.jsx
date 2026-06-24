@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import SecondNavbar from "../../Components/Common/SecondNavbar";
 import Footer from "../../Components/Common/Footer";
+import PageTransition from "../../Components/PageTransition";
 
 // ── palette ──────────────────────────────────────────────────────────────────
 const NAVY = "#0f2744";
@@ -106,6 +107,8 @@ export default function HomePageTwo() {
 
       {/* ── Hero ── */}
       <div style={{ background: "#fff", paddingTop: 56, paddingBottom: 40 }}>
+      <PageTransition>
+
         <Container>
           <Row className="justify-content-center text-center">
             <Col lg={8}>
@@ -142,6 +145,8 @@ export default function HomePageTwo() {
             </Col>
           </Row>
         </Container>
+
+              </PageTransition>
       </div>
 
       {/* ── Stats ── */}
@@ -257,6 +262,7 @@ export default function HomePageTwo() {
             Explore Opportunities
           </Button>
         </div>
+        
       </div>
 
       {/* ── progress bar colour override ── */}
