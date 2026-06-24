@@ -5,4 +5,7 @@ export const investorService = {
      getInvestors: (params) =>
      api.get('/investors', { params }),
 
+    getUserById: (id) =>
+        api.get(`/investors/${id}`)
+
 }

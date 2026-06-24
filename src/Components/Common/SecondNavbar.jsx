@@ -1,30 +1,12 @@
-
 import { FiHome, FiCompass, FiGift, FiUser, FiLogOut } from "react-icons/fi";
-import logo from "../../assets/images/logo.png";
+
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
-import Button from "react-bootstrap/Button";
 
+import logo from "../../../src/assets/images/logo1.png";
+import "../../../src/styles/navbar.css";
 
-const navStyle = ({ isActive }) => ({
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    padding: "10px 18px",
-    borderRadius: "999px",
-    color: isActive ? "#0d6efd" : "#6c757d",
-    border: isActive ? "2px solid #0d6efd" : "2px solid transparent",
-    backgroundColor: isActive
-      ? "rgba(13,110,253,0.08)"
-      : "transparent",
-    fontWeight: isActive ? "600" : "500",
-    textDecoration: "none",
-    transition: "all 0.25s ease",
-    "&:hover": {
-      backgroundColor: isActive ? "rgba(13,110,253,0.08)" : "rgba(0,0,0,0.04)",
-    },
-  });
 
 function SecondNavbar() {
     const navigate = useNavigate();
