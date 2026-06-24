@@ -121,6 +121,7 @@ export default function Profile() {
             </div>
           {/* ── Tabs ── */}
           <Tabs defaultActiveKey="ideas" className="mb-3" style={{ fontSize: '0.875rem', fontWeight: 600 }}>
+           
             
 
             {/* Entrepreneur tab */}
@@ -153,6 +154,7 @@ export default function Profile() {
                   )}
                 </div>
               </Tab>
+              
             )}
 
             {/* Investor tab */}
