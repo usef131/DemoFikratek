@@ -81,7 +81,7 @@ export default function Home() {
           maxWidth: 820,
           marginBottom: '1.5rem',
         }}>
-          Welcome to Fikretak
+          Your Ideas Accelerated
         </h1>
 
         <p style={{

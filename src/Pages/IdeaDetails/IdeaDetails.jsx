@@ -53,13 +53,13 @@ export default function IdeaDetails() {
 
   if (loading) return (
     <div className="d-flex align-items-center justify-content-center" style={{ minHeight: '60vh' }}>
-      <Spinner animation="border" style={{ color: 'var(--fk-primary-btn)', width: 40, height: 40 }} />
+      <Spinner animation="border" style={{ color: '#3151b5', width: 40, height: 40 }} />
     </div>
   )
 
   if (error || !idea) return (
     <Container className="py-5">
-      <Alert variant="danger" style={{ borderRadius: 'var(--radius-sm)' }}>{error || 'Something went wrong.'}</Alert>
+      <Alert variant="danger">{error || 'Something went wrong.'}</Alert>
     </Container>
   )
 
@@ -68,169 +68,271 @@ export default function IdeaDetails() {
     : idea.fundingProgress || 0
 
   return (
-    <div style={{ background: 'var(--fk-bg)', minHeight: '100vh' }}>
-      <Container style={{ paddingTop: '2rem', paddingBottom: '3rem' }}>
+    <div style={{ background: '#f8f9fc', minHeight: '100vh' }}>
+      <Container style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
+
         {/* Back */}
         <button
           onClick={() => navigate(-1)}
           style={{
             background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-            color: 'var(--fk-text-secondary)', fontSize: '0.875rem',
+            color: '#667085', fontSize: '0.875rem',
             display: 'flex', alignItems: 'center', gap: 6, marginBottom: '1.5rem',
           }}
         >
-          <i className="bi bi-arrow-left" /> Back to Projects
+          ← Back to Projects
         </button>
 
+        {/* Header */}
+        <div className="mb-4">
+          <div className="d-flex gap-2 mb-2">
+            <span style={{
+              background: '#eef0ff', padding: '5px 14px',
+              borderRadius: '20px', color: '#3151b5', fontSize: '13px', fontWeight: 600,
+            }}>
+              {idea.category}
+            </span>
+            {idea.status && (
+              <span style={{
+                background: '#d1fae5', padding: '5px 14px',
+                borderRadius: '20px', color: '#065f46', fontSize: '13px', fontWeight: 600,
+              }}>
+                {idea.status}
+              </span>
+            )}
+          </div>
+
+          <h1 style={{ fontWeight: 800, fontSize: '2rem', marginTop: '12px', marginBottom: '8px' }}>
+            {idea.title}
+          </h1>
+
+          <div style={{ color: '#667085', fontSize: '0.875rem' }}>
+            <i className="bi bi-eye me-1" />{idea.views || 0} views &nbsp;•&nbsp;
+            <i className="bi bi-heart me-1" />{idea.interestCount || 0} interested &nbsp;•&nbsp;
+            <i className="bi bi-calendar3 me-1" />
+            {new Date(idea.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          </div>
+        </div>
+
         <Row className="g-4">
-          {/* ── Main ── */}
+
+          {/* LEFT */}
           <Col lg={8}>
-            <div className="fk-card p-4">
-              {/* Status + Category */}
-              <div className="d-flex align-items-center gap-2 mb-3">
-                <span style={{
-                  padding: '3px 10px', borderRadius: 'var(--radius-pill)',
-                  background: '#eef0ff', color: 'var(--fk-primary-btn)',
-                  fontSize: '0.72rem', fontWeight: 600,
-                }}>
-                  {idea.category}
-                </span>
-              </div>
 
-              <h1 style={{ fontWeight: 800, fontSize: 'clamp(1.3rem, 3vw, 1.8rem)', lineHeight: 1.3, marginBottom: '1rem' }}>
-                {idea.title}
-              </h1>
-
-              {/* Meta row */}
-              <div className="d-flex flex-wrap gap-4 mb-4" style={{ fontSize: '0.82rem', color: 'var(--fk-text-secondary)' }}>
-                <span><i className="bi bi-eye me-1" />{idea.views || 0} views</span>
-                <span><i className="bi bi-heart me-1" />{idea.interestCount || 0} interested</span>
-                <span><i className="bi bi-calendar3 me-1" />
-                  {new Date(idea.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                </span>
-              </div>
-
-              {/* Summary */}
-              <section style={{ background: 'var(--fk-bg)', borderRadius: 'var(--radius-sm)', padding: '1.25rem', marginBottom: '1rem' }}>
-                <h5 style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <i className="bi bi-file-text" style={{ color: 'var(--fk-primary-btn)' }} />Summary
-                </h5>
-                <p style={{ color: 'var(--fk-text-secondary)', lineHeight: 1.75, margin: 0, fontSize: '0.9rem' }}>
-                  {idea.summary}
-                </p>
-              </section>
-
-              {idea.description && (
-                <section style={{ background: 'var(--fk-bg)', borderRadius: 'var(--radius-sm)', padding: '1.25rem', marginBottom: '1rem' }}>
-                  <h5 style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <i className="bi bi-journal-text" style={{ color: 'var(--fk-primary-btn)' }} />Full Description
-                  </h5>
-                  <div style={{ color: 'var(--fk-text-secondary)', lineHeight: 1.75, fontSize: '0.9rem', whiteSpace: 'pre-wrap' }}>
-                    {idea.description}
-                  </div>
-                </section>
-              )}
-
-              {idea.targetMarket && (
-                <section style={{ background: 'var(--fk-bg)', borderRadius: 'var(--radius-sm)', padding: '1.25rem' }}>
-                  <h5 style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.6rem', display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <i className="bi bi-bullseye" style={{ color: 'var(--fk-primary-btn)' }} />Target Market
-                  </h5>
-                  <p style={{ color: 'var(--fk-text-secondary)', lineHeight: 1.75, margin: 0, fontSize: '0.9rem' }}>
-                    {idea.targetMarket}
-                  </p>
-                </section>
-              )}
+            {/* Image */}
+            <div style={{
+              height: '330px', borderRadius: '15px',
+              overflow: 'hidden', marginBottom: '20px',
+            }}>
+              <img
+                src={idea.image || 'https://images.unsplash.com/photo-1497366754035-f200968a6e72'}
+                alt={idea.title}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
             </div>
+
+            {/* Mission */}
+            <div className="fk-card p-4 mb-3">
+              <h3 style={{ fontWeight: 700, fontSize: '1.2rem', marginBottom: '0.75rem' }}>
+                Project Mission
+              </h3>
+              <p style={{ color: '#667085', lineHeight: 1.8, margin: 0 }}>
+                {idea.mission || idea.description || idea.summary}
+              </p>
+            </div>
+
+            {/* Stats */}
+
+            <div className="fk-card p-4 mb-3">
+              <Row className="text-center">
+                {[
+                  { val: idea.impactScore || '8.4/10', label: 'Impact Score' },
+                  { val: idea.marketSize || '$12B', label: 'Market Size' },
+                  { val: idea.userGrowth || '+24%', label: 'User Growth' },
+                  { val: idea.co2Saved || '1.2k t', label: 'CO2 Saved' },
+                ].map((s, i) => (
+                  <Col key={i}>
+                    <h3 style={{ fontWeight: 800, color: '#1a3a6b' }}>{s.val}</h3>
+                    <small style={{ color: '#667085', textTransform: 'uppercase', fontSize: '0.7rem', letterSpacing: '1px' }}>
+                      {s.label}
+                    </small>
+                  </Col>
+                ))}
+              </Row>
+            </div>
+
+
+
+            {/* Target Market */}
+            {idea.targetMarket && (
+              <div className="fk-card p-4">
+                <h3 style={{ fontWeight: 700, fontSize: '1.2rem', marginBottom: '0.75rem' }}>
+                  Target Market
+                </h3>
+                <p style={{ color: '#667085', lineHeight: 1.8, margin: 0 }}>
+                  {idea.targetMarket}
+                </p>
+              </div>
+            )}
           </Col>
 
-          {/* ── Sidebar ── */}
+          {/* RIGHT */}
           <Col lg={4}>
-            {/* Founder Card */}
-            <div className="fk-card p-4 mb-3">
-              <h6 style={{ fontWeight: 700, fontSize: '0.82rem', color: 'var(--fk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1rem' }}>
+
+            {/* Funding Card */}
+            {idea.fundingGoal && (
+              <div className="fk-card p-4 mb-4">
+                <div className="d-flex justify-content-between align-items-center mb-1">
+                  <h4 style={{ fontWeight: 700, margin: 0 }}>Funding</h4>
+                  <span style={{ fontWeight: 700, color: '#3151b5' }}>{fundingPct}%</span>
+                </div>
+
+                <div style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '0.5rem' }}>
+                  ${Number(idea.fundingGoal).toLocaleString()}
+                </div>
+
+                <div className="d-flex justify-content-between mb-2" style={{ fontSize: '0.85rem', color: '#667085' }}>
+                  <span>Raised: ${Number(idea.fundingRaised || 0).toLocaleString()}</span>
+                  <span>Goal: ${Number(idea.fundingGoal).toLocaleString()}</span>
+                </div>
+
+                <div style={{ background: '#e5e7eb', borderRadius: '999px', height: 8, overflow: 'hidden' }}>
+                  <div style={{
+                    width: `${fundingPct}%`, height: '100%',
+                    background: '#3151b5', borderRadius: '999px',
+                    transition: 'width 0.4s ease',
+                  }} />
+                </div>
+
+                {user?.role === 'investor' && (
+                  <Button
+                    onClick={handleInterest}
+                    disabled={actionLoading}
+                    style={{
+                      marginTop: '20px', width: '100%',
+                      borderRadius: '8px', padding: '14px',
+                      fontWeight: 700, background: '#1a3a6b', border: 'none',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                    }}
+                  >
+                    {actionLoading ? <Spinner size="sm" /> : interested ? (
+                      <><i className="bi bi-heart-fill" />Remove Interest</>
+                    ) : (
+                      <><i className="bi bi-heart" />Express Interest</>
+                    )}
+                  </Button>
+                )}
+
+                {!user && (
+                  <Button
+                    href="/login"
+                    style={{
+                      marginTop: '20px', width: '100%',
+                      borderRadius: '8px', padding: '14px',
+                      fontWeight: 700, background: '#1a3a6b', border: 'none',
+                    }}
+                  >
+                    Sign in to invest
+                  </Button>
+                )}
+              </div>
+            )}
+
+            {/* Idea Creator */}
+            <div className="fk-card p-4">
+              <h6 style={{
+                fontWeight: 700, fontSize: '0.75rem', color: '#667085',
+                textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '1rem',
+              }}>
                 Idea Creator
               </h6>
               <div className="d-flex align-items-center gap-3">
-                <div className="fk-avatar" style={{ width: 48, height: 48, fontSize: '1rem' }}>
-                  {user.name?.[0] || '?'}
+                <div style={{
+                  width: 48, height: 48, borderRadius: '50%',
+                  background: '#1a3a6b', display: 'flex',
+                  alignItems: 'center', justifyContent: 'center',
+                  fontWeight: 700, color: '#fff', fontSize: '1rem',
+                }}>
+                  {idea.entrepreneur?.name?.[0] || '?'}
                 </div>
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>
-                    {user.name || 'Anonymous'}
-                  </div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--fk-text-muted)' }}>{user.role || 'Entrepreneur'}</div>
+                  <div style={{ fontWeight: 700 }}>{idea.entrepreneur?.name || 'Anonymous'}</div>
+                  <div style={{ fontSize: '0.78rem', color: '#667085' }}>Entrepreneur</div>
                 </div>
               </div>
             </div>
 
-            {/* Funding Goal */}
-            {idea.fundingGoal && (
-              <div className="fk-card p-4 mb-3">
-                <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--fk-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.5rem' }}>
-                  Funding Goal
-                </div>
-                <div style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--fk-text-primary)', lineHeight: 1, marginBottom: '1rem' }}>
-                  ${Number(idea.fundingGoal).toLocaleString()}
-                </div>
-                <div className="d-flex justify-content-between align-items-center mb-1">
-                  <span style={{ fontSize: '0.78rem', color: 'var(--fk-text-muted)' }}>Funding Progress</span>
-                  <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--fk-primary-btn)' }}>{fundingPct}%</span>
-                </div>
-                <div className="fk-progress">
-                  <div className="fk-progress-fill" style={{ width: `${fundingPct}%` }} />
-                </div>
-              </div>
-            )}
-
-            {user?.role === 'investor' && (
-              <Button
-                onClick={handleInterest}
-                disabled={actionLoading}
-                size="lg"
-                style={{
-                  width: '100%',
-                  borderRadius: '50px',
-                  padding: '0.85rem 1.5rem',
-                  fontWeight: 700,
-                  fontSize: '1rem',
-                  transition: 'all 0.3s ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  marginBottom: '0.75rem',
-                }}
-              >
-                {actionLoading ? (
-                  <Spinner size="sm" />
-                ) : interested ? (
-                  <>
-                    <i className="bi bi-heart-fill" />
-                    Interested
-                  </>
-                ) : (
-                  <>
-                    <i className="bi bi-heart" />
-                     Interest
-                  </>
-                )}
-              </Button>
-              
-            )}
-
-            {!user && (
-              <Button
-                href="/login"
-                size="lg"
-                className="btn-primary w-100"
-                style={{ borderRadius: 'var(--radius-pill)', fontWeight: 700, marginBottom: '0.75rem' }}
-              >
-                Sign in to invest
-              </Button>
-            )}
           </Col>
         </Row>
+
+
+        {/* Roadmap */}
+<div className="fk-card p-5 mt-4">
+
+  <h2 
+    style={{ 
+      textAlign: 'center', 
+      fontWeight: 800, 
+      marginBottom: '2.5rem' 
+    }}
+  >
+    Project Roadmap
+  </h2>
+
+
+  <Row>
+
+    {idea.roadmap.map((item, i) => (
+
+      <Col key={i}>
+
+        <div 
+          style={{ 
+            borderLeft: '3px solid #3151b5', 
+            padding: '20px' 
+          }}
+        >
+
+          <h6 
+            style={{ 
+              color: '#3151b5', 
+              fontWeight: 700 
+            }}
+          >
+            {item.period}
+          </h6>
+
+
+          <h5 
+            style={{ 
+              fontWeight: 700 
+            }}
+          >
+            {item.title}
+          </h5>
+
+
+          <p 
+            style={{ 
+              color: '#667085', 
+              fontSize: '0.875rem', 
+              margin: 0 
+            }}
+          >
+            {item.desc}
+          </p>
+
+
+        </div>
+
+      </Col>
+
+    ))}
+
+  </Row>
+
+</div>
+
       </Container>
     </div>
   )

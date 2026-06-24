@@ -1,122 +1,110 @@
 import { Badge, Button, ProgressBar } from "react-bootstrap";
 
-export default function FeaturedStartupRow({
-  startup,
-  NAVY,
-  navigate,
-}) {
-  return (
-    <tr>
-      <td className="ps-4">
-        <div className="d-flex align-items-center gap-3">
-          <div
-            style={{
-              width: 42,
-              height: 42,
-              borderRadius: 10,
-              background: "#e9eff7",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontWeight: 700,
-              color: NAVY,
-            }}
-          >
-            {startup.name[0]}
-          </div>
+const CATEGORY_COLORS = {
+    Tech: { bg: '#dbeafe', color: '#2563eb' },
+    Health: { bg: '#dcfce7', color: '#16a34a' },
+    Education: { bg: '#fef3c7', color: '#b45309' },
+    Finance: { bg: '#ede9fe', color: '#7c3aed' },
+    Environment: { bg: '#d1fae5', color: '#065f46' },
+    Social: { bg: '#fee2e2', color: '#dc2626' },
+    Other: { bg: '#f3f4f6', color: '#6b7280' },
+}
 
-          <div>
-            <div className="fw-bold">{startup.name}</div>
-            <small className="text-primary">
-              {startup.category}
-            </small>
-          </div>
-        </div>
-      </td>
+export default function FeaturedStartupRow({ startup, NAVY, navigate, role }) {
 
-      <td>
-        <Badge
-          bg=""
-          style={{
-            background:
-              startup.badge === "Prototype"
-                ? "#fef3c7"
-                : startup.badge === "Idea"
-                ? "#dbeafe"
-                : "#dcfce7",
-            color:
-              startup.badge === "Prototype"
-                ? "#b45309"
-                : startup.badge === "Idea"
-                ? "#2563eb"
-                : "#16a34a",
-            padding: "6px 10px",
-            borderRadius: "999px",
-          }}
-        >
-          {startup.badge.toUpperCase()}
-        </Badge>
-      </td>
+    const colors = CATEGORY_COLORS[startup.badge] || CATEGORY_COLORS.Other
 
-      <td style={{ width: "35%" }}>
-        <span className="text-secondary">
-          {startup.desc}
-        </span>
-      </td>
+    return (
+        <tr>
+            <td className="ps-4">
+                <div className="d-flex align-items-center gap-3">
+                    <div style={{
+                        width: 42, height: 42, borderRadius: 10,
+                        background: "#e9eff7", display: "flex",
+                        alignItems: "center", justifyContent: "center",
+                        fontWeight: 700, color: NAVY,
+                    }}>
+                        {startup.name?.[0]}
+                    </div>
+                    <div>
+                        <div className="fw-bold">{startup.name}</div>
+                        <small className="text-primary">{startup.category}</small>
+                    </div>
+                </div>
+            </td>
 
-      <td>
-        <div>
-          <strong>{startup.funding}</strong>
-          <span className="text-muted ms-1">
-            Target
-          </span>
-        </div>
+            <td>
+                <Badge bg="" style={{
+                    background: colors.bg,
+                    color: colors.color,
+                    padding: '6px 10px',
+                    borderRadius: '999px',
+                }}>
+                    {startup.badge}
+                </Badge>
+            </td>
 
-        <small className="text-muted">
-          {startup.team}
-        </small>
-      </td>
+            <td style={{ width: "35%" }}>
+                <span className="text-secondary">{startup.desc}</span>
+            </td>
 
-      <td style={{ minWidth: 140 }}>
-        <ProgressBar
-          now={startup.progress}
-          style={{ height: 5 }}
-          className="mb-1"
-        />
+            <td>
+                <div>
+                    <strong>{startup.funding}</strong>
+                    <span className="text-muted ms-1">Target</span>
+                </div>
+                <small className="text-muted">{startup.team}</small>
+            </td>
 
-        <small
-          className="fw-semibold"
-          style={{ color: NAVY }}
-        >
-          {startup.progress}%
-        </small>
-      </td>
+            <td style={{ minWidth: 140 }}>
+                <ProgressBar now={startup.progress} style={{ height: 5 }} className="mb-1" />
+                <small className="fw-semibold" style={{ color: NAVY }}>{startup.progress}%</small>
+            </td>
 
-      <td>
-        <div className="d-flex align-items-center gap-3">
-          <Button
-            variant="link"
-            className="p-0 text-decoration-none"
-            style={{ color: NAVY }}
-            onClick={() =>
-              navigate(`/ideas/${startup.id}`)
-            }
-          >
-            View
-          </Button>
-
-          <Button
-            size="sm"
-            style={{
-              background: NAVY,
-              border: "none",
-              padding: "8px 20px",
-            }}
-          >
-            Invest
-          </Button>
-        </div>
-      </td>
-    </tr>
-  );
+            <td>
+                {role === "entrepreneur" ? (
+                    <div className="d-flex justify-content-center">
+                        <Button
+                            size="sm"
+                            style={{
+                                background: "#2563eb",
+                                border: "none",
+                                padding: "8px 24px",
+                                borderRadius: "999px",
+                            }}
+                            onClick={() => navigate(`/browse-projects/${startup._id}`)}
+                        >
+                            View
+                        </Button>
+                    </div>
+                ) : (
+                    <div className="d-flex align-items-center justify-content-center gap-3">
+                        <Button
+                            size="sm"
+                            style={{
+                                background: "#2563eb",
+                                border: "none",
+                                padding: "8px 24px",
+                                borderRadius: "999px",
+                            }}
+                            onClick={() => navigate(`/browse-projects/${startup._id}`)}
+                        >
+                            View
+                        </Button>
+                        <Button
+                            size="sm"
+                            style={{
+                                background: NAVY,
+                                border: "none",
+                                padding: "8px 20px",
+                                borderRadius: "999px",
+                            }}
+                        >
+                            Invest
+                        </Button>
+                    </div>
+                )}
+            </td>
+        </tr>
+    )
 }

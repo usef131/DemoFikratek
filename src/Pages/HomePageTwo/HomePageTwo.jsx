@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
 import { Container, Row, Col, Button, Table, } from "react-bootstrap";
@@ -6,6 +5,7 @@ import SecondNavbar from "../../Components/Common/SecondNavbar";
 import Footer from "../../Components/Common/Footer";
 import FeaturedStartupRow from "../../Components/Cards/FeaturedStartupRow";
 import "./HomeTwo.css";
+import { useState, useEffect } from "react"
 
 
 const NAVY = "#0f2744";
@@ -20,42 +20,23 @@ const STATS = [
   { value: "1,089", label: "Collaborations", delta: "+20.1%" },
 ];
 
-const STARTUPS = [
-  {
-    id: 1,
-    name: "EcoTrack – Sustainability App",
-    category: "Climate Tech",
-    badge: "Prototype",
-    badgeBg: "warning",
-    desc: "Mobile app helping individuals track and reduce their carbon footprint through daily activity…",
-    funding: "$50K", team: "3 members", progress: 35,
-  },
-  {
-    id: 2,
-    name: "HealthAI Assistant",
-    category: "Healthcare",
-    badge: "Idea",
-    badgeBg: "secondary",
-    desc: "AI-powered health companion providing personalized wellness recommendations and early alerts…",
-    funding: "$100K", team: "2 members", progress: 15,
-  },
-  {
-    id: 3,
-    name: "StudyHub – Learning Platform",
-    category: "EdTech",
-    badge: "Launched",
-    badgeBg: "success",
-    desc: "Collaborative learning platform connecting students with peer tutors and AI-powered study tools…",
-    funding: "$75K", team: "5 members", progress: 80,
-  },
-];
-
 
 // ── component ─────────────────────────────────────────────────────────────────
 export default function HomePageTwo() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const { user } = useAuth()
+  const [startups, setStartups] = useState([])
+
+  useEffect(() => {
+    fetch('http://localhost:5002/api/ideas')
+      .then(res => res.json())
+      .then(data => {
+        console.log("ideas from API:", data)
+        setStartups(data.ideas || data)
+      })
+      .catch(err => console.error('Failed to fetch ideas:', err))
+  }, [])
 
   return (
     <div style={{ background: "#f5f6f8", minHeight: "100vh", fontFamily: "'Inter', sans-serif" }}>
@@ -124,17 +105,42 @@ export default function HomePageTwo() {
                   marginTop: "50px",
                 }}
               >
-                <Button className="main-btn primary-btn" onClick={() => navigate("/create-idea")}>
-                  ⊕ Add Project
-                </Button>
+                {user?.role === "entrepreneur" ? (
+                  <>
+                    <Button
+                      className="main-btn primary-btn"
+                      onClick={() => navigate("/create-idea")}
+                    >
+                      ⊕ Add Project
+                    </Button>
 
-                <Button className="main-btn white-btn" onClick={() => navigate("/ideas")}>
-                  Browse Projects
-                </Button>
+                    <Button
+                      className="main-btn white-btn"
+                      onClick={() => navigate("/ideas")}
+                    >
+                      Browse Projects
+                    </Button>
 
-                <Button className="main-btn white-btn" onClick={() => navigate("/mentors")}>
-                  Find Investors
-                </Button>
+                    <Button
+                      className="main-btn white-btn"
+                      onClick={() => navigate("/mentors")}
+                    >
+                      Find Investors
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    className="main-btn primary-btn"
+                    style={{
+                      fontSize: "18px",
+                      padding: "20px 60px",
+                      minWidth: "260px",
+                    }}
+                    onClick={() => navigate("/ideas")}
+                  >
+                    Browse Projects
+                  </Button>
+                )}
               </div>
             </Col>
           </Row>
@@ -246,12 +252,25 @@ export default function HomePageTwo() {
             </thead>
 
             <tbody>
-              {STARTUPS.map((startup) => (
+              {startups.slice(0, 3).map((startup) => (
                 <FeaturedStartupRow
-                  key={startup.id}
-                  startup={startup}
+                  key={startup._id}
+                  startup={{
+                    ...startup,
+                    name: startup.title,
+                    badge: startup.category || 'Idea',
+                    desc: startup.summary,
+                    funding: startup.fundingGoal
+                      ? `$${Number(startup.fundingGoal).toLocaleString()}`
+                      : 'Not set',
+                    team: `${startup.interestCount || 0} interested`,
+                    progress: startup.fundingGoal && startup.fundingRaised
+                      ? Math.min(100, Math.round((startup.fundingRaised / startup.fundingGoal) * 100))
+                      : Math.min(100, startup.interestCount * 10) || 0,
+                  }}
                   NAVY={NAVY}
                   navigate={navigate}
+                  role={user?.role}
                 />
               ))}
             </tbody>
@@ -330,47 +349,43 @@ export default function HomePageTwo() {
           <h2 className="fw-bold text-white mb-2">
             Ready to Build the Future?
           </h2>
-
-          <p
-            style={{
-              color: "rgba(255,255,255,0.65)",
-              marginBottom: "3rem",
-            }}
-          >
+          <p style={{ color: "rgba(255,255,255,0.65)", marginBottom: "3rem" }}>
             Join thousands of entrepreneurs, investors, and innovators transforming ideas into reality
           </p>
-          
 
-          
           <div className="d-flex gap-3 justify-content-center flex-wrap">
-            <Button
-              style={{
-                background: "#fff",
-                color: "#041530",
-                border: "none",
-                fontWeight: 700,
-                padding: "12px 28px",
-                borderRadius: "999px",
-                boxShadow: "0 10px 30px rgba(37,99,235,.25)",
-              }}
-              onClick={() => navigate("/create-idea")}
-            >
-              Submit Your Project
-            </Button>
-
-            <Button
-              style={{
-                background: "rgba(255,255,255,.12)",
-                color: "#fff",
-                border: "1px solid rgba(255,255,255,.25)",
-                fontWeight: 700,
-                padding: "12px 28px",
-                borderRadius: "999px",
-              }}
-              onClick={() => navigate("/ideas")}
-            >
-              Explore Opportunities
-            </Button>
+            {user?.role === "entrepreneur" ? (
+              <>
+                <Button
+                  style={{ background: "#fff", color: "#041530", border: "none", fontWeight: 700, padding: "12px 28px", borderRadius: "999px", boxShadow: "0 10px 30px rgba(37,99,235,.25)" }}
+                  onClick={() => navigate("/create-idea")}
+                >
+                  Submit Your Project
+                </Button>
+                <Button
+                  style={{ background: "rgba(255,255,255,.12)", color: "#fff", border: "1px solid rgba(255,255,255,.25)", fontWeight: 700, padding: "12px 28px", borderRadius: "999px" }}
+                  onClick={() => navigate("/ideas")}
+                >
+                  Explore Opportunities
+                </Button>
+              </>
+            ) : (
+              <Button
+                style={{
+                  background: "#fff",
+                  color: "#041530",
+                  border: "none",
+                  fontWeight: 700,
+                  padding: "18px 60px",
+                  borderRadius: "999px",
+                  boxShadow: "0 10px 30px rgba(37,99,235,.25)",
+                  fontSize: "1.1rem",
+                }}
+                onClick={() => navigate("/ideas")}
+              >
+                Explore Opportunities
+              </Button>
+            )}
           </div>
         </div>
       </div>
