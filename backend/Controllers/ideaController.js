@@ -139,3 +139,14 @@ exports.withdrawInterest = async (req, res) => {
     res.status(500).json({ message: err.message })
   }
 }
+
+exports.getInterestedIdeas = async (req, res) => {
+  try {
+    const ideas = await Idea.find({ interestedInvestors: req.user._id })
+      .sort({ createdAt: -1 })
+      .populate('entrepreneur', 'name')
+    res.json({ ideas })
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+}

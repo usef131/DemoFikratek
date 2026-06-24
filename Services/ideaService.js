@@ -27,5 +27,7 @@ export const ideaService = {
 
   // My ideas (entrepreneur)
   getMyIdeas: () =>
-    api.get('/ideas/my')
+    api.get('/ideas/my'),
+
+  getInterestedIdeas: () =>api.get('/ideas/interested')
 }

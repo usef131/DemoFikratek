@@ -5,13 +5,13 @@ import { ideaService } from '../../../Services/ideaService'
 import { useAuth } from '../../../Context/AuthContext'
 
 export default function IdeaDetails() {
-  const { id }     = useParams()
-  const { user }   = useAuth()
-  const navigate   = useNavigate()
+  const { id } = useParams()
+  const { user } = useAuth()
+  const navigate = useNavigate()
 
-  const [idea, setIdea]           = useState(null)
-  const [loading, setLoading]     = useState(true)
-  const [error, setError]         = useState('')
+  const [idea, setIdea] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const [interested, setInterested] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
 
@@ -20,7 +20,11 @@ export default function IdeaDetails() {
     ideaService.getIdeaById(id)
       .then(data => {
         setIdea(data.idea)
-        if (user) setInterested(data.idea.interestedInvestors?.includes(user._id))
+        if (user) setInterested(
+          data.idea.interestedInvestors?.some(
+            inv => (inv._id || inv).toString() === user._id.toString()
+          )
+        )
       })
       .catch(() => setError('Idea not found or unavailable.'))
       .finally(() => setLoading(false))
@@ -75,7 +79,7 @@ export default function IdeaDetails() {
             display: 'flex', alignItems: 'center', gap: 6, marginBottom: '1.5rem',
           }}
         >
-          <i className="bi bi-arrow-left" /> Back to Marketplace
+          <i className="bi bi-arrow-left" /> Back to Projects
         </button>
 
         <Row className="g-4">
@@ -91,15 +95,6 @@ export default function IdeaDetails() {
                 }}>
                   {idea.category}
                 </span>
-                {idea.status && (
-                  <span style={{
-                    padding: '3px 10px', borderRadius: 'var(--radius-pill)',
-                    background: '#d1fae5', color: '#065f46',
-                    fontSize: '0.72rem', fontWeight: 600, textTransform: 'capitalize',
-                  }}>
-                    {idea.status}
-                  </span>
-                )}
               </div>
 
               <h1 style={{ fontWeight: 800, fontSize: 'clamp(1.3rem, 3vw, 1.8rem)', lineHeight: 1.3, marginBottom: '1rem' }}>
@@ -158,13 +153,13 @@ export default function IdeaDetails() {
               </h6>
               <div className="d-flex align-items-center gap-3">
                 <div className="fk-avatar" style={{ width: 48, height: 48, fontSize: '1rem' }}>
-                  {idea.entrepreneur?.name?.[0] || '?'}
+                  {user.name?.[0] || '?'}
                 </div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>
-                    {idea.entrepreneur?.name || 'Anonymous'}
+                    {user.name || 'Anonymous'}
                   </div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--fk-text-muted)' }}>Entrepreneur</div>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--fk-text-muted)' }}>{user.role || 'Entrepreneur'}</div>
                 </div>
               </div>
             </div>
@@ -188,28 +183,40 @@ export default function IdeaDetails() {
               </div>
             )}
 
-            {/* Invest / Interest Button */}
             {user?.role === 'investor' && (
               <Button
                 onClick={handleInterest}
                 disabled={actionLoading}
-                className={interested ? '' : 'btn-primary'}
-                variant={interested ? 'outline-danger' : undefined}
                 size="lg"
                 style={{
                   width: '100%',
-                  borderRadius: 'var(--radius-pill)',
+                  borderRadius: '50px',
+                  padding: '0.85rem 1.5rem',
                   fontWeight: 700,
+                  fontSize: '1rem',
+                  transition: 'all 0.3s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
                   marginBottom: '0.75rem',
-                  fontSize: '0.95rem',
                 }}
               >
-                {actionLoading ? <Spinner size="sm" /> : (
-                  interested
-                    ? <><i className="bi bi-heart-fill me-2" />Remove Interest</>
-                    : <><i className="bi bi-heart me-2" />Express Interest</>
+                {actionLoading ? (
+                  <Spinner size="sm" />
+                ) : interested ? (
+                  <>
+                    <i className="bi bi-heart-fill" />
+                    Interested
+                  </>
+                ) : (
+                  <>
+                    <i className="bi bi-heart" />
+                     Interest
+                  </>
                 )}
               </Button>
+              
             )}
 
             {!user && (
@@ -222,25 +229,6 @@ export default function IdeaDetails() {
                 Sign in to invest
               </Button>
             )}
-
-            {/* Status chip */}
-            <div style={{
-              padding: '0.75rem 1rem',
-              borderRadius: 'var(--radius-sm)',
-              background: 'var(--fk-bg)',
-              border: '1px solid var(--fk-border)',
-              textAlign: 'center',
-              fontSize: '0.82rem',
-              color: 'var(--fk-text-secondary)',
-            }}>
-              Status:{' '}
-              <strong style={{
-                color: idea.status === 'approved' ? 'var(--fk-success)' : 'var(--fk-text-muted)',
-                textTransform: 'capitalize',
-              }}>
-                {idea.status}
-              </strong>
-            </div>
           </Col>
         </Row>
       </Container>

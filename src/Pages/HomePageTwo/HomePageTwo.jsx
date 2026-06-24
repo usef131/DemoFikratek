@@ -1,28 +1,24 @@
 import { useState } from "react";
-import { useAuth } from "../../../Context/AuthContext";
-import {
-  Container, Row, Col, Card, Button, Badge,
-  ProgressBar, Form, InputGroup, Navbar, Nav, NavDropdown, Dropdown, NavLink
-} from "react-bootstrap";
-import { BsMoon } from "react-icons/bs";
-import { CgProfile } from "react-icons/cg";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../Context/AuthContext";
+import { Container, Row, Col, Button, Table, } from "react-bootstrap";
 import SecondNavbar from "../../Components/Common/SecondNavbar";
 import Footer from "../../Components/Common/Footer";
 import PageTransition from "../../Components/PageTransition";
+import FeaturedStartupRow from "../../Components/Cards/FeaturedStartupRow";
+import "./HomeTwo.css";
 
-// ── palette ──────────────────────────────────────────────────────────────────
+
 const NAVY = "#0f2744";
 
 
 
 // ── mock data ─────────────────────────────────────────────────────────────────
 const STATS = [
-  { emoji: "💡", value: "2,547", label: "Ideas Shared", delta: "+12.5%" },
-  { emoji: "💲", value: "486", label: "Active Investors", delta: "+8.3%" },
-  { emoji: "🚀", value: "143", label: "Projects Funded", delta: "+15.7%" },
-  { emoji: "👥", value: "1,089", label: "Collaborations", delta: "+20.1%" },
+  { value: "2,547", label: "Ideas Shared", delta: "+12.5%" },
+  { value: "486", label: "Active Investors", delta: "+8.3%" },
+  { value: "143", label: "Projects Funded", delta: "+15.7%" },
+  { value: "1,089", label: "Collaborations", delta: "+20.1%" },
 ];
 
 const STARTUPS = [
@@ -55,48 +51,12 @@ const STARTUPS = [
   },
 ];
 
-const MENTORS = [
-  {
-    id: 1,
-    initials: "DS",
-    name: "Dr. Sarah Chen",
-    sessions: 127,
-    rating: 4.9,
-    bio: "Former VP of AI at TechCorp, 15+ years scaling AI startups.",
-    tags: ["AI/ML", "Product Strategy"],
-  },
-  {
-    id: 2,
-    initials: "MR",
-    name: "Marcus Rodriguez",
-    sessions: 89,
-    rating: 4.8,
-    bio: "Growth leader at multiple unicorns. B2B SaaS expert.",
-    tags: ["Marketing", "Growth"],
-  },
-];
-
-// ── helpers ───────────────────────────────────────────────────────────────────
-function Avatar({ initials, size = 44, bg = NAVY }) {
-  return (
-    <div
-      style={{
-        width: size, height: size, borderRadius: "50%",
-        background: bg, color: "#fff",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        fontWeight: 700, fontSize: size * 0.33, flexShrink: 0,
-      }}
-    >
-      {initials}
-    </div>
-  );
-}
 
 // ── component ─────────────────────────────────────────────────────────────────
 export default function HomePageTwo() {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
-  const { user} = useAuth()
+  const { user } = useAuth()
 
   return (
     <div style={{ background: "#f5f6f8", minHeight: "100vh", fontFamily: "'Inter', sans-serif" }}>
@@ -106,41 +66,79 @@ export default function HomePageTwo() {
       <SecondNavbar />
 
       {/* ── Hero ── */}
-      <div style={{ background: "#fff", paddingTop: 56, paddingBottom: 40 }}>
+
+      <div
+        style={{
+          background:
+            "linear-gradient(180deg, #E6F0FF 0%, #F5F9FF 45%, #FFFFFF 100%)",
+          paddingTop: "90px",
+          paddingBottom: "120px",
+        }}
+       >
       <PageTransition>
 
         <Container>
           <Row className="justify-content-center text-center">
-            <Col lg={8}>
-              <h1 className="fw-bold mb-2" style={{ fontSize: "clamp(26px,4vw,40px)" }}>
-                Welcome to Fikretak
+            <Col lg={10}>
+
+              {/* Heading */}
+              <h1
+                style={{
+                  fontSize: "clamp(58px,7vw,84px)",
+                  fontWeight: 800,
+                  lineHeight: "1",
+                  letterSpacing: "-3px",
+                  marginBottom: "28px",
+                  color: "#111827",
+                }}
+              >
+                Welcome to{" "}
+                <span
+                  style={{
+                    background: "linear-gradient(90deg, #032A6E 0%, #0A3D91 60%, #1E5BB8 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+
+                  }}
+                >
+                  Fikretak
+                </span>
               </h1>
-              <p className="text-muted mb-4">
-                Connect with innovators, find funding, get expert mentorship, and build your dream team
+
+              {/* Description */}
+              <p
+                style={{
+                  maxWidth: "700px",
+                  margin: "0 auto",
+                  color: "#6B7280",
+                  fontSize: "15px",
+                  lineHeight: "1.8",
+                }}
+              >
+                The professional ecosystem where innovators find funding,
+                and the teams they need to scale. Connect with the
+                right people to turn your vision into reality.
               </p>
 
-              <InputGroup className="mb-4 mx-auto" style={{ maxWidth: 560 }}>
-                <InputGroup.Text style={{ background: "#fff", border: "1px solid #D1D5DB", borderRight: "none" }}>
-                  🔍
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder="Search projects, investors, mentors, industries..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  style={{ border: "1px solid #D1D5DB", borderLeft: "none", boxShadow: "none" }}
-                />
-              </InputGroup>
-
-              <div className="d-flex gap-2 flex-wrap justify-content-center">
-                <Button
-                  style={{ background: NAVY, border: "none" }}
-                  onClick={() => navigate("/create-idea")}
-                >
-                  💡 Add Project
+              {/* Buttons */}
+              <div
+                className="d-flex justify-content-center flex-wrap"
+                style={{
+                  gap: "14px",
+                  marginTop: "50px",
+                }}
+              >
+                <Button className="main-btn primary-btn" onClick={() => navigate("/create-idea")}>
+                  ⊕ Add Project
                 </Button>
-                <Button variant="outline-secondary" onClick={() => navigate("/ideas")}>Browse Projects</Button>
-                <Button variant="outline-secondary" onClick={() => navigate("/mentors")}>Find Investors</Button>
-                <Button variant="outline-secondary" onClick={() => navigate("/collaborate")}>Join Teams</Button>
+
+                <Button className="main-btn white-btn" onClick={() => navigate("/ideas")}>
+                  Browse Projects
+                </Button>
+
+                <Button className="main-btn white-btn" onClick={() => navigate("/mentors")}>
+                  Find Investors
+                </Button>
               </div>
             </Col>
           </Row>
@@ -149,128 +147,242 @@ export default function HomePageTwo() {
               </PageTransition>
       </div>
 
+
       {/* ── Stats ── */}
-      <Container className="my-4">
-        <Row className="g-3">
-          {STATS.map((s) => (
-            <Col key={s.label} xs={6} lg={3}>
-              <Card className="border-0 shadow-sm h-100">
-                <Card.Body>
-                  <div className="d-flex justify-content-between align-items-center mb-2">
-                    <div
-                      style={{
-                        width: 40, height: 40, borderRadius: "50%",
-                        background: NAVY, display: "flex",
-                        alignItems: "center", justifyContent: "center",
-                        fontSize: 18,
-                      }}
-                    >
-                      {s.emoji}
-                    </div>
-                    <span className="text-success fw-semibold" style={{ fontSize: 13 }}>{s.delta}</span>
-                  </div>
-                  <p className="fw-bold mb-0" style={{ fontSize: 26 }}>{s.value}</p>
-                  <p className="text-muted mb-0" style={{ fontSize: 13 }}>{s.label}</p>
-                </Card.Body>
-              </Card>
+      <Container
+        fluid
+        style={{
+          background: "#fff",
+          padding: "35px 90px",
+          borderTop: "1px solid #eee",
+          borderBottom: "1px solid #eee",
+        }}
+      >
+        <Row>
+          {STATS.map((s, index) => (
+            <Col
+              key={s.label}
+              xs={6}
+              lg={3}
+              style={{
+                borderRight:
+                  index !== STATS.length - 1 ? "1px solid #e5e7eb" : "none",
+              }}
+            >
+              <div className="ps-lg-4">
+                <div
+                  style={{
+                    fontSize: "10px",
+                    fontWeight: 700,
+                    letterSpacing: "2px",
+                    textTransform: "uppercase",
+                    color: "#1e4ea8",
+                    marginBottom: "8px",
+                  }}
+                >
+                  {s.label}
+                </div>
+
+                <div className="d-flex align-items-center gap-2">
+                  <span
+                    style={{
+                      fontSize: "30px",
+                      fontWeight: 700,
+                      color: "#111827",
+                      lineHeight: 1,
+                    }}
+                  >
+                    {s.value}
+                  </span>
+
+                  <span
+                    style={{
+                      color: "#16a34a",
+                      fontSize: "11px",
+                      fontWeight: 600,
+                      background: "#eaf8ef"
+                    }}
+                  >
+                    {s.delta}
+                  </span>
+                </div>
+              </div>
             </Col>
           ))}
         </Row>
       </Container>
 
+
       {/* ── Featured Startups ── */}
-      <Container className="mb-5 mt-5">
-        <div className="d-flex justify-content-between align-items-start mb-3">
+      <Container fluid className="px-5 mb-5 mt-3">
+        <div
+          className="d-flex justify-content-between align-items-center"
+          style={{ marginBottom: "16px" }}
+        >
           <div>
-            <h4 className="fw-bold mb-0">Featured Startups</h4>
-            <p className="text-muted mb-0" style={{ fontSize: 14 }}>Trending projects seeking funding and collaboration</p>
+            <h2 className="fw-bold mb-2"> Featured Startups</h2>
+            <p className="text-muted mb-0 mt-2" style={{ fontSize: 14 }}>Trending projects seeking funding and collaboration</p>
           </div>
           <Button variant="link" style={{ color: NAVY, fontWeight: 600 }} onClick={() => navigate("/ideas")}>
             View All →
           </Button>
         </div>
 
-        <Row className="g-3">
-          {STARTUPS.map((s) => (
-            <Col key={s.id} md={4}>
-              <Card className="border-0 shadow-sm h-100">
-                <Card.Body className="d-flex flex-column">
-                  <div className="d-flex justify-content-between align-items-start mb-1">
-                    <div>
-                      <Card.Title className="mb-0 fw-bold" style={{ fontSize: 15 }}>{s.name}</Card.Title>
-                      <small className="text-muted">{s.category}</small>
-                    </div>
-                    <Badge bg={s.badgeBg} className="ms-2" style={{ fontSize: 11 }}>{s.badge}</Badge>
-                  </div>
+        <div
+          className="bg-white rounded-4 border overflow-hidden"
+          style={{ borderColor: "#e5e7eb" }}
+        >
+          <table className="table featured-table align-middle mb-0">
+            <thead
+              style={{
+                background: "#f8fafc",
+                fontSize: "12px",
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+              }}
+            >
+              <tr>
+                <th className="ps-4">Startup & Industry</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Team & Funding</th>
+                <th>Progress</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
 
-                  <Card.Text className="text-secondary mt-2 flex-grow-1" style={{ fontSize: 13 }}>
-                    {s.desc}
-                  </Card.Text>
-
-                  <div className="d-flex gap-3 mb-2">
-                    <small><span className="text-muted">Funding</span> <strong>{s.funding}</strong></small>
-                    <small><span className="text-muted">Team</span> <strong>{s.team}</strong></small>
-                  </div>
-
-                  <div className="d-flex justify-content-between mb-1">
-                    <small className="text-muted">Funding Progress</small>
-                    <small className="text-muted">{s.progress}%</small>
-                  </div>
-                  <ProgressBar
-                    now={s.progress}
-                    style={{ height: 6, marginBottom: 16 }}
-                    variant={undefined}
-                    className="fikretak-bar"
-                  />
-
-                  <div className="d-flex gap-2">
-                    <Button
-                      size="sm"
-                      style={{ background: NAVY, border: "none", flex: 1 }}
-                      onClick={() => navigate(`/ideas/${s.id}`)}
-                    >
-                      👁 View Project
-                    </Button>
-                    <Button size="sm" variant="outline-secondary">Invest</Button>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
+            <tbody>
+              {STARTUPS.map((startup) => (
+                <FeaturedStartupRow
+                  key={startup.id}
+                  startup={startup}
+                  NAVY={NAVY}
+                  navigate={navigate}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </Container>
 
-    
-
       {/* ── CTA Banner ── */}
-      <div style={{ background: NAVY, padding: "56px 24px", textAlign: "center" }}>
-        <h2 className="fw-bold text-white mb-2">Ready to Build the Future?</h2>
-        <p style={{ color: "#CBD5E1", marginBottom: 28 }}>
-          Join thousands of entrepreneurs, investors, and innovators transforming ideas into reality
-        </p>
-        <div className="d-flex gap-3 justify-content-center flex-wrap">
-          <Button
-            style={{ background: "#fff", color: NAVY, border: "none", fontWeight: 700, padding: "10px 24px" }}
-            onClick={() => navigate("/create-idea")}
+      <div
+        style={{
+          background:
+            "radial-gradient(circle at center, #06204a 0%, #041530 45%, #020817 100%)",
+          position: "relative",
+          overflow: "hidden",
+          padding: "8rem 1.5rem",
+          textAlign: "center",
+        }}
+      >
+        {/* Circular rings */}
+        <div
+          style={{
+            position: "absolute",
+            width: "700px",
+            height: "700px",
+            border: "1px solid rgba(255,255,255,0.06)",
+            borderRadius: "50%",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+
+        <div
+          style={{
+            position: "absolute",
+            width: "550px",
+            height: "550px",
+            border: "1px solid rgba(255,255,255,0.05)",
+            borderRadius: "50%",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+
+        <div
+          style={{
+            position: "absolute",
+            width: "400px",
+            height: "400px",
+            border: "1px solid rgba(255,255,255,0.05)",
+            borderRadius: "50%",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+
+        {/* Blue glow */}
+        <div
+          style={{
+            position: "absolute",
+            width: "600px",
+            height: "600px",
+            background: "rgba(37,99,235,0.15)",
+            filter: "blur(80px)",
+            borderRadius: "50%",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+
+        {/* Content */}
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <h2 className="fw-bold text-white mb-2">
+            Ready to Build the Future?
+          </h2>
+
+          <p
+            style={{
+              color: "rgba(255,255,255,0.65)",
+              marginBottom: "3rem",
+            }}
           >
-            Submit Your Project
-          </Button>
-          <Button
-            style={{ background: "rgba(255,255,255,.15)", color: "#fff", border: "1px solid rgba(255,255,255,.3)", fontWeight: 700, padding: "10px 24px" }}
-            onClick={() => navigate("/ideas")}
-          >
-            Explore Opportunities
-          </Button>
+            Join thousands of entrepreneurs, investors, and innovators transforming ideas into reality
+          </p>
+          
+
+          
+          <div className="d-flex gap-3 justify-content-center flex-wrap">
+            <Button
+              style={{
+                background: "#fff",
+                color: "#041530",
+                border: "none",
+                fontWeight: 700,
+                padding: "12px 28px",
+                borderRadius: "999px",
+                boxShadow: "0 10px 30px rgba(37,99,235,.25)",
+              }}
+              onClick={() => navigate("/create-idea")}
+            >
+              Submit Your Project
+            </Button>
+
+            <Button
+              style={{
+                background: "rgba(255,255,255,.12)",
+                color: "#fff",
+                border: "1px solid rgba(255,255,255,.25)",
+                fontWeight: 700,
+                padding: "12px 28px",
+                borderRadius: "999px",
+              }}
+              onClick={() => navigate("/ideas")}
+            >
+              Explore Opportunities
+            </Button>
+          </div>
         </div>
         
       </div>
 
-      {/* ── progress bar colour override ── */}
-      <style>{`
-        .fikretak-bar .progress-bar { background-color: ${NAVY} !important; }
-      `}</style>
-
-        <Footer />
+      <Footer />
 
     </div>
 

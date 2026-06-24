@@ -43,11 +43,6 @@ export default function IdeaCard({ idea }) {
         }}>
           {idea.category}
         </span>
-        {idea.status && (
-          <span className={`fk-status-badge ${statusClass}`} style={{ textTransform: 'capitalize' }}>
-            {idea.status === 'approved' ? 'Launched' : idea.status}
-          </span>
-        )}
       </div>
 
       {/* Title */}
@@ -109,19 +104,12 @@ export default function IdeaCard({ idea }) {
       {/* Action buttons */}
       <div className="d-flex gap-2 mt-auto">
         <Link
-          to={`/ideas/${idea._id}`}
+          to={`/Browse-projects/${idea._id}`}
           className="btn btn-primary btn-sm flex-grow-1"
           style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600, fontSize: '0.82rem' }}
         >
           <i className="bi bi-eye me-1" />View Project
         </Link>
-        <button
-          className="btn btn-outline-primary btn-sm"
-          style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600, fontSize: '0.82rem', minWidth: 70 }}
-          onClick={e => { e.preventDefault(); /* invest handler */ }}
-        >
-          Invest
-        </button>
       </div>
     </div>
   )
