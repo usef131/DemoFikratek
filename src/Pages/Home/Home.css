@@ -1,0 +1,65 @@
+.btn-primary {
+  background: #1a3a6b;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background: #2f6bd6;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(47, 107, 214, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn-secondary:hover {
+  background: white;
+  color: #0f1117;
+  transform: translateY(-2px);
+}
+
+.feature-card {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.feature-card > div {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform;
+  cursor: pointer;
+}
+
+
+.feature-card:hover > div {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+
+.feature-card:active > div {
+  transform: translateY(-4px) scale(0.98);
+}
+.cta-btn {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  transition: all 0.3s ease;
+}
+
+.cta-btn:hover {
+  background: linear-gradient(135deg, #1e40af, #172554);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+}

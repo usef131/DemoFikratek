@@ -17,7 +17,6 @@ router.put('/:id', protect, authorize('entrepreneur'), ctrl.updateIdea)
 // Investor only
 router.post('/:id/interest',   protect, authorize('investor'), ctrl.expressInterest)
 router.delete('/:id/interest', protect, authorize('investor'), ctrl.withdrawInterest)
-
 module.exports = router
 
 

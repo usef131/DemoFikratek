@@ -6,6 +6,7 @@ const rateLimit  = require('express-rate-limit')
 
 const authRoutes  = require('./routes/auth')
 const ideaRoutes  = require('./routes/ideas')
+const userRoutes = require('./routes/Investors')
 
 const app = express()
 
@@ -20,6 +21,9 @@ app.use('/api', limiter)
 // ── Routes ──
 app.use('/api/auth',  authRoutes)
 app.use('/api/ideas', ideaRoutes)
+app.use('/api/users', userRoutes)
+
+
 
 
 // Health check

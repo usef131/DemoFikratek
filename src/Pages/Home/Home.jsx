@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Container, Row, Col, Button } from 'react-bootstrap'
+import './Home.css'
 
 const FEATURES = [
   {
@@ -36,22 +37,23 @@ const FEATURES = [
 
 const ROLES = [
   { icon: 'bi-lightbulb-fill', title: 'Entrepreneur', sub: 'Share your groundbreaking ideas' },
-  { icon: 'bi-graph-up',       title: 'Investor',  sub: 'Fund promising opportunities' },
+  { icon: 'bi-graph-up', title: 'Investor', sub: 'Fund promising opportunities' },
 ]
 
 const CHECKLIST = [
   'Browse 500+ startups seeking funding',
   'Connect with verified investors',
-  'Book mentorship sessions in minutes',
   'Track project milestones and growth',
-  'Find co-founders and team members',
   'Access startup resources and tools',
+  'Apply to investment opportunities instantly',
+  'Launch your startup in a few clicks',
+  'Manage your startup progress in one dashboard',
 ]
 
 const FOOTER_LINKS = {
   Product: ['Features', 'How it works', 'Pricing'],
   Company: ['About', 'Blog', 'Careers'],
-  Legal:   ['Privacy', 'Terms', 'Contact'],
+  Legal: ['Privacy', 'Terms', 'Contact'],
 }
 
 export default function Home() {
@@ -60,7 +62,7 @@ export default function Home() {
 
       {/* ── HERO ── */}
       <section style={{
-        background: 'linear-gradient(180deg, #0f1117 70%, #1a1f2e 100%)',
+        background: 'radial-gradient(circle at 80% 30%, #092244 0%, #030a16 55%, #020712 100%)',
         minHeight: '92vh',
         display: 'flex',
         flexDirection: 'column',
@@ -69,22 +71,10 @@ export default function Home() {
         textAlign: 'center',
         padding: '4rem 1.5rem 5rem',
       }}>
-        {/* Pill badge */}
-        <div style={{
-          border: '1px solid rgba(255,255,255,0.18)',
-          borderRadius: 999,
-          padding: '6px 18px',
-          color: 'rgba(255,255,255,0.6)',
-          fontSize: '0.82rem',
-          marginBottom: '2rem',
-          letterSpacing: '0.3px',
-        }}>
-          Where Ideas Meet Action
-        </div>
 
         <h1 style={{
           color: '#fff',
-          fontSize: 'clamp(2.5rem, 7vw, 4.2rem)',
+          fontSize: 'clamp(2.8rem, 5.5vw, 4.4rem)',
           fontWeight: 800,
           lineHeight: 1.1,
           letterSpacing: '-1.5px',
@@ -101,104 +91,165 @@ export default function Home() {
           lineHeight: 1.7,
           marginBottom: '2.5rem',
         }}>
-          Connect innovators with developers, investors, and experts. Turn
+          Connect innovators with investors. Turn
           your ideas into real projects with role-based collaboration.
         </p>
 
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <Link to="/login" style={{
-            background: '#1a3a6b',
-            color: '#fff',
-            textDecoration: 'none',
-            padding: '14px 32px',
-            borderRadius: 999,
-            fontWeight: 700,
-            fontSize: '1rem',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-          }}>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+
+          <Link
+            to="/login"
+            className="btn-primary"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+            }}
+          >
             Start Your Journey <span>→</span>
           </Link>
-          <a href="#about" style={{
-            background: 'rgba(255,255,255,0.08)',
-            color: '#fff',
-            textDecoration: 'none',
-            padding: '14px 32px',
-            borderRadius: 999,
-            fontWeight: 600,
-            fontSize: '1rem',
-            border: '1px solid rgba(255,255,255,0.12)',
-          }}>
+
+          <a
+            href="#about"
+            className="btn-secondary"
+          >
             Learn More
           </a>
+
         </div>
 
+
         {/* Stats */}
-        <div style={{
-          display: 'flex',
-          gap: 'clamp(2rem, 6vw, 5rem)',
-          marginTop: '5rem',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-        }}>
+        <div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            gap: 'clamp(2rem, 6vw, 5rem)',
+            marginTop: '5rem',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            padding: '14px 36px',
+            borderRadius: 999,
+            background: 'rgba(255,255,255,0.06)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            overflow: 'hidden',
+          }}
+        >
+
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              borderRadius: 999,
+              padding: 2,
+              background: 'linear-gradient(90deg, #2f6bd6, #4ecdc4, #2f6bd6)',
+              backgroundSize: '200% 200%',
+              animation: 'borderGlow 4s linear infinite',
+              WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+              WebkitMaskComposite: 'xor',
+              maskComposite: 'exclude',
+              pointerEvents: 'none',
+            }}
+          />
+
           {[
             { val: '10k+', label: 'Active Users' },
-            { val: '5k+',  label: 'Projects' },
+            { val: '5k+', label: 'Projects' },
             { val: '500+', label: 'Investors' },
-          ].map(s => (
-            <div key={s.label} style={{ textAlign: 'center' }}>
-              <div style={{ color: '#3b7dd8', fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 800, letterSpacing: '-1px' }}>
-                {s.val}
+          ].map((s, i, arr) => (
+            <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>
+              <div style={{ textAlign: 'center' }}>
+                <span style={{
+                  color: '#fff',
+                  fontSize: 'clamp(1.2rem, 3vw, 1.5rem)',
+                  fontWeight: 700
+                }}>
+                  {s.val}
+                </span>
+                <div style={{
+                  color: 'rgba(255,255,255,0.5)',
+                  fontSize: '0.8rem',
+                  marginTop: 3
+                }}>
+                  {s.label}
+                </div>
               </div>
-              <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.875rem', marginTop: 4 }}>
-                {s.label}
-              </div>
+
+              {i < arr.length - 1 && (
+                <div style={{
+                  width: 1,
+                  height: 36,
+                  background: 'rgba(255,255,255,0.12)',
+                  flexShrink: 0,
+                }} />
+              )}
             </div>
           ))}
         </div>
       </section>
 
+
+
       {/* ── FEATURES GRID ── */}
-      <section id="features" style={{ background: '#f5f5f7', padding: '5rem 1.5rem' }}>
+
+      <section
+        id="features"
+        style={{
+          background: 'radial-gradient(circle at 50% 20%, #dbeafe 0%, #eff6ff 40%, #ffffff 100%)',
+          padding: '5rem 1.5rem',
+        }}
+      >
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
             <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', fontWeight: 800, letterSpacing: '-0.5px', color: '#0f1117', marginBottom: '0.75rem' }}>
               Everything you need to succeed
             </h2>
             <p style={{ color: '#6b7280', fontSize: '1rem', maxWidth: 500, margin: '0 auto' }}>
-              Built for innovators, entrepreneurs, and creators who want to turn ideas into reality
+              Built for innovators and entrepreneurs who want to turn ideas into reality
             </p>
           </div>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '1.25rem',
-          }}>
-            {FEATURES.map(f => (
-              <div key={f.title} style={{
-                background: '#fff',
-                borderRadius: 16,
-                padding: '2rem',
-                border: '1px solid rgba(0,0,0,0.06)',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-              }}>
-                <div style={{
-                  width: 48, height: 48,
-                  background: '#1a3a6b',
-                  borderRadius: 12,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  marginBottom: '1.25rem',
-                }}>
-                  <i className={`bi ${f.icon}`} style={{ color: '#fff', fontSize: '1.3rem' }} />
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '0.66rem',
+              width: '100%',
+            }}>
+            {FEATURES.map((f) => (
+              <div key={f.title} className='feature-card'>
+                <div
+                  style={{
+                    background: '#fff',
+                    borderRadius: 16,
+                    padding: '2rem',
+                    border: '1px solid rgba(0,0,0,0.06)',
+                    height: '100%',
+                  }}>
+                  <div
+                    style={{
+                      width: 48,
+                      height: 48,
+                      background: '#1a3a6b',
+                      borderRadius: 12,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginBottom: '1.25rem',
+                    }}>
+
+                    <i className={`bi ${f.icon}`} style={{ color: '#fff', fontSize: '1.3rem' }} />
+                  </div>
+
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f1117' }}>
+                    {f.title}
+                  </h3>
+
+                  <p style={{ color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.65 }}>
+                    {f.desc}
+                  </p>
                 </div>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0f1117', marginBottom: '0.5rem' }}>
-                  {f.title}
-                </h3>
-                <p style={{ color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.65, margin: 0 }}>
-                  {f.desc}
-                </p>
               </div>
             ))}
           </div>
@@ -206,26 +257,64 @@ export default function Home() {
       </section>
 
       {/* ── FROM IDEA TO FUNDED STARTUP ── */}
-      <section id="about" style={{ background: '#fff', padding: '5rem 1.5rem' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', alignItems: 'center' }}>
+      <section
+        id="about"
+        style={{
+          background: 'radial-gradient(circle at 50% 10%, #f1f7fe 0%, #eff6ff 45%, #ffffff 100%)',
+          padding: '5rem 1.5rem',
+        }}>
+        <div
+          style={{
+            maxWidth: 1100,
+            margin: '0 auto',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
+            gap: '3rem',
+            alignItems: 'center',
+          }}>
 
-          {/* Left copy */}
+          {/* LEFT */}
           <div>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 800, letterSpacing: '-0.5px', color: '#0f1117', lineHeight: 1.2, marginBottom: '1.25rem' }}>
+            <h2 style={{
+              fontSize: 'clamp(1.8rem, 4vw, 2.5rem)',
+              fontWeight: 800,
+              color: '#0f1117',
+              marginBottom: '1.25rem',
+            }}>
               From Idea to Funded Startup
             </h2>
-            <p style={{ color: '#6b7280', lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.95rem' }}>
-              Join 10,000+ entrepreneurs, 486 active investors, and hundreds of expert mentors
+
+            <p style={{
+              color: '#6b7280',
+              lineHeight: 1.7,
+              marginBottom: '1.5rem',
+              fontSize: '0.95rem',
+            }}>
+              Join 10,000+ entrepreneurs and 486 active investors
               building the future together. Your complete startup journey starts here.
             </p>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {CHECKLIST.map(item => (
-                <li key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem', color: '#374151' }}>
+                <li key={item} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  fontSize: '0.9rem',
+                  color: '#374151',
+                  marginBottom: '0.75rem',
+                }}>
                   <span style={{
-                    width: 22, height: 22, borderRadius: '50%',
-                    background: '#1a3a6b',
-                    color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '0.75rem', flexShrink: 0,
+                    width: 22,
+                    height: 22,
+                    borderRadius: '50%',
+                    background: '#11265e',
+                    color: '#fff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '0.75rem',
+                    flexShrink: 0, // FIX 2: Prevents checklist dots from squishing
                   }}>
                     <i className="bi bi-check-lg" />
                   </span>
@@ -235,40 +324,72 @@ export default function Home() {
             </ul>
           </div>
 
-          {/* Right role cards */}
-          <div style={{
-            background: '#f5f5f7',
-            borderRadius: 20,
-            padding: '1.75rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem',
-          }}>
+          {/* RIGHT */}
+          <div
+            style={{
+              background: '#04293f', // FIX 3: Corrected invalid broken gradient syntax to flat hex
+              borderRadius: 22,
+              padding: '2.5rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
+              // FIX 4: Changed hardcoded margins to fluid percentages so it wraps cleanly without overflowing
+              marginTop: 'clamp(0rem, 5vw, 6rem)',
+              marginLeft: 'clamp(0rem, 4vw, 3rem)',
+              boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+              border: '1px solid rgba(59,130,246,0.15)',
+            }}
+          >
             {ROLES.map(r => (
-              <div key={r.title} style={{
-                background: '#fff',
-                borderRadius: 14,
-                padding: '1.2rem 1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
-                border: '1px solid rgba(0,0,0,0.06)',
-              }}>
-                <div style={{
-                  width: 46, height: 46, borderRadius: '50%',
-                  background: '#1a3a6b',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  flexShrink: 0,
-                }}>
+              <div
+                key={r.title}
+                style={{
+                  background: '#ffffff',
+                  borderRadius: 14,
+                  padding: '1.2rem 1.5rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  border: '1px solid rgba(59,130,246,0.15)',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-5px)';
+                  e.currentTarget.style.boxShadow = '0 10px 20px rgba(0,0,0,0.08)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+              >
+                <div
+                  style={{
+                    width: 46,
+                    height: 46,
+                    borderRadius: '50%',
+                    background: '#11265e',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0, // FIX 5: Forces the icon container to remain a perfect circle
+                  }}
+                >
                   <i className={`bi ${r.icon}`} style={{ color: '#fff', fontSize: '1.2rem' }} />
                 </div>
+
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: '1rem', color: '#0f1117' }}>{r.title}</div>
-                  <div style={{ fontSize: '0.82rem', color: '#9ca3af', marginTop: 2 }}>{r.sub}</div>
+                  <div style={{ fontWeight: 700, fontSize: '1rem', color: '#0f1117' }}>
+                    {r.title}
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: '#6b7280', marginTop: 2 }}>
+                    {r.sub}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
@@ -302,8 +423,8 @@ export default function Home() {
 
       {/* ── FOOTER ── */}
       <footer style={{
-         background: '#0f1117',
-         borderTop: '1px solid rgba(255,255,255,0.07)',
+        background: '#0f1117',
+        borderTop: '1px solid rgba(255,255,255,0.07)',
         padding: '3rem 1.5rem 2rem',
       }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
@@ -318,32 +439,17 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Link columns */}
-            {Object.entries(FOOTER_LINKS).map(([col, links]) => (
-              <div key={col}>
-                <div style={{ color: '#fff', fontWeight: 600, fontSize: '0.875rem', marginBottom: '1rem' }}>
-                  {col}
-                </div>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-                  {links.map(l => (
-                    <li key={l}>
-                      <a href="#" style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.82rem', textDecoration: 'none' }}>
-                        {l}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '1.5rem', textAlign: 'center' }}>
-            <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.8rem', margin: 0 }}>
-              © 2026 Fikretak. All rights reserved.
-            </p>
-          </div>
+        {/* Decorative sparkle */}
+        <div
+          style={{
+            position: 'absolute',
+            right: '28%',
+            bottom: '30%',
+            fontSize: '3rem',
+            color: 'rgba(255,255,255,.45)',
+          }}>
         </div>
-      </footer>
+      </section>
 
     </div>
   )
