@@ -6,6 +6,5 @@ router.post('/register',        ctrl.register)
 router.post('/login',           ctrl.login)
 router.get('/me',      protect, ctrl.getMe)
 router.put('/me',      protect, ctrl.updateMe)
-router.put('/change-password', protect, ctrl.changePassword)
 
 module.exports = router
