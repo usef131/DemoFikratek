@@ -4,7 +4,7 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
 import Button from "react-bootstrap/Button";
 
-
+2
 const navStyle = ({ isActive }) => ({
     display: "flex",
     alignItems: "center",

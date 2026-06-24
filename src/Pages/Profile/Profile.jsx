@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react'
-import { Container, Row, Col, Spinner, Tab, Tabs, Navbar, Nav } from 'react-bootstrap'
+import { Container, Row, Col, Spinner, Tab, Tabs } from 'react-bootstrap'
 import { useAuth } from '../../../Context/AuthContext'
 import { ideaService } from '../../../Services/ideaService'
 import IdeaCard from '../../Components/cards/IdeaCard'
-import { FiHome, FiCompass, FiGift, FiAward, FiUser, FiLogOut } from 'react-icons/fi'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useIdeas } from '../../../Context/IdeaContext'
 import SecondNavbar from '../../Components/Common/SecondNavbar'
+import CreatePost from '../createPost/createPost'
+import PostCard from '../../Components/Cards/postCard'
+import { postService } from '../../../Services/postServices'
 
 export default function Profile() {
   const { user } = useAuth()
   const navigate = useNavigate()
   const { myIdeas, myIdeasLoading, fetchMyIdeas } = useIdeas()
-
-  const [interestedIdeas, setInterestedIdeas]     = useState([])
+  const [posts, setPosts] = useState([])
+  const [interestedIdeas, setInterestedIdeas] = useState([])
   const [interestedLoading, setInterestedLoading] = useState(false)
 
   useEffect(() => {
-    if (user?.role === 'entrepreneur') {
-      fetchMyIdeas()
-    }
+    if (user?.role === 'entrepreneur') fetchMyIdeas()
     if (user?.role === 'investor') {
       setInterestedLoading(true)
       ideaService.getInterestedIdeas()
@@ -29,13 +29,22 @@ export default function Profile() {
     }
   }, [user?._id])
 
-  const initials = user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'U'
+  useEffect(() => {
+    postService.getMyPosts().then(d => setPosts(d.posts || []))
+  }, [])
+
+  const handlePostCreated = (newPost) =>
+    setPosts(prev => [newPost, ...prev])
+
+  const handlePostDeleted = (postId) =>
+    setPosts(prev => prev.filter(p => p._id !== postId))
+
+  const initials =
+    user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'U'
 
   return (
     <>
-     {/* ── Navbar ── */}
-
-      <SecondNavbar/>
+      <SecondNavbar />
 
       <div style={{ background: 'var(--fk-bg)', minHeight: '100vh' }}>
         <Container style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
@@ -76,7 +85,7 @@ export default function Profile() {
             <div className="d-flex gap-4 mt-4" style={{ fontSize: '0.875rem' }}>
               <div className="text-center">
                 <div style={{ fontWeight: 800, fontSize: '1.5rem', color: 'var(--fk-text-primary)' }}>
-                  {user?.role === 'investor' ? interestedIdeas.length : myIdeas.length}
+                  {user?.role === 'investor' ? interestedIdeas.length : posts.length}
                 </div>
                 <div style={{ color: 'var(--fk-text-muted)', fontSize: '0.78rem' }}>
                   {user?.role === 'investor' ? 'Interested' : 'Posts'}
@@ -96,7 +105,7 @@ export default function Profile() {
           {/* ── Tabs ── */}
           <Tabs defaultActiveKey="ideas" className="mb-3" style={{ fontSize: '0.875rem', fontWeight: 600 }}>
 
-            {/* Entrepreneur tab */}
+            {/* Entrepreneur: My Ideas */}
             {user?.role === 'entrepreneur' && (
               <Tab eventKey="ideas" title={`My Ideas (${myIdeas.length})`}>
                 <div className="mt-3">
@@ -128,9 +137,19 @@ export default function Profile() {
               </Tab>
             )}
 
-            {/* Investor tab */}
+            {/* Posts tab */}
+            <Tab eventKey="posts" title={`Posts (${posts.length})`}>
+              <div className="mt-3">
+                <CreatePost onPostCreated={handlePostCreated} />
+                {posts.map(post => (
+                  <PostCard key={post._id} post={post} onDelete={handlePostDeleted} />
+                ))}
+              </div>
+            </Tab>
+
+            {/* Investor: Interested Ideas */}
             {user?.role === 'investor' && (
-              <Tab eventKey="ideas" title={`Interested Ideas (${interestedIdeas.length})`}>
+              <Tab eventKey="interested" title={`Interested Ideas (${interestedIdeas.length})`}>
                 <div className="mt-3">
                   {interestedLoading ? (
                     <div className="text-center py-5">

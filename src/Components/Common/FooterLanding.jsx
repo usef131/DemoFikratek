@@ -19,7 +19,7 @@ export default function Footer() {
           <Col md={2} className="offset-md-2">
             <h6>Product</h6>
             <ul className="list-unstyled" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <li><Link to="/ideas">Browse Ideas</Link></li>
+              <li><Link to="/register">Browse Ideas</Link></li>
               
             </ul>
           </Col>
