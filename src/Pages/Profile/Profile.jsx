@@ -101,7 +101,7 @@ export default function Profile() {
                   {user?.role === 'investor' ? interestedIdeas.length : myIdeas.length}
                 
                 <div style={{ color: 'var(--fk-text-muted)', fontSize: '0.78rem' }}>
-                  {user?.role === 'investor' ? 'Interested' : 'Posts'}
+                  {user?.role === 'investor' ? 'Interested' : 'Ideas'}
                 </div>
                 </div>
                 </div>
@@ -113,8 +113,9 @@ export default function Profile() {
                 </div>
 
                 <div className="col text-center">
-                <div  className="fk-card h-100 p-4 d-flex flex-column " style={{ fontWeight: 800, fontSize: '1.5rem', color: 'var(--fk-text-primary)' }}>0
-                <div style={{ color: 'var(--fk-text-muted)', fontSize: '0.78rem' }}>Likes</div>
+                <div  className="fk-card h-100 p-4 d-flex flex-column " style={{ fontWeight: 800, fontSize: '1.5rem', color: 'var(--fk-text-primary)' }}>
+                   {user?.role === 'investor' ? interestedIdeas.length : myIdeas.length}
+                <div style={{ color: 'var(--fk-text-muted)', fontSize: '0.78rem' }}> Posts</div>
                 </div>
                
               </div>
@@ -135,7 +136,7 @@ export default function Profile() {
                   ) : myIdeas.length > 0 ? (
                     <Row className="g-3 ">
                       {myIdeas.map(idea => (
-                        <Col key={idea._id} xs={12} md={6} lg={4}>
+                        <Col key={idea._id} xs={12} >
                           <IdeaCard idea={idea} />
                         </Col>
                       ))}
@@ -168,7 +169,7 @@ export default function Profile() {
                   ) : interestedIdeas.length > 0 ? (
                     <Row className="g-3">
                       {interestedIdeas.map(idea => (
-                        <Col key={idea._id} xs={12} md={6} lg={4}>
+                        <Col key={idea._id} xs={12} >
                           <IdeaCard idea={idea} />
                         </Col>
                       ))}

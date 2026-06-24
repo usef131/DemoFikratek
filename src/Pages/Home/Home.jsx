@@ -422,11 +422,11 @@ export default function Home() {
       </section>
 
       {/* ── FOOTER ── */}
-      <footer style={{
+       <footer style={{
         background: '#0f1117',
         borderTop: '1px solid rgba(255,255,255,0.07)',
         padding: '3rem 1.5rem 2rem',
-      }}>
+        }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '2rem', marginBottom: '2.5rem' }}>
             {/* Brand */}
@@ -438,6 +438,9 @@ export default function Home() {
                 Where ideas meet action. Building the future of collaboration.
               </p>
             </div>
+            </div>
+          </div>
+        </footer>
 
         {/* Decorative sparkle */}
         <div
@@ -449,7 +452,7 @@ export default function Home() {
             color: 'rgba(255,255,255,.45)',
           }}>
         </div>
-      </section>
+      
 
     </div>
   )
