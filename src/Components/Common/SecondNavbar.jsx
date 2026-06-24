@@ -1,4 +1,3 @@
-
 import { FiHome, FiCompass, FiGift, FiUser, FiLogOut } from "react-icons/fi";
 
 import { Navbar, Nav, Container } from "react-bootstrap";

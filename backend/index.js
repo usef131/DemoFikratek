@@ -3,7 +3,7 @@ const express    = require('express')
 const cors       = require('cors')
 const mongoose   = require('mongoose')
 const rateLimit  = require('express-rate-limit')
-
+const postRoutes  = require('./routes/post')
 const authRoutes  = require('./routes/auth')
 const ideaRoutes  = require('./routes/ideas')
 const userRoutes = require('./routes/Investors')
@@ -27,7 +27,7 @@ app.use('/api/auth',  authRoutes)
 app.use('/api/ideas', ideaRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/projects', projectRoutes)
-
+app.use('/api/posts', postRoutes)
 
 
 

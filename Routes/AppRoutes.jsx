@@ -2,7 +2,7 @@ import { Routes, Route, Navigate , useLocation} from 'react-router-dom'
 import { useAuth } from '../Context/AuthContext'
 
 import MainLayout from '../src/Components/Layout/MainLayout'
-
+import CreatePost from '../src/Pages/createPost/createPost'
 import Home from '../src/Pages/Home/Home'
 import Ideas from '../src/Pages/Ideas/Ideas'
 import IdeaDetails from '../src/Pages/IdeaDetails/IdeaDetails'
@@ -73,6 +73,13 @@ export default function AppRoutes() {
             path="/create-idea"
             element={<CreateIdea />}
           />
+
+          <Route
+          path="/create-post"
+          element={<CreatePost />}
+          />
+
+          
 
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />

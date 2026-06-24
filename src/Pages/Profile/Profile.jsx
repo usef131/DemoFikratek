@@ -6,14 +6,19 @@ import IdeaCard from '../../Components/cards/IdeaCard'
 import { useNavigate } from 'react-router-dom'
 import { useIdeas } from '../../../Context/IdeaContext'
 import SecondNavbar from '../../Components/Common/SecondNavbar'
+import CreatePost from '../createPost/createPost'
+import PostCard from '../../Components/Cards/postCard'
+import { postService } from '../../../Services/postServices'
+
+
 
 export default function Profile() {
   const { user } = useAuth()
   const navigate = useNavigate()
   const { myIdeas, myIdeasLoading, fetchMyIdeas } = useIdeas()
-
   const [interestedIdeas, setInterestedIdeas] = useState([])
   const [interestedLoading, setInterestedLoading] = useState(false)
+  const [posts, setPosts] = useState([])
 
   useEffect(() => {
     if (user?.role === 'entrepreneur') fetchMyIdeas()
@@ -26,7 +31,18 @@ export default function Profile() {
     }
   }, [user?._id])
 
-  const initials = user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'U'
+  useEffect(() => {
+    postService.getMyPosts().then(d => setPosts(d.posts || []))
+  }, [])
+
+  const handlePostCreated = (newPost) =>
+    setPosts(prev => [newPost, ...prev])
+
+  const handlePostDeleted = (postId) =>
+    setPosts(prev => prev.filter(p => p._id !== postId))
+
+  const initials =
+    user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'U'
 
   return (
     <>
@@ -191,7 +207,7 @@ export default function Profile() {
             </div>
             <div className="col text-center">
               <div className="fk-card h-100 p-4 d-flex flex-column" style={{ fontWeight: 800, fontSize: '1.5rem', color: 'var(--fk-text-primary)' }}>
-                {user?.role === 'investor' ? interestedIdeas.length : myIdeas.length}
+                {posts.length}
                 <div style={{ color: 'var(--fk-text-muted)', fontSize: '0.78rem' }}>Posts</div>
               </div>
             </div>
@@ -228,9 +244,19 @@ export default function Profile() {
                 </div>
               </Tab>
             )}
+          
+            {/* Posts tab */}
+            <Tab eventKey="posts" title={`Posts (${posts.length})`}>
+              <div className="mt-3">
+                <CreatePost onPostCreated={handlePostCreated} />
+                {posts.map(post => (
+                  <PostCard key={post._id} post={post} onDelete={handlePostDeleted} />
+                ))}
+              </div>
+            </Tab>
 
             {user?.role === 'investor' && (
-              <Tab eventKey="ideas" title={`Interested Ideas (${interestedIdeas.length})`}>
+              <Tab eventKey="interested" title={`Interested Ideas (${interestedIdeas.length})`}>
                 <div className="mt-3">
                   {interestedLoading ? (
                     <div className="text-center py-5">
