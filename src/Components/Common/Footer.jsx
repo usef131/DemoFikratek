@@ -39,7 +39,7 @@ export default function Footer() {
             <ul className="list-unstyled" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <li><Link to="/">Privacy</Link></li>
               <li><Link to="/">Terms</Link></li>
-              <li><Link to="/">Contact</Link></li>
+              <li><Link to="/contact">Contact</Link></li>
             </ul>
           </Col>
         </Row>

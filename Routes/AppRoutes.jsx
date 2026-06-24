@@ -12,6 +12,7 @@ import Login from '../src/Pages/Auth/Login'
 import Register from '../src/Pages/Auth/Register'
 import NotFound from '../src/Pages/NotFound/NotFound'
 import HomePageTwo from '../src/Pages/HomePageTwo/HomePageTwo'
+import Contact from '../src/Pages/contact/Contact'
 import BrowseProjects from '../src/Pages/BrowseProjects/BrowseProjects'
 import EditProfile from '../src/Pages/Profile/Editprofile'
 import InvestorPage from '../src/Pages/InvestorPage/InvestorPage'
@@ -44,6 +45,9 @@ export default function AppRoutes() {
 
           <Route path="/Investor" element={<InvestorPage />} />
 
+
+
+          <Route path="/contact" element={<Contact />} />
 
           <Route path="/browse-projects" element={<BrowseProjects />} />
           <Route path="/browse-projects/:id" element={<IdeaDetails />} />
