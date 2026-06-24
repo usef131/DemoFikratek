@@ -12,7 +12,7 @@ export default function CreateIdea() {
 
   const [form, setForm] = useState({
     title: '', summary: '', description: '',
-    category: '', targetMarket: '', fundingGoal: '',
+    category: '', targetMarket: '', fundingGoal: '', teamMembers: ''
   })
   const [errors,   setErrors]   = useState({})
   const [loading,  setLoading]  = useState(false)
@@ -26,6 +26,7 @@ export default function CreateIdea() {
     if (form.summary.length > 300) e.summary = 'Max 300 characters'
     if (!form.category)       e.category = 'Please select a category'
     if (form.fundingGoal && isNaN(Number(form.fundingGoal))) e.fundingGoal = 'Enter a valid number'
+    if (!form.teamMembers.trim()) e.teamMembers = 'Team members is required'
     return e
   }
 
@@ -162,6 +163,21 @@ export default function CreateIdea() {
                   />
                 </Form.Group>
 
+                {/* Team Members */}
+                <Form.Group className="mb-3">
+                  <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Team Members</Form.Label>
+                  <Form.Control
+                    type="number"
+                    value={form.teamMembers}
+                    onChange={handleChange('teamMembers')}
+                    placeholder="e.g. 3"
+                    isInvalid={!!errors.teamMembers}
+                    min={1}
+                    style={{ borderRadius: 'var(--radius-sm)', fontSize: '0.9rem' }}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.teamMembers}</Form.Control.Feedback>
+                </Form.Group>
+
                 {/* Funding Goal */}
                 <Form.Group className="mb-5">
                   <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Funding Goal (USD)</Form.Label>
@@ -191,15 +207,15 @@ export default function CreateIdea() {
                     {loading ? <><Spinner size="sm" className="me-2" />Submitting…</> : 'Submit Idea'}
                   </Button>
                   
-                  
+
                   <Button
                     variant="outline-secondary"
                     size="lg"
-                    onClick={() => navigate('/home-two')}
+                    onClick={() => navigate('/Browse-Projects')}
                     disabled={loading}
                     style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600 }}
                   >
-                    Skip for now
+                    Cancel
                   </Button>
 
                 </div>

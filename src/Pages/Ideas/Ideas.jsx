@@ -23,7 +23,6 @@ export default function Ideas() {
       sort,
       page,
       limit: 9,
-      status: 'approved',
       ...overrides,
     }
     const sp = new URLSearchParams()

@@ -1,0 +1,109 @@
+.main-btn {
+  border-radius: 16px !important;
+  padding: 18px 44px !important;
+  min-width: 200px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+
+.main-btn:hover {
+  transform: translateY(-5px);
+}
+
+
+.primary-btn {
+  background: #032A6E !important;
+  border: none !important;
+  color: white !important;
+  box-shadow: 0 12px 28px rgba(3, 42, 110, 0.25);
+}
+
+.primary-btn:hover {
+  background: #021f52 !important;
+  box-shadow: 0 18px 40px rgba(3, 42, 110, 0.35);
+}
+
+
+button.main-btn.white-btn {
+  background: #ffffff !important;
+  border: 1px solid #E5E7EB !important;
+  color: #111827 !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.white-btn:hover {
+  background: #ffffff !important;
+  border-color: #d1d5db !important;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
+}
+
+
+.investor-btn {
+  background: #032A6E !important;
+  color: #fff !important;
+  border: none !important;
+
+  padding: 22px 70px !important;
+  min-width: 280px;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  border-radius: 999px !important;
+
+  box-shadow: 0 16px 40px rgba(3, 42, 110, 0.35);
+
+  transition: all 0.3s ease;
+}
+
+.investor-btn:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 22px 55px rgba(3, 42, 110, 0.45);
+}
+
+.featured-table {
+  border-collapse: separate !important;
+  border-spacing: 0 12px !important;
+}
+
+.featured-table thead th {
+  color: #111 !important;
+  font-weight: 800;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 22px !important;
+  border-bottom: 1px solid #9fa2a8;
+  background: transparent !important;
+  vertical-align: bottom;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.featured-table tbody tr {
+  background: rgb(250, 240, 240);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  border-radius: 12px;
+}
+
+.featured-table tbody td {
+  padding: 20px 22px !important;
+  vertical-align: middle;
+  border: none !important;
+}
+
+.featured-table th:nth-child(4),
+.featured-table td:nth-child(4) {
+  text-align: left;
+}
+
+.featured-table th:nth-child(5),
+.featured-table td:nth-child(5) {
+  text-align: center;
+}
+
+.featured-table th:nth-child(6),
+.featured-table td:nth-child(6) {
+  text-align: right;
+}

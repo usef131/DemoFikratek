@@ -6,19 +6,19 @@ exports.getIdeas = async (req, res) => {
     const { search, category, sort, status = 'approved', page = 1, limit = 9 } = req.query
 
     const filter = {}
-    if (status)   filter.status = status
+    if (status) filter.status = status
     if (category) filter.category = category
-    if (search)   filter.$text = { $search: search }
+    if (search) filter.$text = { $search: search }
 
     const sortMap = {
-      newest:        { createdAt: -1 },
-      oldest:        { createdAt:  1 },
+      newest: { createdAt: -1 },
+      oldest: { createdAt: 1 },
       most_interest: { interestCount: -1 },
-      most_viewed:   { views: -1 },
+      most_viewed: { views: -1 },
     }
     const sortObj = sortMap[sort] || sortMap.newest
 
-    const skip  = (Number(page) - 1) * Number(limit)
+    const skip = (Number(page) - 1) * Number(limit)
     const total = await Idea.countDocuments(filter)
     const ideas = await Idea.find(filter)
       .sort(sortObj)
@@ -64,11 +64,12 @@ exports.getIdeaById = async (req, res) => {
 // POST /api/ideas
 exports.createIdea = async (req, res) => {
   try {
-    const { title, summary, description, category, targetMarket, fundingGoal } = req.body
+    const { title, summary, description, category, targetMarket, fundingGoal, fundingRaised, teamSize, image, mission, impactScore, marketSize, userGrowth, co2Saved, roadmap } = req.body
+
     const idea = await Idea.create({
-      title, summary, description, category, targetMarket, fundingGoal,
+      title, summary, description, category, targetMarket, fundingGoal, fundingRaised, teamSize, image, mission, impactScore, marketSize, userGrowth, co2Saved, roadmap,
       entrepreneur: req.user._id,
-      status: 'approved', // ⬅ auto-approve on creation, no admin review needed
+      status: 'approved',
     })
     await idea.populate('entrepreneur', 'name')
     res.status(201).json({ idea })
@@ -135,6 +136,17 @@ exports.withdrawInterest = async (req, res) => {
     )
     await idea.save()
     res.json({ message: 'Interest withdrawn', interestCount: idea.interestCount })
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+}
+
+exports.getInterestedIdeas = async (req, res) => {
+  try {
+    const ideas = await Idea.find({ interestedInvestors: req.user._id })
+      .sort({ createdAt: -1 })
+      .populate('entrepreneur', 'name')
+    res.json({ ideas })
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
