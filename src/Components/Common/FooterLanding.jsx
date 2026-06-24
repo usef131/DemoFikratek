@@ -27,7 +27,7 @@ export default function Footer() {
           <Col md={2}>
             <h6>Company</h6>
             <ul className="list-unstyled" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <li><Link to="/">About</Link></li>
+              <li><a href="#features">About</a></li>
             </ul>
           </Col>
 
@@ -35,7 +35,7 @@ export default function Footer() {
             <h6>Legal</h6>
             <ul className="list-unstyled" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             
-              <li><Link to="/">Contact</Link></li>
+              <li><Link to="/Contact">Contact</Link></li>
             </ul>
           </Col>
         </Row>
