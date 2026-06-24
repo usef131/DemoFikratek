@@ -12,7 +12,7 @@ import Login from '../src/Pages/Auth/Login'
 import Register from '../src/Pages/Auth/Register'
 import NotFound from '../src/Pages/NotFound/NotFound'
 import HomePageTwo from '../src/Pages/HomePageTwo/HomePageTwo'
-
+import Contact from '../src/Pages/contact/Contact'
 function PrivateRoute({ children, roles }) {
   const { user, loading } = useAuth()
   if (loading) return null
@@ -29,6 +29,8 @@ export default function AppRoutes() {
 
 
       <Route path="/home-two" element={<HomePageTwo />} />
+      <Route path="/contact" element={<Contact />} />
+
 
       <Route path="/ideas" element={<Ideas />} />
       <Route path="/ideas/:id" element={<IdeaDetails />} />
