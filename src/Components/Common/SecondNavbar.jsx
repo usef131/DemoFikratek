@@ -51,7 +51,7 @@ function SecondNavbar() {
                             Projects
                         </NavLink>
 
-                        <NavLink to="/investors" className="nav-link-custom">
+                        <NavLink to="/investor" className="nav-link-custom">
                             <FiGift size={17} />
                             Investors
                         </NavLink>
