@@ -195,11 +195,11 @@ export default function CreateIdea() {
                   <Button
                     variant="outline-secondary"
                     size="lg"
-                    onClick={() => navigate('/home-two')}
+                    onClick={() => navigate('/Browse-Projects')}
                     disabled={loading}
                     style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600 }}
                   >
-                    Skip for now
+                    Cancel
                   </Button>
 
                 </div>

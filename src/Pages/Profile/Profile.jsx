@@ -114,9 +114,9 @@ export default function Profile() {
                       <Spinner animation="border" style={{ color: 'var(--fk-primary-btn)' }} />
                     </div>
                   ) : myIdeas.length > 0 ? (
-                    <Row className="g-3">
+                    <Row className="g-3 ">
                       {myIdeas.map(idea => (
-                        <Col key={idea._id} xs={12}>
+                        <Col key={idea._id} xs={12} md={6} lg={4}>
                           <IdeaCard idea={idea} />
                         </Col>
                       ))}
@@ -158,7 +158,7 @@ export default function Profile() {
                   ) : interestedIdeas.length > 0 ? (
                     <Row className="g-3">
                       {interestedIdeas.map(idea => (
-                        <Col key={idea._id} xs={12}>
+                        <Col key={idea._id} xs={12} md={6} lg={4}>
                           <IdeaCard idea={idea} />
                         </Col>
                       ))}

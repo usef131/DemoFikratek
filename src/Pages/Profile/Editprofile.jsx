@@ -109,7 +109,7 @@ export default function EditProfile() {
 
                     <Button
                       type="button"
-                      variant="outline-secondary"
+                      variant="secondary"
                       onClick={() => navigate('/profile')}
                       style={{ borderRadius: 'var(--radius-pill)', fontWeight: 700, padding: '8px 24px' }}
                     >
