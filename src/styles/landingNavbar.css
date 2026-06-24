@@ -1,0 +1,45 @@
+/* NAVBAR BACKGROUND */
+.fk-navbar {
+  background: #0f172a;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* BRAND */
+.fk-navbar-brand {
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: -0.5px;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* RIGHT BUTTON AREA */
+.fk-auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* SIGN IN BUTTON */
+.fk-btn-outline {
+  border-radius: 999px !important;
+  padding: 6px 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+/* GET STARTED BUTTON */
+.fk-btn-primary {
+  border-radius: 999px !important;
+  padding: 6px 18px !important;
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  border: none !important;
+  font-weight: 600 !important;
+  color: #fff !important;
+  transition: all 0.2s ease;
+}
+
+.fk-btn-primary:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}

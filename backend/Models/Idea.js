@@ -20,7 +20,7 @@ const ideaSchema = new mongoose.Schema(
     },
     targetMarket: { type: String, default: "" },
     fundingGoal: { type: Number, default: null },
-
+    teamMembers: { type: Number, default: 1 },
     entrepreneur: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

@@ -4,6 +4,7 @@ import { useAuth } from "../../../Context/AuthContext";
 import { Container, Row, Col, Button, Table, } from "react-bootstrap";
 import SecondNavbar from "../../Components/Common/SecondNavbar";
 import Footer from "../../Components/Common/Footer";
+import PageTransition from "../../Components/PageTransition";
 import FeaturedStartupRow from "../../Components/Cards/FeaturedStartupRow";
 import "./HomeTwo.css";
 
@@ -65,6 +66,7 @@ export default function HomePageTwo() {
       <SecondNavbar />
 
       {/* ── Hero ── */}
+
       <div
         style={{
           background:
@@ -72,7 +74,9 @@ export default function HomePageTwo() {
           paddingTop: "90px",
           paddingBottom: "120px",
         }}
-      >
+       >
+      <PageTransition>
+
         <Container>
           <Row className="justify-content-center text-center">
             <Col lg={10}>
@@ -139,6 +143,8 @@ export default function HomePageTwo() {
             </Col>
           </Row>
         </Container>
+
+              </PageTransition>
       </div>
 
 
@@ -373,6 +379,7 @@ export default function HomePageTwo() {
             </Button>
           </div>
         </div>
+        
       </div>
 
       <Footer />
