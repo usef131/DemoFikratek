@@ -20,16 +20,27 @@ const ideaSchema = new mongoose.Schema(
     },
     targetMarket: { type: String, default: "" },
     fundingGoal: { type: Number, default: null },
+    fundingRaised: { type: Number, default: 0 },
+    teamSize: { type: Number, default: 1 },
+    image: { type: String, default: '' },
+    mission: { type: String, default: '' },
+    impactScore: { type: String, default: '8.4/10' },
+    marketSize: { type: String, default: '$12B' },
+    userGrowth: { type: String, default: '+24%' },
+    co2Saved: { type: String, default: '1.2k t' },
+    roadmap: { type: Array, default: [] },
 
+    teamMembers: { type: Number, default: 1 },
     entrepreneur: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
 
+
     status: {
       type: String,
-      enum: ["approved"], 
+      enum: ["approved"],
       default: "approved",
     },
     rejectionReason: { type: String, default: "" },

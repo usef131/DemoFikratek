@@ -44,7 +44,7 @@ export default function Footer() {
 
         <p style={{ fontSize: '0.8rem', textAlign: 'center', color: 'rgba(255,255,255,0.35)', margin: 0 }}>
           © {new Date().getFullYear()} Fikretak. All rights reserved. Built with{' '}
-          <i class="bi bi-heart-fill"></i> by the Fikretak Team.
+          <i className="bi bi-heart-fill"></i> by the Fikretak Team.
         </p>
       </Container>
     </footer>

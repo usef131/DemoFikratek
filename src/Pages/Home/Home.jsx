@@ -81,7 +81,7 @@ export default function Home() {
           maxWidth: 820,
           marginBottom: '1.5rem',
         }}>
-          Welcome to Fikretak
+          Your Ideas Accelerated
         </h1>
 
         <p style={{
@@ -394,103 +394,53 @@ export default function Home() {
       </section>
 
       {/* ── CTA BANNER ── */}
-      <section
-        style={{
-          background: 'radial-gradient(circle at center, #06204a 0%, #041530 45%, #020817 100%)',
-          position: 'relative',
-          overflow: 'hidden',
-          padding: '8rem 1.5rem',
-          textAlign: 'center',
+      <section style={{
+        background: '#0f1117',
+        padding: '5rem 1.5rem',
+        textAlign: 'center',
+      }}>
+        <h2 style={{ color: '#fff', fontSize: 'clamp(1.8rem, 4vw, 2.6rem)', fontWeight: 800, letterSpacing: '-0.5px', marginBottom: '1rem' }}>
+          Join the Startup Revolution
+        </h2>
+        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.95rem', marginBottom: '2.5rem' }}>
+          2,500+ ideas validated • $45M+ in funding raised • 1,000+ teams formed
+        </p>
+        <Link to="/register" style={{
+          background: '#1a3a6b',
+          color: '#fff',
+          textDecoration: 'none',
+          padding: '14px 32px',
+          borderRadius: 999,
+          fontWeight: 700,
+          fontSize: '1rem',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 8,
         }}>
+          Get Started for Free <span>→</span>
+        </Link>
+      </section>
 
-        {/* Circular rings */}
-        <div
-          style={{
-            position: 'absolute',
-            width: '700px',
-            height: '700px',
-            border: '1px solid rgba(255,255,255,0.06)',
-            borderRadius: '50%',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-          }} />
-
-        <div
-          style={{
-            position: 'absolute',
-            width: '550px',
-            height: '550px',
-            border: '1px solid rgba(255,255,255,0.05)',
-            borderRadius: '50%',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-          }} />
-
-        <div
-          style={{
-            position: 'absolute',
-            width: '400px',
-            height: '400px',
-            border: '1px solid rgba(255,255,255,0.05)',
-            borderRadius: '50%',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-          }} />
-
-        {/* Blue glow */}
-        <div
-          style={{
-            position: 'absolute',
-            width: '600px',
-            height: '600px',
-            background: 'rgba(37,99,235,0.15)',
-            filter: 'blur(80px)',
-            borderRadius: '50%',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-          }} />
-
-        <div style={{ position: 'relative', zIndex: 2 }}>
-          <h2 style={{
-            color: '#fff',
-            fontSize: 'clamp(1.4rem, 3vw, 2rem)',
-            fontWeight: 800,
-          }}>
-            Join the Startup Revolution
-          </h2>
-
-          <p
-            style={{
-              color: 'rgba(255,255,255,0.65)',
-              fontSize: '1rem',
-              marginBottom: '3rem',
-            }}>
-
-            2,500+ ideas validated • $45M+ in funding raised • 1,000+ teams formed
-          </p>
-
-          <Link
-            to="/register" className='cta-btn'
-            style={{
-              background: '#2a63b9',
-              color: '#fff',
-              textDecoration: 'none',
-              padding: '18px 42px',
-              borderRadius: '999px',
-              fontWeight: 700,
-              fontSize: '1rem',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              boxShadow: '0 10px 30px rgba(37,99,235,.35)',
-            }}>
-            Get Started for Free →
-          </Link>
-        </div>
+      {/* ── FOOTER ── */}
+       <footer style={{
+        background: '#0f1117',
+        borderTop: '1px solid rgba(255,255,255,0.07)',
+        padding: '3rem 1.5rem 2rem',
+        }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '2rem', marginBottom: '2.5rem' }}>
+            {/* Brand */}
+            <div>
+              <div style={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.75rem' }}>
+                Fikretak
+              </div>
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.82rem', lineHeight: 1.7, margin: 0 }}>
+                Where ideas meet action. Building the future of collaboration.
+              </p>
+            </div>
+            </div>
+          </div>
+        </footer>
 
         {/* Decorative sparkle */}
         <div
@@ -502,7 +452,7 @@ export default function Home() {
             color: 'rgba(255,255,255,.45)',
           }}>
         </div>
-      </section>
+      
 
     </div>
   )
