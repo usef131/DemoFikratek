@@ -1,104 +1,185 @@
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { FaEnvelope } from "react-icons/fa";
-
+import { FaEnvelope, FaMapMarkerAlt, FaMoneyBillWave, FaBookmark, FaComment } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 export default function InvestorCard({ investor }) {
+
+    const navigate = useNavigate();
+    const initials = investor.name
+        ?.split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2);
+
     return (
         <Card
             className="h-100 border-0"
             style={{
-                borderRadius: "20px",
-                transition: "0.3s",
-                boxShadow: "0 8px 25px rgba(0,0,0,0.08)",
+                borderRadius: "14px",
+                border: "0.5px solid #e5e7eb",
+                boxShadow: "none",
+                transition: "border-color 0.15s, box-shadow 0.15s",
+                cursor: "pointer",
+            }}
+            onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "#AFA9EC";
+                e.currentTarget.style.boxShadow = "0 2px 12px rgba(83,74,183,0.1)";
+            }}
+            onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#e5e7eb";
+                e.currentTarget.style.boxShadow = "none";
             }}
         >
             <Card.Body
                 className="d-flex flex-column"
-                style={{ padding: "1.5rem" }}
+                style={{ padding: "1.25rem", gap: "14px" }}
             >
-                <div className="text-center mb-3">
+                {/* Top: avatar + name */}
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                     <div
                         style={{
-                            width: "80px",
-                            height: "80px",
+                            width: "48px",
+                            height: "48px",
                             borderRadius: "50%",
-                            background: "linear-gradient(135deg,#4F46E5,#7C3AED)",
-                            color: "#fff",
-                            fontSize: "30px",
-                            fontWeight: "bold",
+                            background: "#EEEDFE",
+                            color: "#3C3489",
+                            fontSize: "16px",
+                            fontWeight: "600",
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
-                            margin: "auto",
+                            flexShrink: 0,
                         }}
                     >
-                        {investor.name?.charAt(0).toUpperCase()}
+                        {initials}
                     </div>
-
-                    <h5
-                        style={{
-                            marginTop: "15px",
-                            fontWeight: "700",
-                            color: "#1f2937",
-                        }}
-                    >
-                        {investor.name}
-                    </h5>
-
-                    <span
-                        style={{
-                            background: "#EEF2FF",
-                            color: "#4F46E5",
-                            padding: "6px 14px",
-                            borderRadius: "20px",
-                            fontSize: "12px",
-                            fontWeight: "600",
-                        }}
-                    >
-                        Investor
-                    </span>
+                    <div>
+                        <p
+                            style={{
+                                margin: 0,
+                                fontWeight: "600",
+                                fontSize: "15px",
+                                color: "#1f2937",
+                            }}
+                        >
+                            {investor.name}
+                        </p>
+                        <span
+                            style={{
+                                background: "#EEEDFE",
+                                color: "#3C3489",
+                                padding: "2px 10px",
+                                borderRadius: "20px",
+                                fontSize: "11px",
+                                fontWeight: "600",
+                            }}
+                        >
+                            Investor
+                        </span>
+                    </div>
                 </div>
 
+                {/* Bio */}
                 <p
                     style={{
                         color: "#6B7280",
-                        fontSize: "14px",
-                        textAlign: "center",
-                        flexGrow: 1,
+                        fontSize: "13px",
+                        lineHeight: "1.55",
+                        margin: 0,
                     }}
                 >
                     {investor.bio ||
-                        "Experienced investor looking for innovative startup ideas."}
+                        "Experienced investor looking for innovative startup ideas in the MENA region."}
                 </p>
 
-                <div
-                    style={{
-                        color: "#6B7280",
-                        fontSize: "14px",
-                        marginBottom: "15px",
-                        wordBreak: "break-word",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        gap: "8px",
-                    }}
-                >
-                    <FaEnvelope />
-                    <span>{investor.email}</span>
+                {/* Sector tags */}
+                {investor.sectors?.length > 0 && (
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                        {investor.sectors.map((s) => (
+                            <span
+                                key={s}
+                                style={{
+                                    fontSize: "11px",
+                                    padding: "3px 9px",
+                                    borderRadius: "20px",
+                                    border: "0.5px solid #d1d5db",
+                                    color: "#6B7280",
+                                    background: "#f9fafb",
+                                }}
+                            >
+                                {s}
+                            </span>
+                        ))}
+                    </div>
+                )}
+
+                {/* Meta info */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "7px" }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            fontSize: "13px",
+                            color: "#6B7280",
+                        }}
+                    >
+                        <FaEnvelope size={13} style={{ flexShrink: 0 }} />
+                        <span style={{ wordBreak: "break-word" }}>{investor.email}</span>
+                    </div>
+
+                    {investor.ticketSize && (
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                fontSize: "13px",
+                                color: "#6B7280",
+                            }}
+                        >
+                            <FaMoneyBillWave size={13} style={{ flexShrink: 0 }} />
+                            <span>{investor.ticketSize}</span>
+                        </div>
+                    )}
+
+                    {investor.location && (
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                fontSize: "13px",
+                                color: "#6B7280",
+                            }}
+                        >
+                            <FaMapMarkerAlt size={13} style={{ flexShrink: 0 }} />
+                            <span>{investor.location}</span>
+                        </div>
+                    )}
                 </div>
 
-                <Button
-                    style={{
-                        width: "100%",
-                        borderRadius: "30px",
-                        padding: "10px",
-                        fontWeight: "600",
-                        background: "linear-gradient(135deg,#4F46E5,#7C3AED)",
-                        border: "none",
-                    }}
-                >
-                    View Profile
-                </Button>
+                {/* Divider */}
+                <hr style={{ border: "none", borderTop: "0.5px solid #e5e7eb", margin: 0 }} />
+
+                {/* Actions */}
+                <div style={{ display: "flex", gap: "8px" }}>
+                    <Button
+                        onClick= {() => navigate(`/ViewProfile/${investor._id}`)}
+                        style={{
+                            flex: 1,
+                            borderRadius: "8px",
+                            padding: "8px",
+                            fontWeight: "600",
+                            fontSize: "13px",
+                            background: "#534AB7",
+                            border: "none",
+                        }}
+                    >
+                        View profile
+                    </Button>
+                </div>
             </Card.Body>
         </Card>
     );

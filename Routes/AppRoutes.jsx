@@ -17,6 +17,7 @@ import BrowseProjects from '../src/Pages/BrowseProjects/BrowseProjects'
 import EditProfile from '../src/Pages/Profile/Editprofile'
 import InvestorPage from '../src/Pages/InvestorPage/InvestorPage'
 import { AnimatePresence, motion } from "framer-motion";
+import ViewProfile from '../src/Pages/InvestorPage/ViewProfile'
 
  
 function PrivateRoute({ children, roles }) {
@@ -64,6 +65,9 @@ export default function AppRoutes() {
               </PrivateRoute>
             }
           />
+      
+         <Route path='ViewProfile/:id' element={<ViewProfile />} />
+
 
           <Route
             path="/create-idea"
