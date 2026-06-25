@@ -139,6 +139,25 @@ exports.updateIdea = async (req, res) => {
     const idea = await Idea.findById(req.params.id);
     if (!idea) return res.status(404).json({ message: "Idea not found" });
     if (idea.entrepreneur.toString() !== req.user._id.toString())
+      return res.status(403).json({ message: 'Not authorized' })
+
+    const allowed = [
+      'title', 'summary', 'description', 'category',
+      'targetMarket', 'fundingGoal', 'image', 'teamMembers'
+    ]
+    allowed.forEach(f => { if (req.body[f] !== undefined) idea[f] = req.body[f] })
+
+    
+    if (req.body.teamMembers !== undefined) idea.teamSize = req.body.teamMembers
+
+   
+    if (req.body.roadmap !== undefined) {
+      idea.roadmap = req.body.roadmap
+      idea.markModified('roadmap')
+    }
+
+    await idea.save()
+    res.json({ idea })
       return res.status(403).json({ message: "Not authorized" });
 
     const allowed = [

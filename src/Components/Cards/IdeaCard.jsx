@@ -1,4 +1,7 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../../Context/AuthContext'
+import { ideaService } from '../../../Services/ideaService'
+import { useIdeas } from '../../../Context/IdeaContext'
 
 const STATUS_STYLES = {
   prototype: 'fk-status-prototype',
@@ -20,6 +23,22 @@ const CATEGORY_COLORS = {
 }
 
 export default function IdeaCard({ idea }) {
+  const { user } = useAuth()
+  const navigate = useNavigate()
+  const { fetchMyIdeas } = useIdeas()
+
+const isOwner = user?._id && String(user._id) === String(idea.entrepreneur?._id ?? idea.entrepreneur)
+
+  const handleDelete = async () => {
+    if (!window.confirm('Are you sure you want to delete this idea?')) return
+    try {
+      await ideaService.deleteIdea(idea._id)
+      fetchMyIdeas()
+    } catch (err) {
+      alert('Failed to delete idea')
+    }
+  }
+
   const catStyle = CATEGORY_COLORS[idea.category] || CATEGORY_COLORS.Other
   const statusKey = (idea.status || 'idea').toLowerCase()
   const statusClass = STATUS_STYLES[statusKey] || 'fk-status-idea'
@@ -29,48 +48,33 @@ export default function IdeaCard({ idea }) {
 
   return (
     <div className="fk-card h-100 p-4 d-flex flex-column">
-      {/* Top row: category + status badge */}
       <div className="d-flex align-items-center justify-content-between mb-3">
         <span style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          padding: '3px 10px',
-          borderRadius: 'var(--radius-pill)',
-          fontSize: '0.72rem',
-          fontWeight: 600,
-          background: catStyle.bg,
-          color: catStyle.color,
+          display: 'inline-flex', alignItems: 'center',
+          padding: '3px 10px', borderRadius: 'var(--radius-pill)',
+          fontSize: '0.72rem', fontWeight: 600,
+          background: catStyle.bg, color: catStyle.color,
         }}>
           {idea.category}
         </span>
       </div>
 
-      {/* Title */}
       <h5 style={{ fontWeight: 700, fontSize: '1rem', lineHeight: 1.4, marginBottom: '0.5rem' }}>
         {idea.title}
       </h5>
 
-      {/* Category label */}
       <p style={{ fontSize: '0.78rem', color: 'var(--fk-text-muted)', marginBottom: '0.5rem', fontWeight: 500 }}>
         {idea.industry || idea.category}
       </p>
 
-      {/* Summary */}
       <p style={{
-        fontSize: '0.845rem',
-        color: 'var(--fk-text-secondary)',
-        lineHeight: 1.6,
-        flexGrow: 1,
-        display: '-webkit-box',
-        WebkitLineClamp: 3,
-        WebkitBoxOrient: 'vertical',
-        overflow: 'hidden',
-        marginBottom: '1rem',
+        fontSize: '0.845rem', color: 'var(--fk-text-secondary)', lineHeight: 1.6,
+        flexGrow: 1, display: '-webkit-box', WebkitLineClamp: 3,
+        WebkitBoxOrient: 'vertical', overflow: 'hidden', marginBottom: '1rem',
       }}>
         {idea.summary}
       </p>
 
-      {/* Funding + Team row */}
       <div className="d-flex align-items-center gap-4 mb-3" style={{ fontSize: '0.78rem', color: 'var(--fk-text-secondary)' }}>
         <span>
           <i className="bi bi-currency-dollar me-1" style={{ color: 'var(--fk-text-muted)' }} />
@@ -90,7 +94,6 @@ export default function IdeaCard({ idea }) {
         </span>
       </div>
 
-      {/* Funding Progress Bar */}
       <div className="mb-3">
         <div className="d-flex justify-content-between align-items-center mb-1">
           <span style={{ fontSize: '0.72rem', color: 'var(--fk-text-muted)' }}>Funding Progress</span>
@@ -101,15 +104,40 @@ export default function IdeaCard({ idea }) {
         </div>
       </div>
 
-      {/* Action buttons */}
       <div className="d-flex gap-2 mt-auto">
         <Link
-          to={`/Browse-projects/${idea._id}`}
+         to={`/browse-projects/${idea._id}`}
           className="btn btn-primary btn-sm flex-grow-1"
           style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600, fontSize: '0.82rem' }}
         >
           <i className="bi bi-eye me-1" />View Project
         </Link>
+
+        {isOwner && (
+          <>
+            <button
+              onClick={() => navigate(`/edit-idea/${idea._id}`)}
+              style={{
+                borderRadius: 'var(--radius-pill)', fontWeight: 600, fontSize: '0.82rem',
+                padding: '4px 12px', border: '1.5px solid var(--fk-border)',
+                background: 'var(--fk-surface)', cursor: 'pointer', color: 'var(--fk-text-primary)'
+              }}
+            >
+              <i className="bi bi-pencil" />
+            </button>
+
+            <button
+              onClick={handleDelete}
+              style={{
+                borderRadius: 'var(--radius-pill)', fontWeight: 600, fontSize: '0.82rem',
+                padding: '4px 12px', border: '1.5px solid #fee2e2',
+                background: '#fff5f5', cursor: 'pointer', color: '#dc2626'
+              }}
+            >
+              <i className="bi bi-trash" />
+            </button>
+          </>
+        )}
       </div>
     </div>
   )
