@@ -22,7 +22,7 @@ function SecondNavbar() {
 
                 {/* LOGO */}
                 <Navbar.Brand
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/home-two")}
                     className="navbar-brand-custom"
                 >
                     <img
