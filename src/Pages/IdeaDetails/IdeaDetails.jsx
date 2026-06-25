@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Container, Row, Col, Button, Alert, Spinner } from 'react-bootstrap'
 import { ideaService } from '../../../Services/ideaService'
 import { useAuth } from '../../../Context/AuthContext'
+import InvestModal from '../../Components/Invest/Investmodal'
 
 export default function IdeaDetails() {
   const { id } = useParams()
@@ -15,6 +16,7 @@ export default function IdeaDetails() {
   const [interested, setInterested] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
 
+  const [showInvest, setShowInvest] = useState(false)
   useEffect(() => {
     setLoading(true)
     ideaService.getIdeaById(id)
@@ -73,7 +75,7 @@ export default function IdeaDetails() {
 
         {/* Back */}
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/browse-projects')}
           style={{
             background: 'none', border: 'none', padding: 0, cursor: 'pointer',
             color: '#667085', fontSize: '0.875rem',
@@ -92,14 +94,7 @@ export default function IdeaDetails() {
             }}>
               {idea.category}
             </span>
-            {idea.status && (
-              <span style={{
-                background: '#d1fae5', padding: '5px 14px',
-                borderRadius: '20px', color: '#065f46', fontSize: '13px', fontWeight: 600,
-              }}>
-                {idea.status}
-              </span>
-            )}
+            
           </div>
 
           <h1 style={{ fontWeight: 800, fontSize: '2rem', marginTop: '12px', marginBottom: '8px' }}>
@@ -140,27 +135,6 @@ export default function IdeaDetails() {
                 {idea.mission || idea.description || idea.summary}
               </p>
             </div>
-
-            {/* Stats */}
-
-            <div className="fk-card p-4 mb-3">
-              <Row className="text-center">
-                {[
-                  { val: idea.impactScore || '8.4/10', label: 'Impact Score' },
-                  { val: idea.marketSize || '$12B', label: 'Market Size' },
-                  { val: idea.userGrowth || '+24%', label: 'User Growth' },
-                  { val: idea.co2Saved || '1.2k t', label: 'CO2 Saved' },
-                ].map((s, i) => (
-                  <Col key={i}>
-                    <h3 style={{ fontWeight: 800, color: '#1a3a6b' }}>{s.val}</h3>
-                    <small style={{ color: '#667085', textTransform: 'uppercase', fontSize: '0.7rem', letterSpacing: '1px' }}>
-                      {s.label}
-                    </small>
-                  </Col>
-                ))}
-              </Row>
-            </div>
-
 
 
             {/* Target Market */}
@@ -222,7 +196,19 @@ export default function IdeaDetails() {
                     )}
                   </Button>
                 )}
-
+                {user?.role === 'investor' && (
+                  <Button
+                    onClick={() => setShowInvest(true)}
+                    style={{
+                      marginTop: '10px', width: '100%',
+                      borderRadius: '8px', padding: '14px',
+                      fontWeight: 700, background: '#B8922A', border: 'none',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                    }}
+                  >
+                     Invest
+                  </Button>
+                )}
                 {!user && (
                   <Button
                     href="/login"
@@ -334,6 +320,7 @@ export default function IdeaDetails() {
 </div>
 
       </Container>
+      <InvestModal show={showInvest} onHide={() => setShowInvest(false)} idea={idea} />
     </div>
   )
 }

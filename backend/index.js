@@ -3,11 +3,13 @@ const express    = require('express')
 const cors       = require('cors')
 const mongoose   = require('mongoose')
 const rateLimit  = require('express-rate-limit')
-
+const postRoutes  = require('./routes/post')
 const authRoutes  = require('./routes/auth')
 const ideaRoutes  = require('./routes/ideas')
 const userRoutes = require('./routes/Investors')
 const projectRoutes = require('./Routes/projectroute')
+const investmentRoutes = require('./Routes/investment')
+
 
 const app = express()
 
@@ -16,7 +18,8 @@ app.use(cors({
   origin: ['http://localhost:5173', 'http://localhost:5175'],
   credentials: true 
 }))
-app.use(express.json())
+app.use(express.json({ limit: '10mb' }))
+app.use(express.urlencoded({ extended: true, limit: '10mb' }))
 
 // Rate limiting
 const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 200, message: 'Too many requests' })
@@ -27,7 +30,8 @@ app.use('/api/auth',  authRoutes)
 app.use('/api/ideas', ideaRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/projects', projectRoutes)
-
+app.use('/api/ideas/:id/investments', investmentRoutes)
+app.use('/api/posts', postRoutes)
 
 
 

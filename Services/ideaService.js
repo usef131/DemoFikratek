@@ -10,8 +10,8 @@ export const ideaService = {
 
   // CRUD
   createIdea: (data) =>
-    api.post('/ideas', data),
-
+  api.post('/ideas', data),
+  
   updateIdea: (id, data) =>
     api.put(`/ideas/${id}`, data),
 

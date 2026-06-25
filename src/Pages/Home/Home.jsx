@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import './Home.css'
+import FooterLanding from "../../Components/Common/FooterLanding"
 
 const FEATURES = [
   {
@@ -207,6 +208,11 @@ export default function Home() {
           </Link>
         </Container>
       </section>
+
+      {/* ── FOOTER ── */}
+         <FooterLanding/>
+      
+
     </div>
   );
 }

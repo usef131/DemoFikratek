@@ -1,4 +1,3 @@
-
 import { FiHome, FiCompass, FiGift, FiUser, FiLogOut } from "react-icons/fi";
 
 import { Navbar, Nav, Container } from "react-bootstrap";
@@ -23,7 +22,7 @@ function SecondNavbar() {
 
                 {/* LOGO */}
                 <Navbar.Brand
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/home-two")}
                     className="navbar-brand-custom"
                 >
                     <img

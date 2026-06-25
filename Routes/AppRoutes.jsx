@@ -2,9 +2,8 @@ import { Routes, Route, Navigate , useLocation} from 'react-router-dom'
 import { useAuth } from '../Context/AuthContext'
 
 import MainLayout from '../src/Components/Layout/MainLayout'
-
+import CreatePost from '../src/Pages/createPost/createPost'
 import Home from '../src/Pages/Home/Home'
-import Ideas from '../src/Pages/Ideas/Ideas'
 import IdeaDetails from '../src/Pages/IdeaDetails/IdeaDetails'
 import CreateIdea from '../src/Pages/CreateIdea/CreateIdea'
 import Profile from '../src/Pages/Profile/Profile'
@@ -12,10 +11,12 @@ import Login from '../src/Pages/Auth/Login'
 import Register from '../src/Pages/Auth/Register'
 import NotFound from '../src/Pages/NotFound/NotFound'
 import HomePageTwo from '../src/Pages/HomePageTwo/HomePageTwo'
+import Contact from '../src/Pages/contact/Contact'
 import BrowseProjects from '../src/Pages/BrowseProjects/BrowseProjects'
 import EditProfile from '../src/Pages/Profile/Editprofile'
 import InvestorPage from '../src/Pages/InvestorPage/InvestorPage'
 import { AnimatePresence, motion } from "framer-motion";
+import ViewProfile from '../src/Pages/InvestorPage/ViewProfile'
 
  
 function PrivateRoute({ children, roles }) {
@@ -45,12 +46,14 @@ export default function AppRoutes() {
           <Route path="/Investor" element={<InvestorPage />} />
 
 
+
+          <Route path="/contact" element={<Contact />} />
+
           <Route path="/browse-projects" element={<BrowseProjects />} />
           <Route path="/browse-projects/:id" element={<IdeaDetails />} />
           <Route path="/edit-profile" element={<EditProfile />} />
 
           <Route path="/home-two" element={<HomePageTwo />} />
-          <Route path="/ideas" element={<Ideas />} />
 
           <Route
             path="/profile"
@@ -60,11 +63,21 @@ export default function AppRoutes() {
               </PrivateRoute>
             }
           />
+      
+         <Route path='ViewProfile/:id' element={<ViewProfile />} />
+
 
           <Route
             path="/create-idea"
             element={<CreateIdea />}
           />
+
+          <Route
+          path="/create-post"
+          element={<CreatePost />}
+          />
+
+          
 
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />

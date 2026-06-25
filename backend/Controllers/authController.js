@@ -53,10 +53,10 @@ exports.getMe = async (req, res) => {
 
 exports.updateMe = async (req, res) => {
   try {
-    const { name, bio } = req.body;
+    const { name, bio, location, linkedin, sectors, ticketSize, experience, startup, stage, website } = req.body;
     const user = await User.findByIdAndUpdate(
       req.user._id,
-      { name, bio },
+      { name, bio, location, linkedin, sectors, ticketSize, experience, startup, stage, website },
       { new: true, runValidators: true },
     );
     res.json({ user });
@@ -65,19 +65,4 @@ exports.updateMe = async (req, res) => {
   }
 };
 
-exports.changePassword = async (req, res) => {
-  try {
-    const { currentPassword, newPassword } = req.body;
-    const user = await User.findById(req.user._id).select("+password");
 
-    if (!(await user.comparePassword(currentPassword)))
-      return res.status(400).json({ message: "Current password is incorrect" });
-
-    user.password = newPassword;
-    await user.save();
-    const token = signToken(user._id);
-    res.json({ message: "Password changed", token });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
