@@ -1,11 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
+import { Container, Row, Col, Button, Card, Table } from "react-bootstrap";
+import { useEffect, useState } from "react";
 import { Container, Row, Col, Card,Button,Badge,Stack, Image } from "react-bootstrap";
 import SecondNavbar from "../../Components/Common/SecondNavbar";
 import Footer from "../../Components/Common/Footer";
 import PageTransition from "../../Components/PageTransition";
 import FeaturedStartupRow from "../../Components/Cards/FeaturedStartupRow";
 import "./HomeTwo.css";
+
+const NAVY = "#0f2744";
+
+const STATS = [
+  { value: "2,547", label: "Ideas Shared", delta: "+12.5%" },
+  { value: "486", label: "Active Investors", delta: "+8.3%" },
+  { value: "143", label: "Projects Funded", delta: "+15.7%" },
+  { value: "1,089", label: "Collaborations", delta: "+20.1%" }
+];
+
+export default function HomePageTwo() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [startups, setStartups] = useState([]);
 import { useState, useEffect } from "react"
 import PostCard from "../../Components/Cards/postCard";
 import {FaHeart,FaRegCommentDots, FaArrowRight} from "react-icons/fa";
@@ -35,22 +51,21 @@ const navigate = useNavigate();
   }, [])
 
   useEffect(() => {
-    fetch('http://localhost:5002/api/ideas')
+    fetch("http://localhost:5002/api/ideas")
       .then(res => res.json())
       .then(data => {
-        console.log("ideas from API:", data)
-        setStartups(data.ideas || data)
-      })
-      .catch(err => console.error('Failed to fetch ideas:', err))
-  }, [])
+        setStartups(data.ideas || data);
+      });
+  }, []);
 
   return (
-    <div style={{ background: "#f5f6f8", minHeight: "100vh", fontFamily: "'Inter', sans-serif" }}>
+    <div className="homepage">
 
-
-      {/* ── Navbar ── */}
       <SecondNavbar />
 
+      {/* HERO */}
+      <section className="hero">
+        <PageTransition>
       {/* ── Profile completion banner ── */}
       {user?.role === 'investor' && (!user?.bio || !user?.sectors?.length || !user?.ticketSize || !user?.location) && (
         <div style={{
@@ -106,6 +121,83 @@ const navigate = useNavigate();
             <Row className="justify-content-center text-center">
               <Col lg={10}>
 
+                <h1 className="hero-title">
+                  Welcome to <span>Fikretak</span>
+                </h1>
+
+                <p className="hero-description">
+                  The professional ecosystem where innovators find funding,
+                  and the teams they need to scale. Connect with the right people
+                  to turn your vision into reality.
+                </p>
+
+                <div className="d-flex justify-content-center flex-wrap gap-3 mt-5">
+
+                  {
+                    user?.role === "entrepreneur" ?
+
+                      <>
+                        <Button
+                          className="main-btn primary-btn"
+                          onClick={() => navigate("/create-idea")}
+                        >
+                          ⊕ Add Project
+                        </Button>
+
+                        <Button
+                          className="main-btn white-btn"
+                          onClick={() => navigate("/ideas")}
+                        >
+                          Browse Projects
+                        </Button>
+
+                        <Button
+                          className="main-btn white-btn"
+                          onClick={() => navigate("/mentors")}
+                        >
+                          Find Investors
+                        </Button>
+
+
+                      </>
+
+
+                      :
+                      <Button
+                        className="main-btn primary-btn"
+                        onClick={() => navigate("/ideas")}
+                      >
+                        Browse Projects
+                      </Button>
+                  }
+
+                </div>
+
+              </Col>
+
+            </Row>
+
+          </Container>
+
+        </PageTransition>
+
+      </section>
+
+      {/* STATS */}
+      <Container fluid className="stats">
+        <Row>
+          {
+            STATS.map((s, index) => (
+
+              <Col
+                key={s.label}
+                xs={6}
+                lg={3}
+                className="stat-box"
+              >
+
+                <div className="stat-label">
+                  {s.label}
                 {/* Heading */}
                 <h1
                   style={{
@@ -194,6 +286,120 @@ const navigate = useNavigate();
             </Row>
           </Container>
 
+                <div className="d-flex align-items-center gap-2">
+
+                  <span className="stat-number">
+                    {s.value}
+                  </span>
+
+                  <span className="growth">
+                    {s.delta}
+                  </span>
+
+                </div>
+
+              </Col>
+            ))}
+
+        </Row>
+
+      </Container>
+
+      {/* FEATURED */}
+      <Container fluid className="px-5 mt-5 mb-5">
+
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h2 className="fw-bold">
+              Featured Startups
+            </h2>
+
+            <p className="text-muted">
+              Trending projects seeking funding and collaboration
+            </p>
+
+          </div>
+
+          <Button
+            variant="link"
+            className="view-btn"
+            onClick={() => navigate("/ideas")}
+          >
+            View All →
+          </Button>
+
+        </div>
+
+
+        <Card className="featured-card">
+
+          <Table
+            responsive
+            className="featured-table mb-0"
+          >
+
+            <thead>
+
+              <tr>
+                <th>Startup & Industry</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Team & Funding</th>
+                <th>Progress</th>
+                <th>Actions</th>
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              {
+                startups.slice(0, 3).map(startup => (
+
+                  <FeaturedStartupRow
+                    key={startup._id}
+                    startup={{
+
+                      ...startup,
+
+                      name: startup.title,
+                      badge: startup.category || "Idea",
+                      desc: startup.summary,
+                      funding:
+                        startup.fundingGoal
+                          ?
+                          `$${Number(startup.fundingGoal).toLocaleString()}`
+                          :
+                          "Not set",
+                      team:
+                        `${startup.interestCount || 0} interested`,
+                      progress:
+                        startup.fundingGoal && startup.fundingRaised
+                          ?
+                          Math.min(
+                            100,
+                            Math.round(
+                              startup.fundingRaised /
+                              startup.fundingGoal *
+                              100
+                            )
+                          )
+                          :
+                          0
+                    }}
+
+
+                    NAVY={NAVY}
+                    navigate={navigate}
+                    role={user?.role}
+                  />
+                ))}
+
+            </tbody>
+          </Table>
+
+        </Card>
+      </Container>
         </PageTransition>
       </div>
 
@@ -231,81 +437,26 @@ const navigate = useNavigate();
 
 </Container>
 
-      {/* ── CTA Banner ── */}
-      <div
-        style={{
-          background:
-            "radial-gradient(circle at center, #06204a 0%, #041530 45%, #020817 100%)",
-          position: "relative",
-          overflow: "hidden",
-          padding: "8rem 1.5rem",
-          textAlign: "center",
-        }}
-      >
-        {/* Circular rings */}
-        <div
-          style={{
-            position: "absolute",
-            width: "700px",
-            height: "700px",
-            border: "1px solid rgba(255,255,255,0.06)",
-            borderRadius: "50%",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        />
+      {/* CTA */}
+      <section className="cta">
+        <div className="rings"></div>
+        <Container className="text-center position-relative">
 
-        <div
-          style={{
-            position: "absolute",
-            width: "550px",
-            height: "550px",
-            border: "1px solid rgba(255,255,255,0.05)",
-            borderRadius: "50%",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        />
-
-        <div
-          style={{
-            position: "absolute",
-            width: "400px",
-            height: "400px",
-            border: "1px solid rgba(255,255,255,0.05)",
-            borderRadius: "50%",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        />
-
-        {/* Blue glow */}
-        <div
-          style={{
-            position: "absolute",
-            width: "600px",
-            height: "600px",
-            background: "rgba(37,99,235,0.15)",
-            filter: "blur(80px)",
-            borderRadius: "50%",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        />
-
-        {/* Content */}
-        <div style={{ position: "relative", zIndex: 2 }}>
-          <h2 className="fw-bold text-white mb-2">
+          <h2 className="text-white fw-bold">
             Ready to Build the Future?
           </h2>
-          <p style={{ color: "rgba(255,255,255,0.65)", marginBottom: "3rem" }}>
-            Join thousands of entrepreneurs, investors, and innovators transforming ideas into reality
+
+          <p style={{ color: "rgba(255,255,255,0.65)" }}>
+            Join thousands of entrepreneurs, investors,
+            and innovators transforming ideas into reality
           </p>
 
+          <Button
+            className="investor-btn"
+            onClick={() => navigate("/ideas")}
+          >
+            Explore Opportunities
+          </Button>
           <div className="d-flex gap-3 justify-content-center flex-wrap">
             {user?.role === "entrepreneur" ? (
               <>
@@ -344,9 +495,10 @@ const navigate = useNavigate();
 
       </div>
 
+        </Container>
+      </section>
+
       <Footer />
-
     </div>
-
   );
 }
