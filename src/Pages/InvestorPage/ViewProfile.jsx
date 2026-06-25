@@ -31,15 +31,14 @@ export default function ViewProfile() {
             const data = res.data.user || res.data
             setProfile(data)
 
-            // Fetch this investor's interested ideas (or entrepreneur's ideas)
             if (data.role === 'investor') {
                 setIdeasLoading(true)
-                // const ideasRes = await axios.get(`/api/users/${id}/interested-ideas`)
+                const ideasRes = await axios.get(`/api/ideas/interested-by/${id}`)  
                 setIdeas(ideasRes.data.ideas || [])
                 setIdeasLoading(false)
             } else if (data.role === 'entrepreneur') {
                 setIdeasLoading(true)
-                const ideasRes = await axios.get(`/api/ideas?author=${id}`)
+                const ideasRes = await axios.get(`/api/ideas/by-user/${id}`)
                 setIdeas(ideasRes.data.ideas || [])
                 setIdeasLoading(false)
             }
@@ -133,24 +132,6 @@ export default function ViewProfile() {
                                         <i className={`bi ${isFollowing ? 'bi-person-check-fill' : 'bi-person-plus'}`} />{' '}
                                         {isFollowing ? 'Following' : 'Follow'}
                                     </button>
-
-                                    <button
-                                        onClick={handleMessage}
-                                        style={{
-                                            padding: '6px 16px',
-                                            borderRadius: 'var(--radius-pill)',
-                                            border: '1.5px solid var(--fk-border)',
-                                            background: messageSent ? '#d1fae5' : 'var(--fk-surface)',
-                                            color: messageSent ? '#065f46' : 'inherit',
-                                            fontWeight: 600,
-                                            fontSize: '0.82rem',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.15s',
-                                        }}
-                                    >
-                                        <i className={`bi ${messageSent ? 'bi-check2' : 'bi-envelope'}`} />{' '}
-                                        {messageSent ? 'Sent!' : 'Message'}
-                                    </button>
                                 </div>
                             )}
                         </div>
@@ -191,7 +172,7 @@ export default function ViewProfile() {
                             )}
 
                             {/* Sector tags — investor only */}
-                            {/* {profile.role === 'investor' && profile.sectors?.length > 0 && (
+                            {profile.role === 'investor' && profile.sectors?.length > 0 && (
                                 <div style={{ marginLeft: '1rem', marginTop: '0.75rem', display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                                     {profile.sectors.map(s => (
                                         <span
@@ -210,7 +191,7 @@ export default function ViewProfile() {
                                         </span>
                                     ))}
                                 </div>
-                            )} */}
+                            )}
 
                             {/* Ticket size — investor only */}
                             {profile.role === 'investor' && profile.ticketSize && (

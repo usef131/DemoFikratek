@@ -6,9 +6,11 @@ import IdeaCard from '../../Components/cards/IdeaCard'
 import { FaArrowLeft } from "react-icons/fa";
 import { FiHome } from 'react-icons/fi'
 import SecondNavbar from '../../Components/Common/SecondNavbar'
+import { useAuth } from '../../../Context/AuthContext'
 const CATEGORIES = ['All', 'Tech', 'Health', 'Education', 'Finance', 'Environment', 'Social']
 
 export default function BrowseProjects() {
+    const { user: currentUser } = useAuth();
     const { ideas, loading, pagination, fetchIdeas } = useIdeas()
     const [searchParams, setSearchParams] = useSearchParams()
 
@@ -46,7 +48,7 @@ export default function BrowseProjects() {
 
 
         <div style={{ minHeight: '100vh', background: 'var(--fk-bg)' }}>
-            
+
             {/* navbar */}
             <SecondNavbar />
 
@@ -74,7 +76,7 @@ export default function BrowseProjects() {
                     </form>
 
                     {/* Stage dropdown */}
-        
+
 
                     {/* Sort / Filters */}
                     <Dropdown>
@@ -96,11 +98,17 @@ export default function BrowseProjects() {
                         </Dropdown.Menu>
                     </Dropdown>
 
+                    {
+                        currentUser?.role === "entrepreneur" &&
+                        (
+                            <Link to="/create-idea" className="btn btn-primary ms-auto"
+                                style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600, padding: '8px 20px' }}>
+                                <i className="bi bi-plus me-1" />Add Your Project
+                            </Link>
+                        )
 
-                    <Link to="/create-idea" className="btn btn-primary ms-auto"
-                        style={{ borderRadius: 'var(--radius-pill)', fontWeight: 600, padding: '8px 20px' }}>
-                        <i className="bi bi-plus me-1" />Add Your Project
-                    </Link>
+                    }
+
                 </div>
 
                 {/* Category Tabs (pill row) — optional, hidden on mobile can be scrollable */}

@@ -136,27 +136,6 @@ export default function IdeaDetails() {
               </p>
             </div>
 
-            {/* Stats */}
-
-            <div className="fk-card p-4 mb-3">
-              <Row className="text-center">
-                {[
-                  { val: idea.impactScore || '8.4/10', label: 'Impact Score' },
-                  { val: idea.marketSize || '$12B', label: 'Market Size' },
-                  { val: idea.userGrowth || '+24%', label: 'User Growth' },
-                  { val: idea.co2Saved || '1.2k t', label: 'CO2 Saved' },
-                ].map((s, i) => (
-                  <Col key={i}>
-                    <h3 style={{ fontWeight: 800, color: '#1a3a6b' }}>{s.val}</h3>
-                    <small style={{ color: '#667085', textTransform: 'uppercase', fontSize: '0.7rem', letterSpacing: '1px' }}>
-                      {s.label}
-                    </small>
-                  </Col>
-                ))}
-              </Row>
-            </div>
-
-
 
             {/* Target Market */}
             {idea.targetMarket && (
