@@ -9,7 +9,7 @@ import SecondNavbar from '../../Components/Common/SecondNavbar'
 import CreatePost from '../createPost/createPost'
 import PostCard from '../../Components/Cards/postCard'
 import { postService } from '../../../Services/postServices'
-
+import "../../../src/styles/profile.css";
 
 
 export default function Profile() {
@@ -179,13 +179,24 @@ export default function Profile() {
 
               {/* LinkedIn — both roles */}
               {user?.linkedin && (
-                <p style={{ marginLeft: '1rem', marginTop: '0.25rem', fontSize: '0.82rem', color: 'var(--fk-text-muted)' }}>
-                  <i className="bi bi-linkedin" />{' '}
-                  <a href={user.linkedin} target="_blank" rel="noreferrer" style={{ color: 'var(--fk-primary-btn)' }}>
-                    LinkedIn
-                  </a>
-                </p>
-              )}
+  <div className="profile-social">
+    <span className="profile-social-label">
+      <i className="bi bi-linkedin"></i>
+      LinkedIn
+    </span>
+
+    <a
+      href={user.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="profile-social-link"
+    >
+      View Profile
+      <i className="bi bi-arrow-up-right"></i>
+    </a>
+  </div>
+)}
+              
             </div>
           </div>
 

@@ -132,24 +132,6 @@ export default function ViewProfile() {
                                         <i className={`bi ${isFollowing ? 'bi-person-check-fill' : 'bi-person-plus'}`} />{' '}
                                         {isFollowing ? 'Following' : 'Follow'}
                                     </button>
-
-                                    <button
-                                        onClick={handleMessage}
-                                        style={{
-                                            padding: '6px 16px',
-                                            borderRadius: 'var(--radius-pill)',
-                                            border: '1.5px solid var(--fk-border)',
-                                            background: messageSent ? '#d1fae5' : 'var(--fk-surface)',
-                                            color: messageSent ? '#065f46' : 'inherit',
-                                            fontWeight: 600,
-                                            fontSize: '0.82rem',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.15s',
-                                        }}
-                                    >
-                                        <i className={`bi ${messageSent ? 'bi-check2' : 'bi-envelope'}`} />{' '}
-                                        {messageSent ? 'Sent!' : 'Message'}
-                                    </button>
                                 </div>
                             )}
                         </div>

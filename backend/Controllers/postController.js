@@ -5,14 +5,14 @@ exports.getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
       .sort({ createdAt: -1 })
-      .populate('user', 'name')
-      .populate('comments.user', 'name')
+      .populate("user", "name avatar")
+      .populate("comments.user", "name avatar");
 
     res.json({ posts })
   } catch (err) {
-    res.status(500).json({ message: err.message })
+    res.status(500).json({ message: err.message });
   }
-}
+};
 
 // GET /api/posts/my
 exports.getMyPosts = async (req, res) => {
@@ -42,7 +42,7 @@ exports.createPost = async (req, res) => {
       text,
     })
 
-    await post.populate('user', 'name')
+    await post.populate("user", "name avatar")
 
     res.status(201).json({ post })
   } catch (err) {

@@ -4,7 +4,6 @@ import { useAuth } from '../Context/AuthContext'
 import MainLayout from '../src/Components/Layout/MainLayout'
 import CreatePost from '../src/Pages/createPost/createPost'
 import Home from '../src/Pages/Home/Home'
-import Ideas from '../src/Pages/Ideas/Ideas'
 import IdeaDetails from '../src/Pages/IdeaDetails/IdeaDetails'
 import CreateIdea from '../src/Pages/CreateIdea/CreateIdea'
 import Profile from '../src/Pages/Profile/Profile'
@@ -55,7 +54,6 @@ export default function AppRoutes() {
           <Route path="/edit-profile" element={<EditProfile />} />
 
           <Route path="/home-two" element={<HomePageTwo />} />
-          <Route path="/ideas" element={<Ideas />} />
 
           <Route
             path="/profile"
