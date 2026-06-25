@@ -1,4 +1,6 @@
 import { Badge, Button, ProgressBar } from "react-bootstrap";
+import { useState } from "react";
+import InvestModal from "../Invest/Investmodal";
 
 const CATEGORY_COLORS = {
     Tech: { bg: '#dbeafe', color: '#2563eb' },
@@ -13,8 +15,9 @@ const CATEGORY_COLORS = {
 export default function FeaturedStartupRow({ startup, NAVY, navigate, role }) {
 
     const colors = CATEGORY_COLORS[startup.badge] || CATEGORY_COLORS.Other
-
+     const [showInvest, setShowInvest] = useState(false)
     return (
+        <>
         <tr>
             <td className="ps-4">
                 <div className="d-flex align-items-center gap-3">
@@ -91,20 +94,16 @@ export default function FeaturedStartupRow({ startup, NAVY, navigate, role }) {
                         >
                             View
                         </Button>
-                        <Button
-                            size="sm"
-                            style={{
-                                background: NAVY,
-                                border: "none",
-                                padding: "8px 20px",
-                                borderRadius: "999px",
-                            }}
-                        >
-                            Invest
-                        </Button>
+                            <Button size="sm"
+                                style={{ background: NAVY, border: "none", padding: "8px 20px", borderRadius: "999px" }}
+                                onClick={() => setShowInvest(true)}>
+                                Invest
+                            </Button>
                     </div>
                 )}
             </td>
         </tr>
+         <InvestModal show={showInvest} onHide={() => setShowInvest(false)} idea={startup} />
+             </>
     )
 }

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { Container, Row, Col, Button, Alert, Spinner } from 'react-bootstrap'
 import { ideaService } from '../../../Services/ideaService'
 import { useAuth } from '../../../Context/AuthContext'
+import InvestModal from '../../Components/Invest/Investmodal'
 
 export default function IdeaDetails() {
   const { id } = useParams()
@@ -15,6 +16,7 @@ export default function IdeaDetails() {
   const [interested, setInterested] = useState(false)
   const [actionLoading, setActionLoading] = useState(false)
 
+  const [showInvest, setShowInvest] = useState(false)
   useEffect(() => {
     setLoading(true)
     ideaService.getIdeaById(id)
@@ -73,7 +75,7 @@ export default function IdeaDetails() {
 
         {/* Back */}
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/browse-projects')}
           style={{
             background: 'none', border: 'none', padding: 0, cursor: 'pointer',
             color: '#667085', fontSize: '0.875rem',
@@ -222,7 +224,19 @@ export default function IdeaDetails() {
                     )}
                   </Button>
                 )}
-
+                {user?.role === 'investor' && (
+                  <Button
+                    onClick={() => setShowInvest(true)}
+                    style={{
+                      marginTop: '10px', width: '100%',
+                      borderRadius: '8px', padding: '14px',
+                      fontWeight: 700, background: '#B8922A', border: 'none',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                    }}
+                  >
+                     Invest
+                  </Button>
+                )}
                 {!user && (
                   <Button
                     href="/login"
@@ -334,6 +348,7 @@ export default function IdeaDetails() {
 </div>
 
       </Container>
+      <InvestModal show={showInvest} onHide={() => setShowInvest(false)} idea={idea} />
     </div>
   )
 }

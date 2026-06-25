@@ -64,7 +64,10 @@ exports.getIdeaById = async (req, res) => {
 // POST /api/ideas
 exports.createIdea = async (req, res) => {
   try {
-    const { title, summary, description, category, targetMarket, fundingGoal, fundingRaised, teamSize, image, mission, impactScore, marketSize, userGrowth, co2Saved, roadmap } = req.body
+  
+    const { title, summary, description, category, targetMarket, fundingGoal, fundingRaised, teamSize, mission, impactScore, marketSize, userGrowth, co2Saved, roadmap } = req.body
+
+    const image = req.body.image 
 
     const idea = await Idea.create({
       title, summary, description, category, targetMarket, fundingGoal, fundingRaised, teamSize, image, mission, impactScore, marketSize, userGrowth, co2Saved, roadmap,
