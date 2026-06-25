@@ -14,6 +14,8 @@ export default function CreateIdea() {
     title: '', summary: '', description: '',
     category: '', targetMarket: '', fundingGoal: '', teamMembers: ''
   })
+  const [imageFile, setImageFile] = useState(null)
+  const [preview,   setPreview]   = useState(null)
   const [errors,   setErrors]   = useState({})
   const [loading,  setLoading]  = useState(false)
   const [apiError, setApiError] = useState('')
@@ -36,23 +38,24 @@ export default function CreateIdea() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const errs = validate()
-    if (Object.keys(errs).length) { setErrors(errs); return }
-    setLoading(true); setApiError('')
-    try {
-      const data = await ideaService.createIdea({
-        ...form,
-        fundingGoal: form.fundingGoal ? Number(form.fundingGoal) : undefined,
-      })
-      addIdea(data.idea)
-      navigate(`/ideas/${data.idea._id}`)
-    } catch (err) {
-      setApiError(err.message)
-    } finally {
-      setLoading(false)
-    }
+  e.preventDefault()
+  const errs = validate()
+  if (Object.keys(errs).length) { setErrors(errs); return }
+  setLoading(true); setApiError('')
+  try {
+    const data = await ideaService.createIdea({
+      ...form,
+      image: imageFile, // ده Base64 string
+      fundingGoal: form.fundingGoal ? Number(form.fundingGoal) : undefined,
+    })
+    addIdea(data.idea)
+    navigate(`/Browse-projects/${data.idea._id}`)
+  } catch (err) {
+    setApiError(err.message)
+  } finally {
+    setLoading(false)
   }
+}
 
   const charCount = (field, max) => (
     <small style={{ color: form[field].length > max ? 'var(--fk-danger)' : 'var(--fk-text-muted)', fontSize: '0.78rem' }}>
@@ -196,6 +199,30 @@ export default function CreateIdea() {
                   <Form.Control.Feedback type="invalid">{errors.fundingGoal}</Form.Control.Feedback>
                 </Form.Group>
 
+                 {/* Idea Image */}
+                <Form.Group className="mb-5">
+                  <Form.Label style={{ fontWeight: 600, fontSize: '0.875rem' }}>Idea Image</Form.Label>
+                  <Form.Control
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0]
+                      if (!file) return
+                      setPreview(URL.createObjectURL(file))
+                      const reader = new FileReader()
+                      reader.onloadend = () => setImageFile(reader.result) // Base64
+                      reader.readAsDataURL(file)
+                    }}
+                    style={{ borderRadius: 'var(--radius-sm)', fontSize: '0.9rem' }}
+                  />
+                  {preview && (
+                    <img
+                      src={preview}
+                      alt="preview"
+                      style={{ marginTop: '0.75rem', width: '100%', maxHeight: 220, objectFit: 'cover', borderRadius: 'var(--radius-sm)' }}
+                    />
+                  )}
+                </Form.Group>
                 <div className="d-flex gap-3">
                   <Button
                     type="submit"

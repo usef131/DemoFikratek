@@ -48,6 +48,7 @@ const ideaSchema = new mongoose.Schema(
     interestedInvestors: [
       { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     ],
+    investments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Investment" }],
     interestCount: { type: Number, default: 0 },
     views: { type: Number, default: 0 },
   },
