@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import './Home.css'
+import FooterLanding from "../../Components/Common/FooterLanding"
 
 const FEATURES = [
   {
@@ -422,36 +423,7 @@ export default function Home() {
       </section>
 
       {/* ── FOOTER ── */}
-       <footer style={{
-        background: '#0f1117',
-        borderTop: '1px solid rgba(255,255,255,0.07)',
-        padding: '3rem 1.5rem 2rem',
-        }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '2rem', marginBottom: '2.5rem' }}>
-            {/* Brand */}
-            <div>
-              <div style={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', marginBottom: '0.75rem' }}>
-                Fikretak
-              </div>
-              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.82rem', lineHeight: 1.7, margin: 0 }}>
-                Where ideas meet action. Building the future of collaboration.
-              </p>
-            </div>
-            </div>
-          </div>
-        </footer>
-
-        {/* Decorative sparkle */}
-        <div
-          style={{
-            position: 'absolute',
-            right: '28%',
-            bottom: '30%',
-            fontSize: '3rem',
-            color: 'rgba(255,255,255,.45)',
-          }}>
-        </div>
+         <FooterLanding/>
       
 
     </div>
