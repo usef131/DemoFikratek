@@ -131,7 +131,7 @@ export default function HomePageTwo() {
 
                         <Button
                           className="main-btn white-btn"
-                          onClick={() => navigate("/investors")}
+                          onClick={() => navigate("/investor")}
                         >
                           Find Investors
                         </Button>
