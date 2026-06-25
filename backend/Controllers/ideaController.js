@@ -89,9 +89,21 @@ exports.updateIdea = async (req, res) => {
     if (idea.entrepreneur.toString() !== req.user._id.toString())
       return res.status(403).json({ message: 'Not authorized' })
 
-    const allowed = ['title', 'summary', 'description', 'category', 'targetMarket', 'fundingGoal']
+    const allowed = [
+      'title', 'summary', 'description', 'category',
+      'targetMarket', 'fundingGoal', 'image', 'teamMembers'
+    ]
     allowed.forEach(f => { if (req.body[f] !== undefined) idea[f] = req.body[f] })
-    // ⬅ no longer resets to 'pending' — edits stay approved/live immediately
+
+    
+    if (req.body.teamMembers !== undefined) idea.teamSize = req.body.teamMembers
+
+   
+    if (req.body.roadmap !== undefined) {
+      idea.roadmap = req.body.roadmap
+      idea.markModified('roadmap')
+    }
+
     await idea.save()
     res.json({ idea })
   } catch (err) {

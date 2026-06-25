@@ -18,7 +18,7 @@ import EditProfile from '../src/Pages/Profile/Editprofile'
 import InvestorPage from '../src/Pages/InvestorPage/InvestorPage'
 import { AnimatePresence, motion } from "framer-motion";
 import ViewProfile from '../src/Pages/InvestorPage/ViewProfile'
-
+import EditIdea from '../src/Pages/EditIdea/EditIdea' 
  
 function PrivateRoute({ children, roles }) {
   const { user, loading } = useAuth()
@@ -46,7 +46,7 @@ export default function AppRoutes() {
 
           <Route path="/Investor" element={<InvestorPage />} />
 
-
+          <Route path="/edit-idea/:id" element={<EditIdea />} />
 
           <Route path="/contact" element={<Contact />} />
 
