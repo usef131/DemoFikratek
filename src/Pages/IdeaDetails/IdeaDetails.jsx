@@ -94,14 +94,7 @@ export default function IdeaDetails() {
             }}>
               {idea.category}
             </span>
-            {idea.status && (
-              <span style={{
-                background: '#d1fae5', padding: '5px 14px',
-                borderRadius: '20px', color: '#065f46', fontSize: '13px', fontWeight: 600,
-              }}>
-                {idea.status}
-              </span>
-            )}
+            
           </div>
 
           <h1 style={{ fontWeight: 800, fontSize: '2rem', marginTop: '12px', marginBottom: '8px' }}>
