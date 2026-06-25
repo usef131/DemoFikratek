@@ -124,14 +124,14 @@ export default function HomePageTwo() {
 
                         <Button
                           className="main-btn white-btn"
-                          onClick={() => navigate("/ideas")}
+                          onClick={() => navigate("/browse-projects")}
                         >
                           Browse Projects
                         </Button>
 
                         <Button
                           className="main-btn white-btn"
-                          onClick={() => navigate("/mentors")}
+                          onClick={() => navigate("/investors")}
                         >
                           Find Investors
                         </Button>
@@ -143,7 +143,7 @@ export default function HomePageTwo() {
                       :
                       <Button
                         className="main-btn primary-btn"
-                        onClick={() => navigate("/ideas")}
+                        onClick={() => navigate("/browse-projects")}
                       >
                         Browse Projects
                       </Button>
