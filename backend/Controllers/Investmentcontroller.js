@@ -14,7 +14,6 @@ exports.createInvestment = async (req, res) => {
       fullName, company, linkedin, experience, amount, message
     })
 
-    // أضف الـ investment للـ idea وحدّث الـ fundingRaised
     idea.investments.push(investment._id)
     idea.fundingRaised = (idea.fundingRaised || 0) + Number(amount)
     await idea.save()
