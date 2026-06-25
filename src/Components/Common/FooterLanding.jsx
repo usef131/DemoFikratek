@@ -19,7 +19,7 @@ export default function Footer() {
           <Col md={2} className="offset-md-2">
             <h6>Product</h6>
             <ul className="list-unstyled" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <li><Link to="/browse-projects">Browse Ideas</Link></li>
+              <li><Link to="/register">Browse Ideas</Link></li>
               
             </ul>
           </Col>
@@ -27,14 +27,15 @@ export default function Footer() {
           <Col md={2}>
             <h6>Company</h6>
             <ul className="list-unstyled" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <li><Link to="/">About</Link></li>
+              <li><a href="#features">About</a></li>
             </ul>
           </Col>
 
           <Col md={2}>
             <h6>Legal</h6>
             <ul className="list-unstyled" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <li><Link to="/contact">Contact</Link></li>
+            
+              <li><Link to="/Contact">Contact</Link></li>
             </ul>
           </Col>
         </Row>

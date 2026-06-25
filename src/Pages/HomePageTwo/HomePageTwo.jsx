@@ -46,6 +46,45 @@ export default function HomePageTwo() {
       {/* ── Navbar ── */}
       <SecondNavbar />
 
+      {/* ── Profile completion banner ── */}
+      {user?.role === 'investor' && (!user?.bio || !user?.sectors?.length || !user?.ticketSize || !user?.location) && (
+        <div style={{
+          background: '#fefce8',
+          borderBottom: '1px solid #fde68a',
+          padding: '12px 0',
+        }}>
+          <Container className="d-flex align-items-center justify-content-between flex-wrap" style={{ gap: 10 }}>
+            <div className="d-flex align-items-center" style={{ gap: 10 }}>
+              <i className="bi bi-exclamation-circle-fill" style={{ color: '#d97706', fontSize: '1.1rem' }} />
+              <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#92400e' }}>
+                Complete your investor profile so entrepreneurs can find you
+              </span>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                {!user?.bio && <span style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '20px', background: '#fde68a', color: '#92400e', fontWeight: 600 }}>Bio</span>}
+                {!user?.location && <span style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '20px', background: '#fde68a', color: '#92400e', fontWeight: 600 }}>Location</span>}
+                {!user?.ticketSize && <span style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '20px', background: '#fde68a', color: '#92400e', fontWeight: 600 }}>Ticket size</span>}
+                {!user?.sectors?.length && <span style={{ fontSize: '0.75rem', padding: '2px 8px', borderRadius: '20px', background: '#fde68a', color: '#92400e', fontWeight: 600 }}>Sectors</span>}
+              </div>
+            </div>
+            <button
+              onClick={() => navigate('/edit-profile')}
+              style={{
+                padding: '6px 16px',
+                borderRadius: '20px',
+                border: '1.5px solid #d97706',
+                background: '#fff',
+                color: '#92400e',
+                fontWeight: 700,
+                fontSize: '0.82rem',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Complete Profile →
+            </button>
+          </Container>
+        </div>
+      )}
       {/* ── Hero ── */}
 
       <div
@@ -55,102 +94,102 @@ export default function HomePageTwo() {
           paddingTop: "90px",
           paddingBottom: "120px",
         }}
-       >
-      <PageTransition>
+      >
+        <PageTransition>
 
-        <Container>
-          <Row className="justify-content-center text-center">
-            <Col lg={10}>
+          <Container>
+            <Row className="justify-content-center text-center">
+              <Col lg={10}>
 
-              {/* Heading */}
-              <h1
-                style={{
-                  fontSize: "clamp(58px,7vw,84px)",
-                  fontWeight: 800,
-                  lineHeight: "1",
-                  letterSpacing: "-3px",
-                  marginBottom: "28px",
-                  color: "#111827",
-                }}
-              >
-                Welcome to{" "}
-                <span
+                {/* Heading */}
+                <h1
                   style={{
-                    background: "linear-gradient(90deg, #032A6E 0%, #0A3D91 60%, #1E5BB8 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-
+                    fontSize: "clamp(58px,7vw,84px)",
+                    fontWeight: 800,
+                    lineHeight: "1",
+                    letterSpacing: "-3px",
+                    marginBottom: "28px",
+                    color: "#111827",
                   }}
                 >
-                  Fikretak
-                </span>
-              </h1>
+                  Welcome to{" "}
+                  <span
+                    style={{
+                      background: "linear-gradient(90deg, #032A6E 0%, #0A3D91 60%, #1E5BB8 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
 
-              {/* Description */}
-              <p
-                style={{
-                  maxWidth: "700px",
-                  margin: "0 auto",
-                  color: "#6B7280",
-                  fontSize: "15px",
-                  lineHeight: "1.8",
-                }}
-              >
-                The professional ecosystem where innovators find funding,
-                and the teams they need to scale. Connect with the
-                right people to turn your vision into reality.
-              </p>
+                    }}
+                  >
+                    Fikretak
+                  </span>
+                </h1>
 
-              {/* Buttons */}
-              <div
-                className="d-flex justify-content-center flex-wrap"
-                style={{
-                  gap: "14px",
-                  marginTop: "50px",
-                }}
-              >
-                {user?.role === "entrepreneur" ? (
-                  <>
+                {/* Description */}
+                <p
+                  style={{
+                    maxWidth: "700px",
+                    margin: "0 auto",
+                    color: "#6B7280",
+                    fontSize: "15px",
+                    lineHeight: "1.8",
+                  }}
+                >
+                  The professional ecosystem where innovators find funding,
+                  and the teams they need to scale. Connect with the
+                  right people to turn your vision into reality.
+                </p>
+
+                {/* Buttons */}
+                <div
+                  className="d-flex justify-content-center flex-wrap"
+                  style={{
+                    gap: "14px",
+                    marginTop: "50px",
+                  }}
+                >
+                  {user?.role === "entrepreneur" ? (
+                    <>
+                      <Button
+                        className="main-btn primary-btn"
+                        onClick={() => navigate("/create-idea")}
+                      >
+                        ⊕ Add Project
+                      </Button>
+
+                      <Button
+                        className="main-btn white-btn"
+                        onClick={() => navigate("/Browse-projects")}
+                      >
+                        Browse Projects
+                      </Button>
+
+                      <Button
+                        className="main-btn white-btn"
+                        onClick={() => navigate("/investor")}
+                      >
+                        Find Investors
+                      </Button>
+                    </>
+                  ) : (
                     <Button
                       className="main-btn primary-btn"
-                      onClick={() => navigate("/create-idea")}
-                    >
-                      ⊕ Add Project
-                    </Button>
-
-                    <Button
-                      className="main-btn white-btn"
-                      onClick={() => navigate("/ideas")}
+                      style={{
+                        fontSize: "18px",
+                        padding: "20px 60px",
+                        minWidth: "260px",
+                      }}
+                      onClick={() => navigate("/Browse-projects")}
                     >
                       Browse Projects
                     </Button>
+                  )}
+                </div>
+              </Col>
+            </Row>
+          </Container>
 
-                    <Button
-                      className="main-btn white-btn"
-                      onClick={() => navigate("/mentors")}
-                    >
-                      Find Investors
-                    </Button>
-                  </>
-                ) : (
-                  <Button
-                    className="main-btn primary-btn"
-                    style={{
-                      fontSize: "18px",
-                      padding: "20px 60px",
-                      minWidth: "260px",
-                    }}
-                    onClick={() => navigate("/ideas")}
-                  >
-                    Browse Projects
-                  </Button>
-                )}
-              </div>
-            </Col>
-          </Row>
-        </Container>
-
-              </PageTransition>
+        </PageTransition>
       </div>
 
 
@@ -394,7 +433,7 @@ export default function HomePageTwo() {
             )}
           </div>
         </div>
-        
+
       </div>
 
       <Footer />
